@@ -1,4 +1,4 @@
-package com.mgeows.milo.ui.db.entity;
+package com.mgeows.milo.db.entity;
 
 /**
  * Created by JC on 08/28/2017.

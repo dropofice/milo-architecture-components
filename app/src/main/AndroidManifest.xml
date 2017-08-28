@@ -25,6 +25,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.mgeows.milo.ui.petslist.PetListActivity" />
         </activity>
+        <activity
+            android:name=".ui.petdetail.PetDetailActivity"
+            android:label="@string/title_activity_pet_detail"
+            android:parentActivityName=".ui.petslist.PetListActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mgeows.milo.ui.petslist.PetListActivity" />
+        </activity>
     </application>
 
 </manifest>

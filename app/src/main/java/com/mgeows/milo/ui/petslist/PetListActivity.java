@@ -17,6 +17,7 @@ import android.view.MenuItem;
 
 import com.mgeows.milo.R;
 import com.mgeows.milo.ui.DummyActivity;
+import com.mgeows.milo.ui.petdetail.PetDetailActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,7 +60,7 @@ public class PetListActivity extends AppCompatActivity {
         // Add the PetListFragment to the layout
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.contentFrame, fragment);
+        transaction.add(R.id.fragmentContainer, fragment);
         transaction.commit();
     }
 
@@ -92,5 +93,11 @@ public class PetListActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+    }
+
+    public void showPetDetail(String name) {
+        Intent intent = new Intent(this, PetDetailActivity.class);
+        intent.putExtra(Intent.EXTRA_TEXT, name);
+        startActivity(intent);
     }
 }

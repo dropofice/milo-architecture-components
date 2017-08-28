@@ -1,6 +1,5 @@
 package com.mgeows.milo.ui.petslist;
 
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mgeows.milo.R;
-import com.mgeows.milo.ui.db.entity.Pet;
+import com.mgeows.milo.db.entity.Pet;
 
 import java.util.List;
 
@@ -20,9 +19,11 @@ import butterknife.ButterKnife;
 public class PetListAdapter extends RecyclerView.Adapter<PetListAdapter.ViewHolder> {
 
     private List<Pet> petList;
+    private PetItemClickListener petItemClickListener;
 
-    public PetListAdapter(List<Pet> petList) {
+    public PetListAdapter(List<Pet> petList, PetItemClickListener listener) {
         this.petList = petList;
+        this.petItemClickListener = listener;
     }
 
     @Override
@@ -47,9 +48,10 @@ public class PetListAdapter extends RecyclerView.Adapter<PetListAdapter.ViewHold
     public void setData(List<Pet> pets) {
         petList = null;
         petList = pets;
+        notifyDataSetChanged();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.petImg)
         ImageView petImg;
         @BindView(R.id.petName)
@@ -58,12 +60,16 @@ public class PetListAdapter extends RecyclerView.Adapter<PetListAdapter.ViewHold
         TextView petBreed;
         @BindView(R.id.petImgAlert)
         ImageView petImgAlert;
-        @BindView(R.id.vhContainer)
-        CardView vhContainer;
 
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    petItemClickListener.onItemClick(petName.getText().toString());
+                }
+            });
         }
     }
 }

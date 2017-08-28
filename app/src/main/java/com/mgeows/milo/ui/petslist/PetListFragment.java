@@ -1,5 +1,6 @@
 package com.mgeows.milo.ui.petslist;
 
+import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mgeows.milo.R;
-import com.mgeows.milo.ui.db.entity.Pet;
+import com.mgeows.milo.db.entity.Pet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,14 @@ public class PetListFragment extends LifecycleFragment {
     RecyclerView rvPetsList;
     Unbinder unbinder;
     private PetListAdapter adapter;
+    private final  PetItemClickListener itemClickListener = new PetItemClickListener() {
+        @Override
+        public void onItemClick(String name) {
+            if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+                ((PetListActivity) getActivity()).showPetDetail(name);
+            }
+        }
+    };
 
     public PetListFragment() {
     }
@@ -40,7 +49,7 @@ public class PetListFragment extends LifecycleFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapter = new PetListAdapter(null);
+        adapter = new PetListAdapter(null, itemClickListener);
         initData();
     }
 
