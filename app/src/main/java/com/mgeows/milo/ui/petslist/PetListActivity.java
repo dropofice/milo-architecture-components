@@ -1,10 +1,11 @@
 package com.mgeows.milo.ui.petslist;
 
-import android.arch.lifecycle.LifecycleFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -40,9 +41,10 @@ public class PetListActivity extends AppCompatActivity {
         // Set up the toolbar.
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
         ab.setDisplayHomeAsUpEnabled(true);
+        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
 
+        // Set up the navigation drawer.
         drawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
         if (navView != null) {
             setupDrawerContent(navView);
@@ -53,8 +55,8 @@ public class PetListActivity extends AppCompatActivity {
         }
     }
 
-    private void initFragment(LifecycleFragment fragment) {
-        // Add the NotesFragment to the layout
+    private void initFragment(Fragment fragment) {
+        // Add the PetListFragment to the layout
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.contentFrame, fragment);
@@ -76,7 +78,7 @@ public class PetListActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
                             case R.id.empty_action:
                                 startActivity(new Intent(PetListActivity.this, DummyActivity.class));
