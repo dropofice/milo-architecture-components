@@ -2,4 +2,6 @@
     <string name="app_name">Milo</string>
     <string name="navigation_view_header_title">Pet Monitor</string>
     <string name="empty_title">Empty Title</string>
+    <string name="title_activity_dummy">DummyActivity</string>
+    <string name="action_settings">Settings</string>
 </resources>

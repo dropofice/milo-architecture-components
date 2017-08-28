@@ -16,6 +16,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.DummyActivity"
+            android:label="@string/title_activity_dummy"
+            android:parentActivityName=".ui.petslist.PetListActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mgeows.milo.ui.petslist.PetListActivity" />
+        </activity>
     </application>
 
 </manifest>
