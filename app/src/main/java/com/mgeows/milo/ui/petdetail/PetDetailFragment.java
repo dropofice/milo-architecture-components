@@ -39,7 +39,7 @@ public class PetDetailFragment extends LifecycleFragment {
     /**
      * Creates PetDetailFragment for specific product ID
      */
-    public static PetDetailFragment forProduct(String name) {
+    public static PetDetailFragment forPet(String name) {
 
         PetDetailFragment fragment = new PetDetailFragment();
         Bundle args = new Bundle();

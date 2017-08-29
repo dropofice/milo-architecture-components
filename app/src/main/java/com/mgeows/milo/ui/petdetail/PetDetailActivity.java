@@ -19,17 +19,16 @@ public class PetDetailActivity extends AppCompatActivity {
 
         String name = getIntent().getStringExtra(Intent.EXTRA_TEXT);
 
-         show(name);
+         showPetDetailFragment(name);
     }
 
     /** Shows the pet detail fragment */
-    private void show(String name) {
+    private void showPetDetailFragment(String name) {
 
-        PetDetailFragment fragment = PetDetailFragment.forProduct(name);
+        PetDetailFragment fragment = PetDetailFragment.forPet(name);
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .addToBackStack("")
                 .add(R.id.detailFragmentContainer, fragment, null)
                 .commit();
     }

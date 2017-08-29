@@ -17,21 +17,23 @@ import android.view.MenuItem;
 
 import com.mgeows.milo.R;
 import com.mgeows.milo.ui.DummyActivity;
+import com.mgeows.milo.ui.addeditpet.AddEditPetActivity;
 import com.mgeows.milo.ui.petdetail.PetDetailActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class PetListActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.fab_add_pets)
-    FloatingActionButton fabAddPets;
     @BindView(R.id.nav_view)
     NavigationView navView;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
+    @BindView(R.id.mFab_add_pets)
+    FloatingActionButton mFabAddPets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +84,8 @@ public class PetListActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
                             case R.id.empty_action:
-                                startActivity(new Intent(PetListActivity.this, DummyActivity.class));
+                                startActivity(
+                                        new Intent(PetListActivity.this, DummyActivity.class));
                                 break;
                             default:
                                 break;
@@ -98,6 +101,12 @@ public class PetListActivity extends AppCompatActivity {
     public void showPetDetail(String name) {
         Intent intent = new Intent(this, PetDetailActivity.class);
         intent.putExtra(Intent.EXTRA_TEXT, name);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.mFab_add_pets)
+    public void onViewClicked() {
+        Intent intent = new Intent(this, AddEditPetActivity.class);
         startActivity(intent);
     }
 }
