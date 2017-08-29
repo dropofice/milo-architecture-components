@@ -10,19 +10,11 @@ import android.widget.TextView;
 
 import com.mgeows.milo.R;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
  * Created by JC on 08/29/2017.
  */
 
 public class PetDetailFragment extends LifecycleFragment {
-
-    @BindView(R.id.textPet)
-    TextView textPet;
-    Unbinder unbinder;
 
     public PetDetailFragment() {
     }
@@ -31,14 +23,17 @@ public class PetDetailFragment extends LifecycleFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        String name = null;
-        if (savedInstanceState != null) {
-            name = savedInstanceState.getString("NAME_KEY", "No name");
-        }
         View rootView = inflater.inflate(R.layout.pet_detail_fragment, container, false);
-        unbinder = ButterKnife.bind(this, rootView);
-        textPet.setText(name);
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        String name = null;
+        name = getArguments().getString("NAME_KEY", "NO_NAME");
+        TextView textView = (TextView) getView().findViewById(R.id.textPet);
+        textView.setText(name);
     }
 
     /**
@@ -56,6 +51,5 @@ public class PetDetailFragment extends LifecycleFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 }

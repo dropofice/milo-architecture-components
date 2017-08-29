@@ -19,7 +19,6 @@ public class PetDetailActivity extends AppCompatActivity {
 
         String name = getIntent().getStringExtra(Intent.EXTRA_TEXT);
 
-
          show(name);
     }
 
@@ -31,7 +30,7 @@ public class PetDetailActivity extends AppCompatActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack("")
-                .add(fragment, null)
+                .add(R.id.detailFragmentContainer, fragment, null)
                 .commit();
     }
 
