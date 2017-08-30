@@ -38,6 +38,7 @@ public class PetListAdapter extends RecyclerView.Adapter<PetListAdapter.ViewHold
         Pet pet = petList.get(position);
         holder.petName.setText(pet.petName);
         holder.petBreed.setText(pet.petBreed);
+        holder.setOnClickListener(position);
     }
 
     @Override
@@ -61,13 +62,19 @@ public class PetListAdapter extends RecyclerView.Adapter<PetListAdapter.ViewHold
         @BindView(R.id.petImgAlert)
         ImageView petImgAlert;
 
+        private View view;
+
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            this.view = view;
+        }
+
+        public void setOnClickListener(final int position) {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    petItemClickListener.onItemClick(petName.getText().toString());
+                    petItemClickListener.onItemClick(petName.getText().toString(), position);
                 }
             });
         }

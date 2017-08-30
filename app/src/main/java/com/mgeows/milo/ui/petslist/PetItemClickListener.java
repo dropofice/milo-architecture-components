@@ -5,5 +5,5 @@ package com.mgeows.milo.ui.petslist;
  */
 
 public interface PetItemClickListener {
-    void onItemClick(String name);
+    void onItemClick(String name, int position);
 }

@@ -32,9 +32,9 @@ public class PetListFragment extends LifecycleFragment {
     private PetListAdapter adapter;
     private final  PetItemClickListener itemClickListener = new PetItemClickListener() {
         @Override
-        public void onItemClick(String name) {
+        public void onItemClick(String name, int position) {
             if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
-                ((PetListActivity) getActivity()).showPetDetail(name);
+                ((PetListActivity) getActivity()).showPetDetail(name, position);
             }
         }
     };

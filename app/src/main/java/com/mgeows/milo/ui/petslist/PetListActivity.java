@@ -98,8 +98,9 @@ public class PetListActivity extends AppCompatActivity {
                 });
     }
 
-    public void showPetDetail(String name) {
+    public void showPetDetail(String name, int position) {
         Intent intent = new Intent(this, PetDetailActivity.class);
+        intent.putExtra("POSITION_KEY", position);
         intent.putExtra(Intent.EXTRA_TEXT, name);
         startActivity(intent);
     }
