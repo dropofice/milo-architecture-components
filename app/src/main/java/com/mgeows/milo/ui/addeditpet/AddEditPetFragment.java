@@ -2,19 +2,20 @@ package com.mgeows.milo.ui.addeditpet;
 
 import android.arch.lifecycle.LifecycleFragment;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.mgeows.milo.R;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link AddEditPetFragment.OnFragmentInteractionListener} interface
+ * {@link AddEditPetFragment OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link AddEditPetFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -22,10 +23,10 @@ import com.mgeows.milo.R;
 public class AddEditPetFragment extends LifecycleFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    // private static final String ARG_PARAM1 = "param1";
+     private static final String ARG_PARAM1 = "param1";
 
     // TODO: Rename and change types of parameters
-    // private String mParam1;
+     private int mParam1;
 
 //    private OnFragmentInteractionListener mListener;
 
@@ -40,20 +41,20 @@ public class AddEditPetFragment extends LifecycleFragment {
      * @return A new instance of fragment AddEditPetFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AddEditPetFragment newInstance() {
+    public static AddEditPetFragment newInstance(int param1) {
         AddEditPetFragment fragment = new AddEditPetFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        fragment.setArguments(args);
+        Bundle args = new Bundle();
+        args.putInt(ARG_PARAM1, param1);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//        }
+        if (getArguments() != null) {
+            mParam1 = getArguments().getInt(ARG_PARAM1);
+        }
     }
 
     @Override
@@ -61,6 +62,14 @@ public class AddEditPetFragment extends LifecycleFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.add_edit_pet_fragment, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        TextView textView = (TextView) getView().findViewById(R.id.tvAddEdit);
+//        textView.setText(mParam1);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

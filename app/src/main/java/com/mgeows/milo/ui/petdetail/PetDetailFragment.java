@@ -4,9 +4,13 @@ import android.arch.lifecycle.LifecycleFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mgeows.milo.R;
 
@@ -17,6 +21,12 @@ import com.mgeows.milo.R;
 public class PetDetailFragment extends LifecycleFragment {
 
     public PetDetailFragment() {
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -34,6 +44,25 @@ public class PetDetailFragment extends LifecycleFragment {
         name = getArguments().getString("NAME_KEY", "NO_NAME");
         TextView textView = (TextView) getView().findViewById(R.id.textPet);
         textView.setText(name);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.pet_detail_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                ((PetDetailActivity ) getActivity()).fireAddEditActivity();
+                break;
+            case R.id.action_delete:
+                Toast.makeText(getContext(), "Delete", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**

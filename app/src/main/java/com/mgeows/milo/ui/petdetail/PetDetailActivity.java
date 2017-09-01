@@ -7,12 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.mgeows.milo.R;
+import com.mgeows.milo.ui.addeditpet.AddEditPetActivity;
 
 import butterknife.ButterKnife;
 
-import static com.mgeows.milo.R.id.detailPager;
+import static android.R.attr.name;
 
 public class PetDetailActivity extends AppCompatActivity {
+
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +27,7 @@ public class PetDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String name = getIntent().getStringExtra(Intent.EXTRA_TEXT);
-        int position = getIntent().getIntExtra("POSITION_KEY", 0);
+        position = getIntent().getIntExtra("POSITION_KEY", 0);
         // showPetDetailFragment(name);
 
         PetDetailPagerAdapter adapter = new PetDetailPagerAdapter(getSupportFragmentManager());
@@ -34,15 +37,22 @@ public class PetDetailActivity extends AppCompatActivity {
         pager.setCurrentItem(position);
     }
 
+    public void fireAddEditActivity() {
+        Intent intent = new Intent(this, AddEditPetActivity.class);
+        intent.putExtra("POSITION_KEY", position);
+        intent.putExtra(Intent.EXTRA_TEXT, name);
+        startActivity(intent);
+    }
+
     /**
      * Shows the pet detail fragment
      */
-    private void showPetDetailFragment(String name) {
-        PetDetailFragment fragment = PetDetailFragment.forPet(name);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(detailPager, fragment, null)
-                .commit();
-    }
+//    private void showPetDetailFragment(String name) {
+//        PetDetailFragment fragment = PetDetailFragment.forPet(name);
+//        getSupportFragmentManager()
+//                .beginTransaction()
+//                .add(detailPager, fragment, null)
+//                .commit();
+//    }
 
 }
