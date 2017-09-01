@@ -52,9 +52,6 @@ public class AddEditPetFragment extends LifecycleFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getInt(ARG_PARAM1);
-        }
     }
 
     @Override
@@ -67,8 +64,11 @@ public class AddEditPetFragment extends LifecycleFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getInt(ARG_PARAM1);
+        }
         TextView textView = (TextView) getView().findViewById(R.id.tvAddEdit);
-//        textView.setText(mParam1);
+        textView.setText(String.valueOf(mParam1));
 
     }
 
