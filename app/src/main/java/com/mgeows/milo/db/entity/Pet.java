@@ -1,16 +1,20 @@
 package com.mgeows.milo.db.entity;
 
-/**
- * Created by JC on 08/28/2017.
- */
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
+import java.util.UUID;
+
+@Entity(tableName = "pets")
 public class Pet {
 
-    private String petId;
+    @PrimaryKey
+    public String petId;
     public String petName;
     public String petBreed;
 
     public Pet(String petName, String petBreed) {
+        this.petId = UUID.randomUUID().toString();
         this.petName = petName;
         this.petBreed = petBreed;
     }

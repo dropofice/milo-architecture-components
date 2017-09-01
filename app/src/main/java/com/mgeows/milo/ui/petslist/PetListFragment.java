@@ -11,10 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mgeows.milo.R;
-import com.mgeows.milo.db.entity.Pet;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +46,6 @@ public class PetListFragment extends LifecycleFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         adapter = new PetListAdapter(null, itemClickListener);
-        initData();
     }
 
     @Nullable
@@ -63,23 +58,6 @@ public class PetListFragment extends LifecycleFragment {
         rvPetsList.setHasFixedSize(true);
         rvPetsList.setLayoutManager(new LinearLayoutManager(getContext()));
         return rootView;
-    }
-
-    private void initData() {
-        Pet petA = new Pet("Milo", "Beagle");
-        Pet petB = new Pet("Pogi", "Aspin");
-        Pet petC = new Pet("Tipo", "Mix");
-        Pet petD = new Pet("Shadow", "Aspin");
-        Pet petE = new Pet("Chelly", "Siberian");
-        Pet petF = new Pet("MuyMuy", "German Sheperd");
-        List<Pet> pets = new ArrayList<>();
-        pets.add(petA);
-        pets.add(petB);
-        pets.add(petC);
-        pets.add(petD);
-        pets.add(petE);
-        pets.add(petF);
-        adapter.setData(pets);
     }
 
     @Override
