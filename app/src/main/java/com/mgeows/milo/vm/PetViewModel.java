@@ -1,12 +1,10 @@
-package com.mgeows.milo.ui.petslist;
+package com.mgeows.milo.vm;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 
-import com.mgeows.milo.data.PetDataSource;
 import com.mgeows.milo.data.PetRepository;
-import com.mgeows.milo.db.AppDatabase;
 import com.mgeows.milo.db.entity.Pet;
 
 import java.util.List;
@@ -19,24 +17,21 @@ import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 
-public class PetListViewModel extends AndroidViewModel {
+public class PetViewModel extends AndroidViewModel {
 
-    private PetDataSource dataSource;
+    private PetRepository mPetRepository;
 
-    public PetListViewModel(Application application) {
+    public PetViewModel(Application application, PetRepository petRepository) {
         super(application);
-
-        AppDatabase db = AppDatabase.getInstance(getApplication());
-        dataSource = new PetRepository(db);
-
+        this.mPetRepository = petRepository;
     }
 
     public LiveData<List<Pet>> getPets() {
-        return dataSource.getPets();
+        return mPetRepository.getPets();
     }
 
     public void insertPet(final Pet pet) {
-        dataSource.addPet(pet)
+        mPetRepository.addPet(pet)
                   .observeOn(AndroidSchedulers.mainThread())
                   .subscribeOn(Schedulers.io())
                   .subscribe(new CompletableObserver() {
@@ -58,7 +53,7 @@ public class PetListViewModel extends AndroidViewModel {
     }
 
     public void deletetPet(final Pet pet) {
-        dataSource.deletePet(pet)
+        mPetRepository.deletePet(pet)
                   .observeOn(AndroidSchedulers.mainThread())
                   .subscribeOn(Schedulers.io())
                   .subscribe(new CompletableObserver() {

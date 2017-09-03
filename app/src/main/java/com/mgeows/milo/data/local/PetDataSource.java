@@ -1,5 +1,4 @@
-package com.mgeows.milo.data;
-
+package com.mgeows.milo.data.local;
 
 import android.arch.lifecycle.LiveData;
 
@@ -7,14 +6,17 @@ import com.mgeows.milo.db.entity.Pet;
 
 import java.util.List;
 
-import io.reactivex.Completable;
+/**
+ * Created by JC on 09/03/2017.
+ */
 
 public interface PetDataSource {
-    Completable addPet(Pet pet);
 
-    Completable addAllPets(List<Pet> pets);
+    void addPet(Pet pet);
+
+    void addAllPets(List<Pet> pets);
 
     LiveData<List<Pet>> getPets();
 
-    Completable deletePet(Pet pet);
+    void deletePet(Pet pet);
 }

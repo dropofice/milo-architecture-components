@@ -17,6 +17,9 @@ import android.view.ViewGroup;
 
 import com.mgeows.milo.R;
 import com.mgeows.milo.db.entity.Pet;
+import com.mgeows.milo.di.Injection;
+import com.mgeows.milo.vm.PetViewModel;
+import com.mgeows.milo.vm.PetViewModelFactory;
 
 import java.util.List;
 
@@ -32,7 +35,7 @@ public class PetListFragment extends LifecycleFragment {
     Unbinder unbinder;
     private PetListAdapter adapter;
 
-    PetListViewModel viewModel;
+    PetViewModel viewModel;
 
     public PetListFragment() {
     }
@@ -63,7 +66,8 @@ public class PetListFragment extends LifecycleFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(PetListViewModel.class);
+        PetViewModelFactory factory = Injection.provideViewModelFactory(getContext());
+        viewModel = ViewModelProviders.of(this, factory).get(PetViewModel.class);
 
         subscribeUi(viewModel);
     }
@@ -91,7 +95,7 @@ public class PetListFragment extends LifecycleFragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void subscribeUi(PetListViewModel viewModel) {
+    private void subscribeUi(PetViewModel viewModel) {
         // Update the list when the data changes
         viewModel.getPets().observe(this, new Observer<List<Pet>>() {
             @Override
