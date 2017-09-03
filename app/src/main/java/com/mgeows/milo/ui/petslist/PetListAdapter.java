@@ -47,7 +47,9 @@ public class PetListAdapter extends RecyclerView.Adapter<PetListAdapter.ViewHold
     }
 
     public void setData(List<Pet> pets) {
-        petList = null;
+        if (petList != null && petList.size() > 0) {
+            petList.clear();
+        }
         petList = pets;
         notifyDataSetChanged();
     }
@@ -70,7 +72,7 @@ public class PetListAdapter extends RecyclerView.Adapter<PetListAdapter.ViewHold
             this.view = view;
         }
 
-        public void setOnClickListener(final int position) {
+        void setOnClickListener(final int position) {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

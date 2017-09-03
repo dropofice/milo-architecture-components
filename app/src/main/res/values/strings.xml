@@ -10,4 +10,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="edit_pet">Edit Pet</string>
     <string name="delete_pet">Delete Pet</string>
+    <string name="add_dummy_pet">Add dummy pet</string>
 </resources>

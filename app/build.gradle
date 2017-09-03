@@ -76,6 +76,7 @@ dependencies {
     compile 'com.google.guava:guava:' + rootProject.guavaVersion;
 
     // Architecture components Lifecyles, LiveData, ViewModel, Room
+    compile "android.arch.persistence.room:rxjava2:1.0.0-alpha5"
     compile 'android.arch.lifecycle:runtime:' + rootProject.archLifecycleVersion;
     compile 'android.arch.lifecycle:extensions:' + rootProject.archLifecycleVersion;
     compile 'android.arch.persistence.room:runtime:' + rootProject.archRoomVersion;
@@ -86,6 +87,8 @@ dependencies {
     testCompile 'android.arch.persistence.room:testing:' + rootProject.archRoomVersion;
 
     // Other dependencies
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
     compile 'com.jakewharton:butterknife:' + rootProject.butterknifeVersion;
     annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.butterknifeVersion;
     compile 'com.jakewharton.threetenabp:threetenabp:' + rootProject.threetenabpVersion;

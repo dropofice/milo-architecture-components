@@ -3,7 +3,6 @@ package com.mgeows.milo.ui.petslist;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,12 +16,10 @@ import android.view.MenuItem;
 
 import com.mgeows.milo.R;
 import com.mgeows.milo.ui.DummyActivity;
-import com.mgeows.milo.ui.addeditpet.AddEditPetActivity;
 import com.mgeows.milo.ui.petdetail.PetDetailActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class PetListActivity extends AppCompatActivity {
 
@@ -32,8 +29,6 @@ public class PetListActivity extends AppCompatActivity {
     NavigationView navView;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    @BindView(R.id.mFab_add_pets)
-    FloatingActionButton mFabAddPets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,12 +106,6 @@ public class PetListActivity extends AppCompatActivity {
         Intent intent = new Intent(this, PetDetailActivity.class);
         intent.putExtra("POSITION_KEY", position);
         intent.putExtra(Intent.EXTRA_TEXT, name);
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.mFab_add_pets)
-    public void onViewClicked() {
-        Intent intent = new Intent(this, AddEditPetActivity.class);
         startActivity(intent);
     }
 }

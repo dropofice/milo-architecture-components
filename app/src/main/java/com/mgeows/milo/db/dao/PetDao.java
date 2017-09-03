@@ -12,6 +12,8 @@ import com.mgeows.milo.db.entity.Pet;
 
 import java.util.List;
 
+import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
+
 @Dao
 public interface PetDao {
 
@@ -21,13 +23,13 @@ public interface PetDao {
     @Query("SELECT * FROM pets WHERE petId = :petId")
     LiveData<Pet> loadPetById(String petId);
 
-    @Insert
+    @Insert(onConflict = REPLACE)
     void addPet(Pet pet);
 
-    @Insert
+    @Insert(onConflict = REPLACE)
     void addAllPets(List<Pet> pets);
 
-    @Update
+    @Update(onConflict = REPLACE)
     void updatePet(Pet pet);
 
     @Delete
