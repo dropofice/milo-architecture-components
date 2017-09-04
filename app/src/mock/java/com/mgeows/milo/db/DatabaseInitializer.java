@@ -13,8 +13,7 @@ import java.util.List;
 
 public class DatabaseInitializer {
 
-    public static void initData(Context context) {
-        AppDatabase db = AppDatabase.getInstance(context.getApplicationContext());
+    public void initData(Context context) {
 
         Pet petA = new Pet("Milo", "Beagle");
         Pet petB = new Pet("Pogi", "Aspin");
@@ -29,8 +28,6 @@ public class DatabaseInitializer {
         pets.add(petD);
         pets.add(petE);
         pets.add(petF);
-
-        db.petDao().addAllPets(pets);
 
     }
 }

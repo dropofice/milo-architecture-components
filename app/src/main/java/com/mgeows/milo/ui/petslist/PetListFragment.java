@@ -15,9 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
 import com.mgeows.milo.db.entity.Pet;
-import com.mgeows.milo.di.Injection;
 import com.mgeows.milo.vm.PetViewModel;
 import com.mgeows.milo.vm.PetViewModelFactory;
 
@@ -35,7 +35,7 @@ public class PetListFragment extends LifecycleFragment {
     Unbinder unbinder;
     private PetListAdapter adapter;
 
-    PetViewModel viewModel;
+    private PetViewModel viewModel;
 
     public PetListFragment() {
     }
@@ -66,7 +66,8 @@ public class PetListFragment extends LifecycleFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        PetViewModelFactory factory = Injection.provideViewModelFactory(getContext());
+        PetApplication application = (PetApplication) getActivity().getApplication();
+        PetViewModelFactory factory = new PetViewModelFactory(application);
         viewModel = ViewModelProviders.of(this, factory).get(PetViewModel.class);
 
         subscribeUi(viewModel);

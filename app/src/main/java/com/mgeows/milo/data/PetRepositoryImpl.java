@@ -13,7 +13,7 @@ import io.reactivex.functions.Action;
 
 public class PetRepositoryImpl implements PetRepository {
 
-    private PetDataSource petDataSource;
+    PetDataSource petDataSource;
 
     public PetRepositoryImpl(PetDataSource petDataSource) {
         this.petDataSource = petDataSource;

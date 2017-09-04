@@ -1,13 +1,16 @@
 package com.mgeows.milo.vm;
 
-import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
 
 import com.mgeows.milo.data.PetRepository;
 import com.mgeows.milo.db.entity.Pet;
+import com.mgeows.milo.di.PetComponent;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import io.reactivex.CompletableObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -17,17 +20,19 @@ import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 
-public class PetViewModel extends AndroidViewModel {
+public class PetViewModel extends ViewModel implements PetComponent.Injectable {
 
-    private PetRepository mPetRepository;
+    @Inject
+    PetRepository mPetRepository;
 
-    public PetViewModel(Application application, PetRepository petRepository) {
-        super(application);
-        this.mPetRepository = petRepository;
+    private LiveData<List<Pet>> mLivePets = new MutableLiveData<>();
+
+    public PetViewModel() {
     }
 
     public LiveData<List<Pet>> getPets() {
-        return mPetRepository.getPets();
+        mLivePets = mPetRepository.getPets();
+        return mLivePets;
     }
 
     public void insertPet(final Pet pet) {
@@ -72,5 +77,10 @@ public class PetViewModel extends AndroidViewModel {
                           Timber.d("onError - delete:", e);
                       }
                   });
+    }
+
+    @Override
+    public void inject(PetComponent petComponent) {
+        petComponent.inject(this);
     }
 }

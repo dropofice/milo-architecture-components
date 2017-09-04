@@ -10,7 +10,7 @@ import java.util.List;
 
 public class LocalPetDataSource implements PetDataSource{
 
-    private final PetDao mPetDao;
+    PetDao mPetDao;
 
     public LocalPetDataSource(PetDao petDao) {
         this.mPetDao = petDao;
