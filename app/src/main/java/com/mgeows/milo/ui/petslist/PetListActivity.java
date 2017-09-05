@@ -15,6 +15,7 @@ import android.view.MenuItem;
 
 import com.mgeows.milo.R;
 import com.mgeows.milo.ui.DummyActivity;
+import com.mgeows.milo.ui.addeditpet.AddEditPetActivity;
 import com.mgeows.milo.ui.petdetail.PetDetailActivity;
 import com.mgeows.milo.util.ActivityUtils;
 
@@ -43,20 +44,22 @@ public class PetListActivity extends AppCompatActivity implements PetListFragmen
         setContentView(R.layout.pet_list_activity);
         ButterKnife.bind(this);
 
-        // Set up the toolbar.
+        setupToolbar();
+        setupDrawer();
+
+        if (null == savedInstanceState) initFragment();
+    }
+
+    private void setupToolbar() {
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-
-        // Set up the navigation drawer.
+    }
+    private void setupDrawer() {
         drawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
         if (navView != null) {
             setupDrawerContent(navView);
-        }
-
-        if (null == savedInstanceState) {
-            initFragment();
         }
     }
 
@@ -108,13 +111,23 @@ public class PetListActivity extends AppCompatActivity implements PetListFragmen
                 });
     }
 
-    public void startPetDetailActivity(int position, ArrayList<String> ids) {
+    private void startAddEditPetActivity() {
+        Intent intent = new Intent(this, AddEditPetActivity.class);
+        startActivity(intent);
+    }
+
+    private void startPetDetailActivity(int position, ArrayList<String> ids) {
         Bundle bundle = new Bundle();
         bundle.putInt(POSITION_KEY_DETAIL, position);
         bundle.putStringArrayList(IDS_KEY_DETAIL, ids);
         Intent intent = new Intent(this, PetDetailActivity.class);
         intent.putExtra(BUNDLE_KEY_DETAIL, bundle);
         startActivity(intent);
+    }
+
+    @Override
+    public void fireAddEditPetActivity() {
+        startAddEditPetActivity();
     }
 
     @Override

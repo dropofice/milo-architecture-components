@@ -8,9 +8,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
@@ -46,15 +50,18 @@ public class AddEditPetFragment extends LifecycleFragment {
      */
     public static AddEditPetFragment newInstance(String id) {
         AddEditPetFragment fragment = new AddEditPetFragment();
-        Bundle args = new Bundle();
-        args.putString(ID_KEY, id);
-        fragment.setArguments(args);
+        if (id != null) {
+            Bundle args = new Bundle();
+            args.putString(ID_KEY, id);
+            fragment.setArguments(args);
+        }
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -85,6 +92,26 @@ public class AddEditPetFragment extends LifecycleFragment {
             }
         });
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.pet_addedit_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save:
+               // viewModel.insertPet(pet);
+                Toast.makeText(getContext(), "Pet Save", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_update:
+                // viewModel.insertPet(pet);
+                Toast.makeText(getContext(), "Update Save", Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

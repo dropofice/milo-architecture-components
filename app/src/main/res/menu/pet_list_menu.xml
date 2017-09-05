@@ -3,8 +3,9 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_add_dummy"
-        android:title="@string/add_dummy_pet"
-        app:showAsAction="never"/>
+        android:id="@+id/action_add"
+        android:title="@string/add_pet"
+        android:icon="@drawable/ic_add_pet"
+        app:showAsAction="collapseActionView"/>
 
 </menu>

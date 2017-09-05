@@ -61,7 +61,7 @@ public class AddEditPetActivity extends AppCompatActivity implements AddEditPetF
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP);
-        //        ab.setDisplayHomeAsUpEnabled(true);
+        // ab.setDisplayHomeAsUpEnabled(true);
     }
 
     private void fireAddEditFragment(String id) {

@@ -90,16 +90,15 @@ public class PetListFragment extends LifecycleFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // super.onCreateOptionsMenu(menu, inflater);
+        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.pet_list_menu, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_add_dummy:
-                Pet pet = new Pet("Wolf", "Siberian");
-                viewModel.insertPet(pet);
+            case R.id.action_add:
+                mListener.fireAddEditPetActivity();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -144,6 +143,7 @@ public class PetListFragment extends LifecycleFragment {
     };
 
     public interface Listener {
+        void fireAddEditPetActivity();
         void firePetDetailActivity(int position, ArrayList<String> ids);
     }
 

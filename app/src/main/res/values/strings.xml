@@ -11,4 +11,7 @@
     <string name="edit_pet">Edit Pet</string>
     <string name="delete_pet">Delete Pet</string>
     <string name="add_dummy_pet">Add dummy pet</string>
+    <string name="save_pet">Save Pet</string>
+    <string name="add_pet">Add Pet</string>
+    <string name="update_pet">Update Pet</string>
 </resources>
