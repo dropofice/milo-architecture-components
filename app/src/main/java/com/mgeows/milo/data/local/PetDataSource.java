@@ -18,5 +18,7 @@ public interface PetDataSource {
 
     LiveData<List<Pet>> getPets();
 
+    LiveData<Pet> getPet(String id);
+
     void deletePet(Pet pet);
 }

@@ -25,14 +25,22 @@ public class PetViewModel extends ViewModel implements PetComponent.Injectable {
     @Inject
     PetRepository mPetRepository;
 
-    private LiveData<List<Pet>> mLivePets = new MutableLiveData<>();
+    private LiveData<List<Pet>> mLivePets;
+    private LiveData<Pet> mLivePet;
 
     public PetViewModel() {
+        mLivePets = new MutableLiveData<>();
+        mLivePet = new MutableLiveData<>();
     }
 
     public LiveData<List<Pet>> getPets() {
         mLivePets = mPetRepository.getPets();
         return mLivePets;
+    }
+
+    public LiveData<Pet> getPet(String id) {
+        mLivePet = mPetRepository.getPet(id);
+        return mLivePet;
     }
 
     public void insertPet(final Pet pet) {

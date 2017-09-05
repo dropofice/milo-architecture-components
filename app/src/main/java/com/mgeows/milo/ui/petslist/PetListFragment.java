@@ -4,6 +4,7 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +22,7 @@ import com.mgeows.milo.db.entity.Pet;
 import com.mgeows.milo.vm.PetViewModel;
 import com.mgeows.milo.vm.PetViewModelFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -34,6 +36,7 @@ public class PetListFragment extends LifecycleFragment {
     RecyclerView rvPetsList;
     Unbinder unbinder;
     private PetListAdapter adapter;
+    private Listener mListener;
 
     private PetViewModel viewModel;
 
@@ -47,8 +50,13 @@ public class PetListFragment extends LifecycleFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // setupInjection();
         setHasOptionsMenu(true);
-        adapter = new PetListAdapter(null, itemClickListener);
+    }
+
+    private void setupInjection() {
+//        PetApplication application = (PetApplication) getActivity().getApplication();
+//        application.getPetComponent().inject(this);
     }
 
     @Nullable
@@ -57,6 +65,7 @@ public class PetListFragment extends LifecycleFragment {
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.pet_list_fragment, container, false);
         unbinder = ButterKnife.bind(this, rootView);
+        adapter = new PetListAdapter(null, itemClickListener);
         rvPetsList.setAdapter(adapter);
         rvPetsList.setHasFixedSize(true);
         rvPetsList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -89,11 +98,28 @@ public class PetListFragment extends LifecycleFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_dummy:
-                Pet pet = new Pet("Milo", "Beagle");
+                Pet pet = new Pet("Wolf", "Siberian");
                 viewModel.insertPet(pet);
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof Listener) {
+            mListener = (Listener) context;
+        }
+        else {
+            throw new RuntimeException("Must implement AddEditFragment.Listener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        mListener = null;
+        super.onDetach();
     }
 
     private void subscribeUi(PetViewModel viewModel) {
@@ -110,10 +136,15 @@ public class PetListFragment extends LifecycleFragment {
 
     private final  PetItemClickListener itemClickListener = new PetItemClickListener() {
         @Override
-        public void onItemClick(String name, int position) {
+        public void onItemClick(int position, ArrayList<String> ids) {
             if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
-                ((PetListActivity) getActivity()).showPetDetail(name, position);
+               mListener.firePetDetailActivity(position, ids);
             }
         }
     };
+
+    public interface Listener {
+        void firePetDetailActivity(int position, ArrayList<String> ids);
+    }
+
 }

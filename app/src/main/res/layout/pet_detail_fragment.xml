@@ -6,7 +6,7 @@
              tools:showIn="@layout/pet_detail_activity">
 
     <TextView
-        android:id="@+id/textPet"
+        android:id="@+id/textPetDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Pet Detail Fragment" />

@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -17,11 +16,19 @@ import android.view.MenuItem;
 import com.mgeows.milo.R;
 import com.mgeows.milo.ui.DummyActivity;
 import com.mgeows.milo.ui.petdetail.PetDetailActivity;
+import com.mgeows.milo.util.ActivityUtils;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PetListActivity extends AppCompatActivity {
+public class PetListActivity extends AppCompatActivity implements PetListFragment.Listener{
+
+    // Keys for PetDetailActivity
+    private static final String POSITION_KEY_DETAIL = "position.detail";
+    private static final String IDS_KEY_DETAIL = "ids.detail";
+    private static final String BUNDLE_KEY_DETAIL = "bundle.detail";
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -49,16 +56,15 @@ public class PetListActivity extends AppCompatActivity {
         }
 
         if (null == savedInstanceState) {
-            initFragment(PetListFragment.newInstance());
+            initFragment();
         }
     }
 
-    private void initFragment(Fragment fragment) {
+    private void initFragment() {
         // Add the PetListFragment to the layout
         FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.fragmentContainer, fragment);
-        transaction.commit();
+        Fragment fragment = PetListFragment.newInstance();
+        ActivityUtils.addFragmentToActivity(fragmentManager, fragment, R.id.fragmentContainer);
     }
 
     @Override
@@ -102,10 +108,17 @@ public class PetListActivity extends AppCompatActivity {
                 });
     }
 
-    public void showPetDetail(String name, int position) {
+    public void startPetDetailActivity(int position, ArrayList<String> ids) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(POSITION_KEY_DETAIL, position);
+        bundle.putStringArrayList(IDS_KEY_DETAIL, ids);
         Intent intent = new Intent(this, PetDetailActivity.class);
-        intent.putExtra("POSITION_KEY", position);
-        intent.putExtra(Intent.EXTRA_TEXT, name);
+        intent.putExtra(BUNDLE_KEY_DETAIL, bundle);
         startActivity(intent);
+    }
+
+    @Override
+    public void firePetDetailActivity(int position, ArrayList<String> ids) {
+        startPetDetailActivity(position, ids);
     }
 }

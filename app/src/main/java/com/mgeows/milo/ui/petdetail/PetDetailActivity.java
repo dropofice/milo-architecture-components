@@ -9,50 +9,56 @@ import android.support.v7.widget.Toolbar;
 import com.mgeows.milo.R;
 import com.mgeows.milo.ui.addeditpet.AddEditPetActivity;
 
-import butterknife.ButterKnife;
+import java.util.ArrayList;
 
-import static android.R.attr.name;
+public class PetDetailActivity extends AppCompatActivity implements PetDetailFragment.Listener{
 
-public class PetDetailActivity extends AppCompatActivity {
+    // Keys from PetListActivity
+    private static final String POSITION_KEY_DETAIL = "position.detail";
+    private static final String IDS_KEY_DETAIL = "ids.detail";
+    private static final String BUNDLE_KEY_DETAIL = "bundle.detail";
 
-    private int position;
+    // Keys for AddEditActivity
+    private static final String BUNDLE_KEY_EDIT = "bundle.edit";
+    private static final String ID_KEY_EDIT = "id.edit";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pet_detail_activity);
-        ButterKnife.bind(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detailToolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        String name = getIntent().getStringExtra(Intent.EXTRA_TEXT);
-        position = getIntent().getIntExtra("POSITION_KEY", 0);
-        // showPetDetailFragment(name);
+        setupToolbar();
+        setupViewPager();
+    }
 
-        PetDetailPagerAdapter adapter = new PetDetailPagerAdapter(getSupportFragmentManager());
-        adapter.setName(name);
+    private void setupViewPager() {
+
+        Bundle bundle = getIntent().getBundleExtra(BUNDLE_KEY_DETAIL);
+        int position = bundle.getInt(POSITION_KEY_DETAIL);
+        ArrayList<String> ids = bundle.getStringArrayList(IDS_KEY_DETAIL);
+
+        PetDetailPagerAdapter adapter = new PetDetailPagerAdapter(getSupportFragmentManager(), ids);
         ViewPager pager = (ViewPager) findViewById(R.id.detailPager);
         pager.setAdapter(adapter);
         pager.setCurrentItem(position);
     }
 
-    public void fireAddEditActivity() {
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.detailToolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void startAddEditActivity(String id) {
+        Bundle bundle = new Bundle();
+        bundle.putString(ID_KEY_EDIT, id);
         Intent intent = new Intent(this, AddEditPetActivity.class);
-        intent.putExtra("POSITION_KEY", position);
-        intent.putExtra(Intent.EXTRA_TEXT, name);
+        intent.putExtra(BUNDLE_KEY_EDIT, bundle);
         startActivity(intent);
     }
 
-    /**
-     * Shows the pet detail fragment
-     */
-//    private void showPetDetailFragment(String name) {
-//        PetDetailFragment fragment = PetDetailFragment.forPet(name);
-//        getSupportFragmentManager()
-//                .beginTransaction()
-//                .add(detailPager, fragment, null)
-//                .commit();
-//    }
-
+    @Override
+    public void fireAddEditActivity(String id) {
+        startAddEditActivity(id);
+    }
 }

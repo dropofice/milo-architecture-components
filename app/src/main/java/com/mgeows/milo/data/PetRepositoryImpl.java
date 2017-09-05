@@ -42,6 +42,11 @@ public class PetRepositoryImpl implements PetRepository {
     }
 
     @Override
+    public LiveData<Pet> getPet(String id) {
+        return petDataSource.getPet(id);
+    }
+
+    @Override
     public Completable deletePet(final Pet pet) {
         return Completable.fromAction(new Action() {
             @Override

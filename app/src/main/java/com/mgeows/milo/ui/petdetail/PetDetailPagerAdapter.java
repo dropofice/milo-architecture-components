@@ -4,29 +4,25 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-/**
- * Created by JC on 08/30/2017.
- */
+import java.util.ArrayList;
+
 
 public class PetDetailPagerAdapter extends FragmentStatePagerAdapter {
 
-    private String name;
+    private ArrayList<String> mIds;
 
-    public PetDetailPagerAdapter(FragmentManager fm) {
+    public PetDetailPagerAdapter(FragmentManager fm, ArrayList<String> ids) {
         super(fm);
+        this.mIds = ids;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return PetDetailFragment.forPet(name);
+        return PetDetailFragment.forPet(mIds.get(position));
     }
 
     @Override
     public int getCount() {
-        return 6;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        return mIds.size();
     }
 }

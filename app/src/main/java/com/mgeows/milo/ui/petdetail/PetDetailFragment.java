@@ -1,6 +1,9 @@
 package com.mgeows.milo.ui.petdetail;
 
 import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -12,13 +15,23 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
+import com.mgeows.milo.db.entity.Pet;
+import com.mgeows.milo.vm.PetViewModel;
+import com.mgeows.milo.vm.PetViewModelFactory;
 
 /**
  * Created by JC on 08/29/2017.
  */
 
 public class PetDetailFragment extends LifecycleFragment {
+
+    private static final String ID_KEY = "id.key.adapter";
+    TextView tv;
+    private String id;
+    private PetViewModel viewModel;
+    private Listener mListener;
 
     public PetDetailFragment() {
     }
@@ -40,10 +53,24 @@ public class PetDetailFragment extends LifecycleFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        String name = null;
-        name = getArguments().getString("NAME_KEY", "NO_NAME");
-        TextView textView = (TextView) getView().findViewById(R.id.textPet);
-        textView.setText(name);
+        id = getArguments().getString(ID_KEY);
+        tv = (TextView) getView().findViewById(R.id.textPetDetail);
+        PetApplication application = (PetApplication) getActivity().getApplication();
+        PetViewModelFactory factory = new PetViewModelFactory(application);
+        viewModel = ViewModelProviders.of(this, factory).get(PetViewModel.class);
+
+        subscribeUi(viewModel, id);
+    }
+
+    private void subscribeUi(PetViewModel viewModel, String id) {
+        viewModel.getPet(id).observe(this, new Observer<Pet>() {
+            @Override
+            public void onChanged(@Nullable Pet pet) {
+                if (pet != null) {
+                    tv.setText(pet.petName);
+                }
+            }
+        });
     }
 
     @Override
@@ -56,7 +83,8 @@ public class PetDetailFragment extends LifecycleFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_edit:
-                ((PetDetailActivity ) getActivity()).fireAddEditActivity();
+                Toast.makeText(getContext(), "Edit", Toast.LENGTH_SHORT).show();
+                mListener.fireAddEditActivity(id);
                 break;
             case R.id.action_delete:
                 Toast.makeText(getContext(), "Delete", Toast.LENGTH_SHORT).show();
@@ -66,19 +94,35 @@ public class PetDetailFragment extends LifecycleFragment {
     }
 
     /**
-     * Creates PetDetailFragment for specific product ID
+     * Creates PetDetailFragment for specific PET ID
      */
-    public static PetDetailFragment forPet(String name) {
-
+    public static PetDetailFragment forPet(String id) {
         PetDetailFragment fragment = new PetDetailFragment();
         Bundle args = new Bundle();
-        args.putString("NAME_KEY", name);
+        args.putString(ID_KEY, id);
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof Listener) {
+            mListener = (Listener) context;
+        }
+        else {
+            throw new RuntimeException("Must implement AddEditFragment.Listener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        mListener = null;
+        super.onDetach();
+
+    }
+
+    public interface Listener {
+       void fireAddEditActivity(String id);
     }
 }

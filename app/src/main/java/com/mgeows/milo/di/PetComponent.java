@@ -12,6 +12,7 @@ import dagger.Component;
 public interface PetComponent {
 
     void inject(PetViewModel petViewModel);
+    // void inject(Fragment fragment);
 
     interface Injectable {
         void inject(PetComponent petComponent);

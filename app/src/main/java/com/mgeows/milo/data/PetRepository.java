@@ -17,5 +17,7 @@ public interface PetRepository {
 
     LiveData<List<Pet>> getPets();
 
+    LiveData<Pet> getPet(String id);
+
     Completable deletePet(Pet pet);
 }

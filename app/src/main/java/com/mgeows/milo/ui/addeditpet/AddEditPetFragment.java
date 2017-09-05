@@ -1,6 +1,8 @@
 package com.mgeows.milo.ui.addeditpet;
 
 import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
+import com.mgeows.milo.db.entity.Pet;
+import com.mgeows.milo.vm.PetViewModel;
+import com.mgeows.milo.vm.PetViewModelFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,14 +27,12 @@ import com.mgeows.milo.R;
  * create an instance of this fragment.
  */
 public class AddEditPetFragment extends LifecycleFragment {
-    // TODO: Rename parameter arguments, choose names that match
+    TextView textView;
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-     private static final String ARG_PARAM1 = "param1";
-
-    // TODO: Rename and change types of parameters
-     private int mParam1;
-
-//    private OnFragmentInteractionListener mListener;
+    private static final String ID_KEY = "id.addedit";
+    private String mId;
+    private PetViewModel viewModel;
+    private Listener mListener;
 
     public AddEditPetFragment() {
         // Required empty public constructor
@@ -40,11 +44,10 @@ public class AddEditPetFragment extends LifecycleFragment {
      *
      * @return A new instance of fragment AddEditPetFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static AddEditPetFragment newInstance(int param1) {
+    public static AddEditPetFragment newInstance(String id) {
         AddEditPetFragment fragment = new AddEditPetFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_PARAM1, param1);
+        args.putString(ID_KEY, id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,37 +67,41 @@ public class AddEditPetFragment extends LifecycleFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        textView = (TextView) getView().findViewById(R.id.tvAddEdit);
+        PetApplication application = (PetApplication) getActivity().getApplication();
+        PetViewModelFactory factory = new PetViewModelFactory(application);
+        viewModel = ViewModelProviders.of(this, factory).get(PetViewModel.class);
         if (getArguments() != null) {
-            mParam1 = getArguments().getInt(ARG_PARAM1);
+            mId = getArguments().getString(ID_KEY);
+            populateUi(viewModel, mId);
         }
-        TextView textView = (TextView) getView().findViewById(R.id.tvAddEdit);
-        textView.setText(String.valueOf(mParam1));
-
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
+    private void populateUi(PetViewModel viewModel, String mId) {
+        viewModel.getPet(mId).observe(this, new Observer<Pet>() {
+            @Override
+            public void onChanged(@Nullable Pet pet) {
+                textView.setText(pet.petId);
+            }
+        });
+
+    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        }
-//        else {
-//            throw new RuntimeException(context.toString()
-//                                               + " must implement OnFragmentInteractionListener");
-//        }
+        if (context instanceof Listener) {
+            mListener = (Listener) context;
+        }
+        else {
+            throw new RuntimeException("Must implement AddEditFragment.Listener");
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        // mListener = null;
+         mListener = null;
     }
 
     /**
@@ -107,8 +114,8 @@ public class AddEditPetFragment extends LifecycleFragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-//    public interface OnFragmentInteractionListener {
-//        // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
-//    }
+    public interface Listener {
+        void onEntitySaved();
+        void onEntityDeleted();
+    }
 }
