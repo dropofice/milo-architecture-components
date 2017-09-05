@@ -14,6 +14,8 @@ public interface PetDataSource {
 
     void addPet(Pet pet);
 
+    void updatePet(Pet pet);
+
     void addAllPets(List<Pet> pets);
 
     LiveData<List<Pet>> getPets();

@@ -110,6 +110,7 @@ public class AddEditPetFragment extends LifecycleFragment {
             case R.id.action_update:
                 // viewModel.insertPet(pet);
                 Toast.makeText(getContext(), "Update Save", Toast.LENGTH_SHORT).show();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

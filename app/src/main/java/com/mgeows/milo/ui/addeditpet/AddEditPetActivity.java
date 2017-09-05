@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.mgeows.milo.R;
@@ -23,6 +24,9 @@ public class AddEditPetActivity extends AppCompatActivity implements AddEditPetF
     private static final String BUNDLE_KEY_EDIT = "bundle.edit";
     private static final String ID_KEY_EDIT = "id.edit";
 
+    private String mId;
+    private ActionBar mActionBar;
+
     @BindView(R.id.mAddEditRootView)
     CoordinatorLayout mAddEditRootView;
 
@@ -32,8 +36,8 @@ public class AddEditPetActivity extends AppCompatActivity implements AddEditPetF
         setContentView(R.layout.add_edit_pet_activity);
         ButterKnife.bind(this);
         setupToolbar();
-
-        String mId = checkIntent();
+        invalidateOptionsMenu();
+        mId = checkIntent();
         fireAddEditFragment(mId);
     }
 
@@ -44,6 +48,24 @@ public class AddEditPetActivity extends AppCompatActivity implements AddEditPetF
             return bundle.getString(ID_KEY_EDIT);
         }
         return null;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        // If this is a new pet, hide the update menu
+        if (mId == null || mId.isEmpty()) {
+            mActionBar.setTitle(R.string.addedit_activity_title_add);
+            MenuItem menuItem = menu.findItem(R.id.action_update);
+            menuItem.setVisible(false);
+        }
+        else {
+            mActionBar.setTitle(R.string.addedit_activity_title_edit);
+            MenuItem menuItem = menu.findItem(R.id.action_save);
+            menuItem.setVisible(false);
+        }
+        return true;
+
     }
 
     @Override
@@ -59,9 +81,9 @@ public class AddEditPetActivity extends AppCompatActivity implements AddEditPetF
     private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.mAddEditToolbar);
         setSupportActionBar(toolbar);
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP);
-        // ab.setDisplayHomeAsUpEnabled(true);
+        mActionBar = getSupportActionBar();
+        mActionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
+
     }
 
     private void fireAddEditFragment(String id) {

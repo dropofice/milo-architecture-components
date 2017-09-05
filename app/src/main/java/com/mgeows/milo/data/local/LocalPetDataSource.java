@@ -22,6 +22,11 @@ public class LocalPetDataSource implements PetDataSource{
     }
 
     @Override
+    public void updatePet(Pet pet) {
+        mPetDao.updatePet(pet);
+    }
+
+    @Override
     public void addAllPets(List<Pet> pets) {
         mPetDao.addAllPets(pets);
     }

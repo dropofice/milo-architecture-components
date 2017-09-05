@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.petslist.PetListActivity">
+        <activity android:name=".ui.petslist.PetListActivity"
+            android:label="@string/list_activity_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,7 +29,7 @@
         </activity>
         <activity
             android:name=".ui.petdetail.PetDetailActivity"
-            android:label="@string/title_activity_pet_detail"
+            android:label="@string/detail_activity_title"
             android:parentActivityName=".ui.petslist.PetListActivity"
             android:theme="@style/AppTheme">
             <meta-data

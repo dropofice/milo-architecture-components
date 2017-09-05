@@ -13,6 +13,8 @@ public interface PetRepository {
 
     Completable addPet(Pet pet);
 
+    Completable updatePet(Pet pet);
+
     Completable addAllPets(List<Pet> pets);
 
     LiveData<List<Pet>> getPets();

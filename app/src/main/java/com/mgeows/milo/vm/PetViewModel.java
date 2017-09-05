@@ -45,27 +45,49 @@ public class PetViewModel extends ViewModel implements PetComponent.Injectable {
 
     public void insertPet(final Pet pet) {
         mPetRepository.addPet(pet)
-                  .observeOn(AndroidSchedulers.mainThread())
-                  .subscribeOn(Schedulers.io())
-                  .subscribe(new CompletableObserver() {
-            @Override
-            public void onSubscribe(@NonNull Disposable d) {
+                      .observeOn(AndroidSchedulers.mainThread())
+                      .subscribeOn(Schedulers.io())
+                      .subscribe(new CompletableObserver() {
+                          @Override
+                          public void onSubscribe(@NonNull Disposable d) {
 
-            }
+                          }
 
-            @Override
-            public void onComplete() {
-                Timber.d("onComplete - successfully added Pet");
-            }
+                          @Override
+                          public void onComplete() {
+                              Timber.d("onComplete - successfully added Pet");
+                          }
 
-            @Override
-            public void onError(@NonNull Throwable e) {
-                Timber.d("onError - add:", e);
-            }
-        });
+                          @Override
+                          public void onError(@NonNull Throwable e) {
+                              Timber.d("onError - add:", e);
+                          }
+                      });
     }
 
-    public void deletetPet(final Pet pet) {
+    public void updatePet(final Pet pet) {
+        mPetRepository.updatePet(pet)
+                      .observeOn(AndroidSchedulers.mainThread())
+                      .subscribeOn(Schedulers.io())
+                      .subscribe(new CompletableObserver() {
+                          @Override
+                          public void onSubscribe(@NonNull Disposable d) {
+
+                          }
+
+                          @Override
+                          public void onComplete() {
+                              Timber.d("onComplete - successfully updated Pet");
+                          }
+
+                          @Override
+                          public void onError(@NonNull Throwable e) {
+                              Timber.d("onError - update:", e);
+                          }
+                      });
+    }
+
+        public void deletetPet(final Pet pet) {
         mPetRepository.deletePet(pet)
                   .observeOn(AndroidSchedulers.mainThread())
                   .subscribeOn(Schedulers.io())

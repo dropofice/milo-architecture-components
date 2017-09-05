@@ -6,6 +6,6 @@
         android:id="@+id/action_add"
         android:title="@string/add_pet"
         android:icon="@drawable/ic_add_pet"
-        app:showAsAction="collapseActionView"/>
+        app:showAsAction="ifRoom"/>
 
 </menu>

@@ -11,7 +11,7 @@
     <item
         android:id="@+id/action_update"
         android:title="@string/update_pet"
-        android:icon="@drawable/ic_update"
+        android:icon="@drawable/ic_done"
         app:showAsAction="ifRoom" />
 
 </menu>
