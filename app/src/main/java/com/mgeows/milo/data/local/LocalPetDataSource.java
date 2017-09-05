@@ -45,4 +45,9 @@ public class LocalPetDataSource implements PetDataSource{
     public void deletePet(Pet pet) {
         mPetDao.deletePet(pet);
     }
+
+    @Override
+    public void deletePetById(String id) {
+        mPetDao.deletePetById(id);
+    }
 }

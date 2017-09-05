@@ -14,7 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.mgeows.milo.R;
-import com.mgeows.milo.ui.DummyActivity;
+import com.mgeows.milo.ui.SettingsActivity;
 import com.mgeows.milo.ui.addeditpet.AddEditPetActivity;
 import com.mgeows.milo.ui.petdetail.PetDetailActivity;
 import com.mgeows.milo.util.ActivityUtils;
@@ -98,7 +98,7 @@ public class PetListActivity extends AppCompatActivity implements PetListFragmen
                         switch (menuItem.getItemId()) {
                             case R.id.empty_action:
                                 startActivity(
-                                        new Intent(PetListActivity.this, DummyActivity.class));
+                                        new Intent(PetListActivity.this, SettingsActivity.class));
                                 break;
                             default:
                                 break;

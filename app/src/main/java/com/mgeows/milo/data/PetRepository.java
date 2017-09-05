@@ -22,4 +22,6 @@ public interface PetRepository {
     LiveData<Pet> getPet(String id);
 
     Completable deletePet(Pet pet);
+
+    Completable deletePetById(String id);
 }

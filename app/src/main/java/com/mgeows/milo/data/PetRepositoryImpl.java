@@ -65,4 +65,14 @@ public class PetRepositoryImpl implements PetRepository {
             }
         });
     }
+
+    @Override
+    public Completable deletePetById(final String id) {
+        return Completable.fromAction(new Action() {
+            @Override
+            public void run() throws Exception {
+                petDataSource.deletePetById(id);
+            }
+        });
+    }
 }

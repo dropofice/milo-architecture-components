@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,24 +23,27 @@ import com.mgeows.milo.db.entity.Pet;
 import com.mgeows.milo.vm.PetViewModel;
 import com.mgeows.milo.vm.PetViewModelFactory;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link AddEditPetFragment OnFragmentInteractionListener} interface
+ * {@link AddEditPetFragment.Listener} interface
  * to handle interaction events.
  * Use the {@link AddEditPetFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class AddEditPetFragment extends LifecycleFragment {
     TextView textView;
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ID_KEY = "id.addedit";
+
     private String mId;
-    private PetViewModel viewModel;
+    private Pet mPet;
+    private PetViewModel mViewModel;
     private Listener mListener;
 
     public AddEditPetFragment() {
-        // Required empty public constructor
     }
 
     /**
@@ -50,7 +54,7 @@ public class AddEditPetFragment extends LifecycleFragment {
      */
     public static AddEditPetFragment newInstance(String id) {
         AddEditPetFragment fragment = new AddEditPetFragment();
-        if (id != null) {
+        if (!TextUtils.isEmpty(id)) {
             Bundle args = new Bundle();
             args.putString(ID_KEY, id);
             fragment.setArguments(args);
@@ -67,7 +71,6 @@ public class AddEditPetFragment extends LifecycleFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.add_edit_pet_fragment, container, false);
     }
 
@@ -75,20 +78,30 @@ public class AddEditPetFragment extends LifecycleFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         textView = (TextView) getView().findViewById(R.id.tvAddEdit);
+        mViewModel = getViewModel();
+        checkArguments();
+    }
+
+    private PetViewModel getViewModel() {
         PetApplication application = (PetApplication) getActivity().getApplication();
         PetViewModelFactory factory = new PetViewModelFactory(application);
-        viewModel = ViewModelProviders.of(this, factory).get(PetViewModel.class);
+        return ViewModelProviders.of(this, factory).get(PetViewModel.class);
+
+    }
+
+    // If there is a petId populate UI for editing
+    private void checkArguments() {
         if (getArguments() != null) {
             mId = getArguments().getString(ID_KEY);
-            populateUi(viewModel, mId);
+            populateUi(mId);
         }
     }
 
-    private void populateUi(PetViewModel viewModel, String mId) {
-        viewModel.getPet(mId).observe(this, new Observer<Pet>() {
+    private void populateUi(String mId) {
+        mViewModel.getPet(mId).observe(this, new Observer<Pet>() {
             @Override
             public void onChanged(@Nullable Pet pet) {
-                textView.setText(pet.petId);
+                textView.setText(checkNotNull(pet).petId);
             }
         });
 
@@ -104,15 +117,25 @@ public class AddEditPetFragment extends LifecycleFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:
-               // viewModel.insertPet(pet);
-                Toast.makeText(getContext(), "Pet Save", Toast.LENGTH_SHORT).show();
+                savePet();
                 break;
             case R.id.action_update:
-                // viewModel.insertPet(pet);
-                Toast.makeText(getContext(), "Update Save", Toast.LENGTH_SHORT).show();
+                updatePet();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void savePet() {
+        mViewModel.insertPet(mPet);
+        Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+        mListener.onEntitySaved();
+    }
+
+    private void updatePet() {
+        mViewModel.updatePet(mPet);
+        Toast.makeText(getContext(), "Updated", Toast.LENGTH_SHORT).show();
+        mListener.onEntitySaved();
     }
 
     @Override
@@ -142,8 +165,7 @@ public class AddEditPetFragment extends LifecycleFragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface Listener {
+    interface Listener {
         void onEntitySaved();
-        void onEntityDeleted();
     }
 }

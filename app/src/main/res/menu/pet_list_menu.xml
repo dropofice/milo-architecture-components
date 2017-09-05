@@ -8,4 +8,14 @@
         android:icon="@drawable/ic_add_pet"
         app:showAsAction="ifRoom"/>
 
+    <!-- For testing add dummy pets -->
+    <item
+        android:id="@+id/action_add_dummy"
+        android:title="add dummy pet"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_add_dummies"
+        android:title="add dummy pets"
+        app:showAsAction="never"/>
+
 </menu>

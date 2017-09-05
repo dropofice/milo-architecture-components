@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.mgeows.milo.R;
 
-public class DummyActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

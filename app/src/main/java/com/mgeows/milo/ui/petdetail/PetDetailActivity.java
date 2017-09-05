@@ -61,4 +61,9 @@ public class PetDetailActivity extends AppCompatActivity implements PetDetailFra
     public void fireAddEditActivity(String id) {
         startAddEditActivity(id);
     }
+
+    @Override
+    public void finishPetDetailActivity() {
+        finish();
+    }
 }

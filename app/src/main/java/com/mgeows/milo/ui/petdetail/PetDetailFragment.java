@@ -28,12 +28,24 @@ import com.mgeows.milo.vm.PetViewModelFactory;
 public class PetDetailFragment extends LifecycleFragment {
 
     private static final String ID_KEY = "id.key.adapter";
+
     TextView tv;
-    private String id;
-    private PetViewModel viewModel;
+    private String mId;
+    private PetViewModel mViewModel;
     private Listener mListener;
 
     public PetDetailFragment() {
+    }
+
+    /**
+     * Creates PetDetailFragment for specific PET ID
+     */
+    public static PetDetailFragment forPet(String id) {
+        PetDetailFragment fragment = new PetDetailFragment();
+        Bundle args = new Bundle();
+        args.putString(ID_KEY, id);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -53,13 +65,17 @@ public class PetDetailFragment extends LifecycleFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        id = getArguments().getString(ID_KEY);
+        mId = getArguments().getString(ID_KEY);
         tv = (TextView) getView().findViewById(R.id.textPetDetail);
+
+        mViewModel = getViewModel();
+        subscribeUi(mViewModel, mId);
+    }
+
+    private PetViewModel getViewModel() {
         PetApplication application = (PetApplication) getActivity().getApplication();
         PetViewModelFactory factory = new PetViewModelFactory(application);
-        viewModel = ViewModelProviders.of(this, factory).get(PetViewModel.class);
-
-        subscribeUi(viewModel, id);
+        return ViewModelProviders.of(this, factory).get(PetViewModel.class);
     }
 
     private void subscribeUi(PetViewModel viewModel, String id) {
@@ -83,25 +99,25 @@ public class PetDetailFragment extends LifecycleFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_edit:
-                Toast.makeText(getContext(), "Edit", Toast.LENGTH_SHORT).show();
-                mListener.fireAddEditActivity(id);
+                editPet();
                 break;
             case R.id.action_delete:
-                Toast.makeText(getContext(), "Delete", Toast.LENGTH_SHORT).show();
+                deletePet(mId);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Creates PetDetailFragment for specific PET ID
-     */
-    public static PetDetailFragment forPet(String id) {
-        PetDetailFragment fragment = new PetDetailFragment();
-        Bundle args = new Bundle();
-        args.putString(ID_KEY, id);
-        fragment.setArguments(args);
-        return fragment;
+    private void editPet() {
+        Toast.makeText(getContext(), "Edit", Toast.LENGTH_SHORT).show();
+        mListener.fireAddEditActivity(mId);
+    }
+
+    private void deletePet(String id) {
+        mViewModel.deletePetById(id);
+        Toast.makeText(getContext(), "Deleted", Toast.LENGTH_SHORT).show();
+        mListener.finishPetDetailActivity();
+
     }
 
     @Override
@@ -122,7 +138,8 @@ public class PetDetailFragment extends LifecycleFragment {
 
     }
 
-    public interface Listener {
-       void fireAddEditActivity(String id);
+    interface Listener {
+        void fireAddEditActivity(String id);
+        void finishPetDetailActivity();
     }
 }

@@ -19,8 +19,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.DummyActivity"
-            android:label="@string/title_activity_dummy"
+            android:name=".ui.SettingsActivity"
+            android:label="@string/settings_activity_title"
             android:parentActivityName=".ui.petslist.PetListActivity"
             android:theme="@style/AppTheme">
             <meta-data

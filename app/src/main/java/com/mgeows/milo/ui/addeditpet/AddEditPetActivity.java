@@ -94,12 +94,7 @@ public class AddEditPetActivity extends AppCompatActivity implements AddEditPetF
 
     @Override
     public void onEntitySaved() {
-        Snackbar.make(mAddEditRootView, "Pet Saved", Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onEntityDeleted() {
-        Snackbar.make(mAddEditRootView, "Pet Deleted", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mAddEditRootView, "Saved/Updated", Snackbar.LENGTH_SHORT).show();
     }
 
     private void startPetListActivity() {

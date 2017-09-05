@@ -6,9 +6,6 @@ import com.mgeows.milo.db.entity.Pet;
 
 import java.util.List;
 
-/**
- * Created by JC on 09/03/2017.
- */
 
 public interface PetDataSource {
 
@@ -23,4 +20,6 @@ public interface PetDataSource {
     LiveData<Pet> getPet(String id);
 
     void deletePet(Pet pet);
+
+    void deletePetById(String id);
 }

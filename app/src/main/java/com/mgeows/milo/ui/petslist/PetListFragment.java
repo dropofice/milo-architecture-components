@@ -38,7 +38,7 @@ public class PetListFragment extends LifecycleFragment {
     private PetListAdapter adapter;
     private Listener mListener;
 
-    private PetViewModel viewModel;
+    private PetViewModel mViewModel;
 
     public PetListFragment() {
     }
@@ -75,11 +75,14 @@ public class PetListFragment extends LifecycleFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mViewModel = getViewModel();
+        subscribeUi();
+    }
+
+    private PetViewModel getViewModel() {
         PetApplication application = (PetApplication) getActivity().getApplication();
         PetViewModelFactory factory = new PetViewModelFactory(application);
-        viewModel = ViewModelProviders.of(this, factory).get(PetViewModel.class);
-
-        subscribeUi(viewModel);
+        return ViewModelProviders.of(this, factory).get(PetViewModel.class);
     }
 
     @Override
@@ -100,8 +103,22 @@ public class PetListFragment extends LifecycleFragment {
             case R.id.action_add:
                 mListener.fireAddEditPetActivity();
                 break;
+            case R.id.action_add_dummy:
+                addDummy();
+                break;
+            case R.id.action_add_dummies:
+                addDummies();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void addDummies() {
+    }
+
+    private void addDummy() {
+        Pet pet = new Pet("Pogi", "Aspin");
+        mViewModel.insertPet(pet);
     }
 
     @Override
@@ -121,9 +138,9 @@ public class PetListFragment extends LifecycleFragment {
         super.onDetach();
     }
 
-    private void subscribeUi(PetViewModel viewModel) {
+    private void subscribeUi() {
         // Update the list when the data changes
-        viewModel.getPets().observe(this, new Observer<List<Pet>>() {
+        mViewModel.getPets().observe(this, new Observer<List<Pet>>() {
             @Override
             public void onChanged(@Nullable List<Pet> pets) {
                 if (pets != null) {
@@ -142,7 +159,7 @@ public class PetListFragment extends LifecycleFragment {
         }
     };
 
-    public interface Listener {
+    interface Listener {
         void fireAddEditPetActivity();
         void firePetDetailActivity(int position, ArrayList<String> ids);
     }
