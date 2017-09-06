@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
@@ -40,9 +40,9 @@ public class AddEditPetFragment extends LifecycleFragment {
     private static final String ID_KEY = "id.addedit";
 
     @BindView(R.id.et_name)
-    TextInputEditText mEtName;
+    EditText mEtName;
     @BindView(R.id.et_breed)
-    TextInputEditText mEtBreed;
+    EditText mEtBreed;
     Unbinder unbinder;
 
     private String mId;
