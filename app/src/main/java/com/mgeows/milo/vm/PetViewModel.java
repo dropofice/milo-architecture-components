@@ -131,7 +131,6 @@ public class PetViewModel extends ViewModel implements PetComponent.Injectable {
                       });
     }
 
-
     @Override
     public void inject(PetComponent petComponent) {
         petComponent.inject(this);

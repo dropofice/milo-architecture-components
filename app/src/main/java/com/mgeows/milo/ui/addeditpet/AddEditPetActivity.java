@@ -37,10 +37,10 @@ public class AddEditPetActivity extends AppCompatActivity implements AddEditPetF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_edit_pet_activity);
         ButterKnife.bind(this);
+        mId = checkIntent();
         setupToolbar();
         if (null == savedInstanceState) {
             invalidateOptionsMenu();
-            mId = checkIntent();
             fireAddEditFragment(mId);
         }
     }

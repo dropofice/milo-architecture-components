@@ -21,6 +21,10 @@ import com.mgeows.milo.db.entity.Pet;
 import com.mgeows.milo.vm.PetViewModel;
 import com.mgeows.milo.vm.PetViewModelFactory;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * Created by JC on 08/29/2017.
  */
@@ -29,10 +33,15 @@ public class PetDetailFragment extends LifecycleFragment {
 
     private static final String ID_KEY = "id.key.adapter";
 
-    TextView tv;
+    @BindView(R.id.detail_name)
+    TextView mName;
+    @BindView(R.id.detail_breed)
+    TextView mBreed;
+    Unbinder unbinder;
+
     private String mId;
-    private PetViewModel mViewModel;
     private Listener mListener;
+    private PetViewModel mViewModel;
 
     public PetDetailFragment() {
     }
@@ -59,6 +68,7 @@ public class PetDetailFragment extends LifecycleFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.pet_detail_fragment, container, false);
+        unbinder = ButterKnife.bind(this, rootView);
         return rootView;
     }
 
@@ -66,8 +76,6 @@ public class PetDetailFragment extends LifecycleFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mId = getArguments().getString(ID_KEY);
-        tv = (TextView) getView().findViewById(R.id.textPetDetail);
-
         mViewModel = getViewModel();
         subscribeUi(mViewModel, mId);
     }
@@ -83,7 +91,8 @@ public class PetDetailFragment extends LifecycleFragment {
             @Override
             public void onChanged(@Nullable Pet pet) {
                 if (pet != null) {
-                    tv.setText(pet.petName);
+                    mName.setText(pet.petName);
+                    mBreed.setText(pet.petBreed);
                 }
             }
         });
@@ -109,7 +118,6 @@ public class PetDetailFragment extends LifecycleFragment {
     }
 
     private void editPet() {
-        Toast.makeText(getContext(), "Edit", Toast.LENGTH_SHORT).show();
         mListener.fireAddEditActivity(mId);
     }
 
@@ -138,8 +146,15 @@ public class PetDetailFragment extends LifecycleFragment {
 
     }
 
+    @Override
+    public void onDestroyView() {
+        unbinder.unbind();
+        super.onDestroyView();
+    }
+
     interface Listener {
         void fireAddEditActivity(String id);
+
         void finishPetDetailActivity();
     }
 }

@@ -1,14 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:showIn="@layout/pet_detail_activity">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="24dp">
+
+        <ImageView
+            android:id="@+id/detail_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/primary"
+            android:src="@drawable/dog_poop_300px" />
+
+        <TextView
+            android:id="@+id/detail_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginBottom="8dp"
+            tools:text="Name" />
+
+    </FrameLayout>
 
     <TextView
-        android:id="@+id/textPetDetail"
+        android:id="@+id/detail_breed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pet Detail Fragment" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
+        tools:text="Breed" />
 
-</FrameLayout>
+</LinearLayout>
