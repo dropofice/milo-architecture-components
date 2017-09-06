@@ -19,5 +19,7 @@
     <string name="addedit_activity_title_add">Add Pet</string>
     <string name="addedit_activity_title_edit">Edit Pet</string>
     <string name="settings_activity_title">Settings</string>
+    <string name="navigation_drawer_open">navigation drawer open</string>
+    <string name="navigation_drawer_close">navigation drawer close</string>
 
 </resources>

@@ -120,8 +120,21 @@ public class AddEditPetFragment extends LifecycleFragment {
     }
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        // If this is a new pet, hide the update menu
+        if (mId == null || mId.isEmpty()) {
+            MenuItem menuItem = menu.findItem(R.id.action_update);
+            menuItem.setVisible(false);
+        }
+        else {
+            MenuItem menuItem = menu.findItem(R.id.action_save);
+            menuItem.setVisible(false);
+        }
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+        // super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.pet_addedit_menu, menu);
     }
 
@@ -130,10 +143,10 @@ public class AddEditPetFragment extends LifecycleFragment {
         switch (item.getItemId()) {
             case R.id.action_save:
                 savePet();
-                break;
+                return true;
             case R.id.action_update:
                 updatePet();
-                break;
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -155,6 +168,12 @@ public class AddEditPetFragment extends LifecycleFragment {
     }
 
     @Override
+    public void onDestroyView() {
+        unbinder.unbind();
+        super.onDestroyView();
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof Listener) {
@@ -167,14 +186,8 @@ public class AddEditPetFragment extends LifecycleFragment {
 
     @Override
     public void onDetach() {
-        super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void onDestroyView() {
-        unbinder.unbind();
-        super.onDestroyView();
+        super.onDetach();
     }
 
     /**

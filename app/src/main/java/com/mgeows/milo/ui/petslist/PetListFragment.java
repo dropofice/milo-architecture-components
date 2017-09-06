@@ -102,13 +102,13 @@ public class PetListFragment extends LifecycleFragment {
         switch (item.getItemId()) {
             case R.id.action_add:
                 mListener.fireAddEditPetActivity();
-                break;
+                return true;
             case R.id.action_add_dummy:
                 addDummy();
-                break;
+                return true;
             case R.id.action_add_dummies:
                 addDummies();
-                break;
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -3,13 +3,12 @@ package com.mgeows.milo.ui.addeditpet;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import com.mgeows.milo.R;
 import com.mgeows.milo.ui.petslist.PetListActivity;
@@ -24,11 +23,14 @@ public class AddEditPetActivity extends AppCompatActivity implements AddEditPetF
     private static final String BUNDLE_KEY_EDIT = "bundle.edit";
     private static final String ID_KEY_EDIT = "id.edit";
 
-    private String mId;
-    private ActionBar mActionBar;
+    @BindView(R.id.addedit_toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.addedit_container)
+    FrameLayout mContainer;
+    @BindView(R.id.addedit_root_view)
+    CoordinatorLayout mRootView;
 
-    @BindView(R.id.mAddEditRootView)
-    CoordinatorLayout mAddEditRootView;
+    private String mId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +38,23 @@ public class AddEditPetActivity extends AppCompatActivity implements AddEditPetF
         setContentView(R.layout.add_edit_pet_activity);
         ButterKnife.bind(this);
         setupToolbar();
-        invalidateOptionsMenu();
-        mId = checkIntent();
-        fireAddEditFragment(mId);
+        if (null == savedInstanceState) {
+            invalidateOptionsMenu();
+            mId = checkIntent();
+            fireAddEditFragment(mId);
+        }
+    }
+
+    private void setupToolbar() {
+        setSupportActionBar(mToolbar);
+        ActionBar mActionBar = getSupportActionBar();
+        mActionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
+        if (mId == null || mId.isEmpty()) {
+            mActionBar.setTitle(R.string.addedit_activity_title_add);
+        }
+        else {
+            mActionBar.setTitle(R.string.addedit_activity_title_edit);
+        }
     }
 
     private String checkIntent() {
@@ -50,22 +66,10 @@ public class AddEditPetActivity extends AppCompatActivity implements AddEditPetF
         return null;
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        // If this is a new pet, hide the update menu
-        if (mId == null || mId.isEmpty()) {
-            mActionBar.setTitle(R.string.addedit_activity_title_add);
-            MenuItem menuItem = menu.findItem(R.id.action_update);
-            menuItem.setVisible(false);
-        }
-        else {
-            mActionBar.setTitle(R.string.addedit_activity_title_edit);
-            MenuItem menuItem = menu.findItem(R.id.action_save);
-            menuItem.setVisible(false);
-        }
-        return true;
-
+    private void fireAddEditFragment(String id) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        AddEditPetFragment fragment = AddEditPetFragment.newInstance(id);
+        ActivityUtils.addFragmentToActivity(fragmentManager, fragment, R.id.addedit_container);
     }
 
     @Override
@@ -78,34 +82,21 @@ public class AddEditPetActivity extends AppCompatActivity implements AddEditPetF
         return super.onOptionsItemSelected(item);
     }
 
-    private void setupToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.mAddEditToolbar);
-        setSupportActionBar(toolbar);
-        mActionBar = getSupportActionBar();
-        mActionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
-
-    }
-
-    private void fireAddEditFragment(String id) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        AddEditPetFragment fragment = AddEditPetFragment.newInstance(id);
-        ActivityUtils.addFragmentToActivity(fragmentManager, fragment, R.id.mAddEditContainer);
-    }
-
     @Override
     public void onPetSaved() {
-        Snackbar.make(mAddEditRootView, "Saved", Snackbar.LENGTH_SHORT).show();
         startPetListActivity();
     }
 
     @Override
     public void onPetUpdated() {
-        Snackbar.make(mAddEditRootView, "Updated", Snackbar.LENGTH_SHORT).show();
         startPetListActivity();
     }
 
     private void startPetListActivity() {
         Intent intent = new Intent(this, PetListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 }

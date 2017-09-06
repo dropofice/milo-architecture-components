@@ -9,14 +9,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.mgeows.milo.R;
-import com.mgeows.milo.ui.settings.SettingsActivity;
 import com.mgeows.milo.ui.addeditpet.AddEditPetActivity;
 import com.mgeows.milo.ui.petdetail.PetDetailActivity;
+import com.mgeows.milo.ui.settings.SettingsActivity;
 import com.mgeows.milo.util.ActivityUtils;
 
 import java.util.ArrayList;
@@ -31,36 +32,38 @@ public class PetListActivity extends AppCompatActivity implements PetListFragmen
     private static final String IDS_KEY_DETAIL = "ids.detail";
     private static final String BUNDLE_KEY_DETAIL = "bundle.detail";
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.nav_view)
-    NavigationView navView;
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawerLayout;
+    @BindView(R.id.list_toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.list_nav_view)
+    NavigationView mNavView;
+    @BindView(R.id.list_drawer)
+    DrawerLayout mDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pet_list_activity);
         ButterKnife.bind(this);
-
         setupToolbar();
         setupDrawer();
-
         if (null == savedInstanceState) initFragment();
     }
 
     private void setupToolbar() {
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
         ab.setTitle(R.string.list_activity_title);
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
     }
     private void setupDrawer() {
-        drawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
-        if (navView != null) {
-            setupDrawerContent(navView);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawer.addDrawerListener(toggle);
+        toggle.syncState();
+        mDrawer.setStatusBarBackground(R.color.colorPrimaryDark);
+        if (mNavView != null) {
+            setupDrawerContent(mNavView);
         }
     }
 
@@ -68,7 +71,7 @@ public class PetListActivity extends AppCompatActivity implements PetListFragmen
         // Add the PetListFragment to the layout
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = PetListFragment.newInstance();
-        ActivityUtils.addFragmentToActivity(fragmentManager, fragment, R.id.fragmentContainer);
+        ActivityUtils.addFragmentToActivity(fragmentManager, fragment, R.id.list_container);
     }
 
     @Override
@@ -76,7 +79,7 @@ public class PetListActivity extends AppCompatActivity implements PetListFragmen
         switch (item.getItemId()) {
             case android.R.id.home:
                 // Open the navigation drawer when the home icon is selected from the toolbar.
-                drawerLayout.openDrawer(GravityCompat.START);
+                mDrawer.openDrawer(GravityCompat.START);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -84,8 +87,8 @@ public class PetListActivity extends AppCompatActivity implements PetListFragmen
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
+        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+            mDrawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -106,7 +109,7 @@ public class PetListActivity extends AppCompatActivity implements PetListFragmen
                         }
                         // Close the navigation drawer when an item is selected.
                         menuItem.setChecked(true);
-                        drawerLayout.closeDrawers();
+                        mDrawer.closeDrawers();
                         return true;
                     }
                 });

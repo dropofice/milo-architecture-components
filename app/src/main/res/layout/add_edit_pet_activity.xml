@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mAddEditRootView"
+    android:id="@+id/addedit_root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.mgeows.milo.ui.addeditpet.AddEditPetActivity">
@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/mAddEditToolbar"
+            android:id="@+id/addedit_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -23,7 +23,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
-        android:id="@+id/mAddEditContainer"
+        android:id="@+id/addedit_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />

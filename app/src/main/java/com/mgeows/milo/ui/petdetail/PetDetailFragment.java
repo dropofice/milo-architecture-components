@@ -100,10 +100,10 @@ public class PetDetailFragment extends LifecycleFragment {
         switch (item.getItemId()) {
             case R.id.action_edit:
                 editPet();
-                break;
+                return true;
             case R.id.action_delete:
                 deletePet(mId);
-                break;
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
