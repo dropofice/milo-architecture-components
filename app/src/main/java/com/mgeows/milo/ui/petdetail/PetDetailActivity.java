@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class PetDetailActivity extends AppCompatActivity implements PetDetailFragment.Listener{
 
-    // Keys from PetListActivity
+    // Keys from PetListActivity to setup viewpager and adapter
     private static final String POSITION_KEY_DETAIL = "position.detail";
     private static final String IDS_KEY_DETAIL = "ids.detail";
     private static final String BUNDLE_KEY_DETAIL = "bundle.detail";
@@ -26,13 +26,17 @@ public class PetDetailActivity extends AppCompatActivity implements PetDetailFra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pet_detail_activity);
-
         setupToolbar();
         setupViewPager();
     }
 
-    private void setupViewPager() {
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.detailToolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
+    private void setupViewPager() {
         Bundle bundle = getIntent().getBundleExtra(BUNDLE_KEY_DETAIL);
         int position = bundle.getInt(POSITION_KEY_DETAIL);
         ArrayList<String> ids = bundle.getStringArrayList(IDS_KEY_DETAIL);
@@ -41,12 +45,6 @@ public class PetDetailActivity extends AppCompatActivity implements PetDetailFra
         ViewPager pager = (ViewPager) findViewById(R.id.detailPager);
         pager.setAdapter(adapter);
         pager.setCurrentItem(position);
-    }
-
-    private void setupToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detailToolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void startAddEditActivity(String id) {

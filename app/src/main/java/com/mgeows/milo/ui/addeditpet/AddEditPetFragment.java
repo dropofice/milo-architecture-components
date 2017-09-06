@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,8 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
@@ -23,22 +22,32 @@ import com.mgeows.milo.db.entity.Pet;
 import com.mgeows.milo.vm.PetViewModel;
 import com.mgeows.milo.vm.PetViewModelFactory;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link AddEditPetFragment.Listener} interface
+ * {@link Listener} interface
  * to handle interaction events.
  * Use the {@link AddEditPetFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class AddEditPetFragment extends LifecycleFragment {
-    TextView textView;
 
+    // Key for the petId for editing
     private static final String ID_KEY = "id.addedit";
 
+    @BindView(R.id.et_name)
+    TextInputEditText mEtName;
+    @BindView(R.id.et_breed)
+    TextInputEditText mEtBreed;
+    Unbinder unbinder;
+
     private String mId;
+    private String mName;
+    private String mBreed;
     private Pet mPet;
     private PetViewModel mViewModel;
     private Listener mListener;
@@ -71,13 +80,14 @@ public class AddEditPetFragment extends LifecycleFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.add_edit_pet_fragment, container, false);
+        View view = inflater.inflate(R.layout.add_edit_pet_fragment, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        textView = (TextView) getView().findViewById(R.id.tvAddEdit);
         mViewModel = getViewModel();
         checkArguments();
     }
@@ -101,10 +111,12 @@ public class AddEditPetFragment extends LifecycleFragment {
         mViewModel.getPet(mId).observe(this, new Observer<Pet>() {
             @Override
             public void onChanged(@Nullable Pet pet) {
-                textView.setText(checkNotNull(pet).petId);
+                if (pet != null) {
+                    mEtName.setText(pet.petName);
+                    mEtBreed.setText(pet.petBreed);
+                }
             }
         });
-
     }
 
     @Override
@@ -127,15 +139,19 @@ public class AddEditPetFragment extends LifecycleFragment {
     }
 
     private void savePet() {
+        mName = mEtName.getEditableText().toString().trim();
+        mBreed = mEtBreed.getEditableText().toString().trim();
+        mPet = new Pet(mName, mBreed);
         mViewModel.insertPet(mPet);
-        Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
-        mListener.onEntitySaved();
+        mListener.onPetSaved();
     }
 
     private void updatePet() {
-        mViewModel.updatePet(mPet);
-        Toast.makeText(getContext(), "Updated", Toast.LENGTH_SHORT).show();
-        mListener.onEntitySaved();
+        mName = mEtName.getEditableText().toString().trim();
+        mBreed = mEtBreed.getEditableText().toString().trim();
+        Pet pet = new Pet(mId, mName, mBreed);
+        mViewModel.updatePet(pet);
+        mListener.onPetUpdated();
     }
 
     @Override
@@ -152,7 +168,13 @@ public class AddEditPetFragment extends LifecycleFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-         mListener = null;
+        mListener = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        unbinder.unbind();
+        super.onDestroyView();
     }
 
     /**
@@ -166,6 +188,7 @@ public class AddEditPetFragment extends LifecycleFragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     interface Listener {
-        void onEntitySaved();
+        void onPetSaved();
+        void onPetUpdated();
     }
 }

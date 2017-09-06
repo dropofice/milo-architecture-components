@@ -27,9 +27,6 @@ android {
             minifyEnabled false
         }
     }
-    dataBinding {
-        enabled = true
-    }
 
     // If you need to add more flavors, consider using flavor dimensions.
     productFlavors {
@@ -76,10 +73,10 @@ dependencies {
     compile 'com.google.guava:guava:' + rootProject.guavaVersion;
 
     // Architecture components Lifecyles, LiveData, ViewModel, Room
-    compile "android.arch.persistence.room:rxjava2:1.0.0-alpha5"
     compile 'android.arch.lifecycle:runtime:' + rootProject.archLifecycleVersion;
     compile 'android.arch.lifecycle:extensions:' + rootProject.archLifecycleVersion;
     compile 'android.arch.persistence.room:runtime:' + rootProject.archRoomVersion;
+    compile 'android.arch.persistence.room:rxjava2:' + rootProject.archRoomVersion;
     annotationProcessor 'android.arch.lifecycle:compiler:' + rootProject.archLifecycleVersion;
     annotationProcessor 'android.arch.persistence.room:compiler:' + rootProject.archRoomVersion;
 

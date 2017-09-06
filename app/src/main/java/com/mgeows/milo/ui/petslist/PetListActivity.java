@@ -14,7 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.mgeows.milo.R;
-import com.mgeows.milo.ui.SettingsActivity;
+import com.mgeows.milo.ui.settings.SettingsActivity;
 import com.mgeows.milo.ui.addeditpet.AddEditPetActivity;
 import com.mgeows.milo.ui.petdetail.PetDetailActivity;
 import com.mgeows.milo.util.ActivityUtils;
@@ -53,7 +53,8 @@ public class PetListActivity extends AppCompatActivity implements PetListFragmen
     private void setupToolbar() {
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_TITLE);
+        ab.setTitle(R.string.list_activity_title);
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
     }
     private void setupDrawer() {

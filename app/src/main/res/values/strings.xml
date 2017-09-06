@@ -3,8 +3,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Navigation Menu Titles -->
-    <string name="navigation_view_header_title">Pet Monitor</string>
-    <string name="nav_settings_title">Settings</string>
+    <string name="nav_options_title">Options</string>
 
     <!-- Menu Titles -->
     <string name="add_pet">Add Pet</string>

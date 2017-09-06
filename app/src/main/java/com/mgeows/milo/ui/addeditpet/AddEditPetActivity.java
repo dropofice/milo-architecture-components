@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 
 public class AddEditPetActivity extends AppCompatActivity implements AddEditPetFragment.Listener {
 
-    // Keys from PetDetailActivity
+    // Keys from PetDetailActivity to get petId for editing
     private static final String BUNDLE_KEY_EDIT = "bundle.edit";
     private static final String ID_KEY_EDIT = "id.edit";
 
@@ -93,8 +93,15 @@ public class AddEditPetActivity extends AppCompatActivity implements AddEditPetF
     }
 
     @Override
-    public void onEntitySaved() {
-        Snackbar.make(mAddEditRootView, "Saved/Updated", Snackbar.LENGTH_SHORT).show();
+    public void onPetSaved() {
+        Snackbar.make(mAddEditRootView, "Saved", Snackbar.LENGTH_SHORT).show();
+        startPetListActivity();
+    }
+
+    @Override
+    public void onPetUpdated() {
+        Snackbar.make(mAddEditRootView, "Updated", Snackbar.LENGTH_SHORT).show();
+        startPetListActivity();
     }
 
     private void startPetListActivity() {
