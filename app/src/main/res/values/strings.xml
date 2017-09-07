@@ -14,7 +14,7 @@
     <!-- Activity Titles -->
     <string name="list_activity_title">Pets List</string>
     <string name="detail_activity_title">Pet Details</string>
-    <string name="addedit_activity_title_add">Add Pet</string>
+    <string name="addedit_activity_title_add">Add a Pet</string>
     <string name="addedit_activity_title_edit">Edit Pet</string>
     <string name="settings_activity_title">Settings</string>
 
@@ -22,7 +22,7 @@
     <string name="navigation_drawer_open">navigation drawer open</string>
     <string name="navigation_drawer_close">navigation drawer close</string>
 
-    <!-- AddEditActivity Labels -->
+    <!-- AddEditActivity Labels, Hint, Unit -->
     <string name="label_name">Name:</string>
     <string name="label_breed">Breed:</string>
     <string name="label_gender">Gender:</string>
@@ -31,5 +31,15 @@
     <string name="label_owner">Owner:</string>
     <string name="label_address">Address:</string>
     <string name="label_contact_no">Contact No:</string>
+    <string name="name_hint">(Required)</string>
+    <string name="weight_unit_kg">kg</string>
+    <string name="weight_unit_lb">lb</string>
+
+    <!-- Spinner Labels -->
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
+
+    <!-- Empty Name Message -->
+    <string name="empty_name">Name required</string>
 
 </resources>

@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,7 +15,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
@@ -38,17 +43,35 @@ public class AddEditPetFragment extends LifecycleFragment {
 
     // Key for the petId for editing
     private static final String ID_KEY = "id.addedit";
+    // Spinner selection
+    private static final int GENDER_MALE = 0;
+    private static final int GENDER_FEMALE = 1;
 
     @BindView(R.id.et_name)
     EditText mEtName;
     @BindView(R.id.et_breed)
     EditText mEtBreed;
+    @BindView(R.id.spn_gender)
+    Spinner mSpinner;
+    @BindView(R.id.et_date_birth)
+    EditText mEtDateBirth;
+    @BindView(R.id.et_weight)
+    EditText mEtWeight;
+    @BindView(R.id.tv_weight_unit)
+    TextView mTvWeightUnit;
+    @BindView(R.id.et_owner)
+    EditText mEtOwner;
+    @BindView(R.id.et_address)
+    EditText mEtAddress;
+    @BindView(R.id.et_contact_no)
+    EditText mEtContactNo;
+
     Unbinder unbinder;
 
     private String mId;
     private String mName;
     private String mBreed;
-    private Pet mPet;
+    private int mGender;
     private PetViewModel mViewModel;
     private Listener mListener;
 
@@ -90,6 +113,8 @@ public class AddEditPetFragment extends LifecycleFragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = getViewModel();
         checkArguments();
+        setupGenderSpinner();
+        setupFieldsListener();
     }
 
     private PetViewModel getViewModel() {
@@ -111,12 +136,52 @@ public class AddEditPetFragment extends LifecycleFragment {
         mViewModel.getPet(mId).observe(this, new Observer<Pet>() {
             @Override
             public void onChanged(@Nullable Pet pet) {
-                if (pet != null) {
-                    mEtName.setText(pet.petName);
-                    mEtBreed.setText(pet.petBreed);
-                }
+                setUi(pet);
             }
         });
+    }
+
+    private void setUi(@Nullable Pet pet) {
+        if (pet != null) {
+            mEtName.setText(pet.petName);
+            mEtBreed.setText(pet.petBreed);
+            //mSpinner.setSelection(pet.petGender);
+        }
+    }
+
+    private void setupGenderSpinner() {
+        // Create adapter for spinner. The list options are from the String array it will use
+        // the spinner will use the default layout
+        ArrayAdapter spinnerAdapter =
+                ArrayAdapter.createFromResource(getContext(), R.array.array_gender_options,
+                                                android.R.layout.simple_spinner_item);
+        // Specify dropdown layout style - simple list view with 1 item per line
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        // Apply the adapter to the spinner
+        mSpinner.setAdapter(spinnerAdapter);
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        mGender = GENDER_MALE;
+                        break;
+                    case 1:
+                        mGender = GENDER_FEMALE;
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                mGender = GENDER_MALE;
+            }
+        });
+
+    }
+
+    private void setupFieldsListener() {
+
     }
 
     @Override
@@ -153,18 +218,30 @@ public class AddEditPetFragment extends LifecycleFragment {
 
     private void savePet() {
         mName = mEtName.getEditableText().toString().trim();
-        mBreed = mEtBreed.getEditableText().toString().trim();
-        mPet = new Pet(mName, mBreed);
-        mViewModel.insertPet(mPet);
-        mListener.onPetSaved();
+        if (!TextUtils.isEmpty(mName)) {
+            mBreed = mEtBreed.getEditableText().toString().trim();
+            Pet pet = new Pet(mName, mBreed);
+            mViewModel.insertPet(pet);
+            mListener.onPetSaved();
+        } else {
+            showEmptyNameMsg();
+        }
     }
 
     private void updatePet() {
         mName = mEtName.getEditableText().toString().trim();
-        mBreed = mEtBreed.getEditableText().toString().trim();
-        Pet pet = new Pet(mId, mName, mBreed);
-        mViewModel.updatePet(pet);
-        mListener.onPetUpdated();
+        if (!TextUtils.isEmpty(mName)) {
+            mBreed = mEtBreed.getEditableText().toString().trim();
+            Pet pet = new Pet(mId, mName, mBreed);
+            mViewModel.updatePet(pet);
+            mListener.onPetUpdated();
+        } else {
+            showEmptyNameMsg();
+        }
+    }
+
+    private void showEmptyNameMsg() {
+        Snackbar.make(mEtName, R.string.empty_name, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

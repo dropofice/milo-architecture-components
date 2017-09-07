@@ -68,109 +68,144 @@
 
         <EditText
             android:id="@+id/et_name"
+            style="@style/EditTextWords"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:hint="@string/name_hint"
             android:inputType="textCapWords"
             app:layout_constraintBaseline_toBaselineOf="@+id/tv_name"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:hint="Name"
-            android:layout_marginLeft="16dp"
-            app:layout_constraintLeft_toLeftOf="@+id/guideline" />
+            app:layout_constraintLeft_toLeftOf="@+id/guideline"
+            app:layout_constraintRight_toRightOf="parent" />
 
         <EditText
             android:id="@+id/et_breed"
+            style="@style/EditTextWords"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:inputType="textCapWords"
             app:layout_constraintBaseline_toBaselineOf="@+id/tv_breed"
+            app:layout_constraintLeft_toLeftOf="@+id/guideline"
             app:layout_constraintRight_toRightOf="parent"
-            tools:hint="Breed"
-            android:layout_marginLeft="16dp"
-            app:layout_constraintLeft_toLeftOf="@+id/guideline" />
+            tools:hint="Breed" />
 
         <Spinner
             android:id="@+id/spn_gender"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:spinnerMode="dropdown"
             app:layout_constraintBottom_toBottomOf="@+id/tv_gender"
+            app:layout_constraintLeft_toLeftOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="@+id/tv_gender"
-            app:layout_constraintVertical_bias="0.487"
-            app:layout_constraintLeft_toLeftOf="@+id/guideline" />
+            app:layout_constraintVertical_bias="0.487" />
 
-        <EditText
-            android:id="@+id/et_date_birth"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:inputType="date"
-            tools:hint="Birth Date"
             app:layout_constraintBaseline_toBaselineOf="@+id/tv_date_birth"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginLeft="16dp"
-            app:layout_constraintLeft_toLeftOf="@+id/guideline" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/guideline"
+            app:layout_constraintRight_toRightOf="parent">
 
-        <EditText
-            android:id="@+id/et_weight"
+            <EditText
+                android:id="@+id/et_date_birth"
+                style="@style/EditTextWords"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                tools:hint="Birth Date" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:inputType="numberDecimal"
             app:layout_constraintBaseline_toBaselineOf="@+id/tv_weight"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:hint="Weight"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="@+id/guideline" />
+            app:layout_constraintLeft_toLeftOf="@+id/guideline"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <EditText
+                android:id="@+id/et_weight"
+                style="@style/EditTextNumbers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                tools:hint="Weight" />
+
+            <TextView
+                android:id="@+id/tv_weight_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="false"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:text="@string/weight_unit_kg"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        </RelativeLayout>
+
 
         <EditText
             android:id="@+id/et_owner"
+            style="@style/EditTextWords"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:inputType="textCapWords"
             app:layout_constraintBaseline_toBaselineOf="@+id/tv_owner"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:hint="Owner"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="@+id/guideline" />
+            app:layout_constraintLeft_toLeftOf="@+id/guideline"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:hint="Owner" />
 
         <EditText
             android:id="@+id/et_address"
+            style="@style/EditTextWords"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:inputType="textCapWords"
             app:layout_constraintBaseline_toBaselineOf="@+id/tv_address"
+            app:layout_constraintLeft_toLeftOf="@+id/guideline"
             app:layout_constraintRight_toRightOf="parent"
-            tools:hint="Address"
-            android:layout_marginLeft="16dp"
-            app:layout_constraintLeft_toLeftOf="@+id/guideline" />
+            tools:hint="Address" />
 
         <EditText
             android:id="@+id/et_contact_no"
+            style="@style/EditTextNumbers"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:inputType="textCapWords"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tv_contact_no"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:hint="Contact No"
             android:layout_marginLeft="16dp"
-            app:layout_constraintLeft_toLeftOf="@+id/guideline" />
+            android:layout_marginRight="16dp"
+            android:inputType="phone"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_contact_no"
+            app:layout_constraintLeft_toLeftOf="@+id/guideline"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:hint="Contact No" />
 
         <android.support.constraint.Guideline
+            android:id="@+id/guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/guideline"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="287dp" />
+            app:layout_constraintGuide_end="@dimen/guideline_end" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
@@ -83,7 +83,7 @@ public class PetDetailFragment extends LifecycleFragment {
     private PetViewModel getViewModel() {
         PetApplication application = (PetApplication) getActivity().getApplication();
         PetViewModelFactory factory = new PetViewModelFactory(application);
-        return ViewModelProviders.of(this, factory).get(PetViewModel.class);
+        return ViewModelProviders.of(getActivity(), factory).get(PetViewModel.class);
     }
 
     private void subscribeUi(PetViewModel viewModel, String id) {
@@ -123,7 +123,7 @@ public class PetDetailFragment extends LifecycleFragment {
 
     private void deletePet(String id) {
         mViewModel.deletePetById(id);
-        Toast.makeText(getContext(), "Deleted", Toast.LENGTH_SHORT).show();
+        Snackbar.make(mName, "Deleted", Snackbar.LENGTH_SHORT).show();
         mListener.finishPetDetailActivity();
 
     }
