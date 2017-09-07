@@ -91,8 +91,8 @@ public class PetDetailFragment extends LifecycleFragment {
             @Override
             public void onChanged(@Nullable Pet pet) {
                 if (pet != null) {
-                    mName.setText(pet.petName);
-                    mBreed.setText(pet.petBreed);
+                    mName.setText(pet.name);
+                    mBreed.setText(pet.breed);
                 }
             }
         });

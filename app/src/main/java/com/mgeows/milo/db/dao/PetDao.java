@@ -20,8 +20,8 @@ public interface PetDao {
     @Query("SELECT * FROM pets")
     LiveData<List<Pet>> loadAllPets();
 
-    @Query("SELECT * FROM pets WHERE petId = :petId")
-    LiveData<Pet> loadPetById(String petId);
+    @Query("SELECT * FROM pets WHERE id = :id")
+    LiveData<Pet> loadPetById(String id);
 
     @Insert(onConflict = REPLACE)
     void addPet(Pet pet);
@@ -35,6 +35,6 @@ public interface PetDao {
     @Delete
     void deletePet(Pet pet);
 
-    @Query("DELETE FROM pets WHERE petId = :petId")
-    void deletePetById(String petId);
+    @Query("DELETE FROM pets WHERE id = :id")
+    void deletePetById(String id);
 }

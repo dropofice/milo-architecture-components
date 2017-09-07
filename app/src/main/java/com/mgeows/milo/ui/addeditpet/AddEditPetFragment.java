@@ -72,6 +72,10 @@ public class AddEditPetFragment extends LifecycleFragment {
     private String mName;
     private String mBreed;
     private int mGender;
+    private String mWeight;
+    private String mOwner;
+    private String mAddress;
+    private String mContactNo;
     private PetViewModel mViewModel;
     private Listener mListener;
 
@@ -143,9 +147,14 @@ public class AddEditPetFragment extends LifecycleFragment {
 
     private void setUi(@Nullable Pet pet) {
         if (pet != null) {
-            mEtName.setText(pet.petName);
-            mEtBreed.setText(pet.petBreed);
-            mSpinner.setSelection(pet.petGender);
+            mEtName.setText(pet.name);
+            mEtBreed.setText(pet.breed);
+            mSpinner.setSelection(pet.gender);
+            //mEtDateBirth.setText(pet.birthdate);
+            mEtWeight.setText(pet.weight);
+            mEtOwner.setText(pet.owner);
+            mEtAddress.setText(pet.address);
+            mEtContactNo.setText(pet.contactNo);
         }
     }
 
@@ -220,8 +229,13 @@ public class AddEditPetFragment extends LifecycleFragment {
         mName = mEtName.getEditableText().toString().trim();
         if (!TextUtils.isEmpty(mName)) {
             mBreed = mEtBreed.getEditableText().toString().trim();
-            Pet pet = new Pet(mName, mBreed, mGender);
+            mWeight = mEtWeight.getEditableText().toString().trim();
+            mOwner = mEtOwner.getEditableText().toString().trim();
+            mAddress = mEtAddress.getEditableText().toString().trim();
+            mContactNo = mEtContactNo.getEditableText().toString().trim();
+            Pet pet = new Pet(mName, mBreed, mGender, mWeight, mOwner, mAddress, mContactNo);
             mViewModel.insertPet(pet);
+            Snackbar.make(mEtName, "Saved", Snackbar.LENGTH_SHORT).show();
             mListener.onPetSaved();
         } else {
             showEmptyNameMsg();
@@ -232,8 +246,13 @@ public class AddEditPetFragment extends LifecycleFragment {
         mName = mEtName.getEditableText().toString().trim();
         if (!TextUtils.isEmpty(mName)) {
             mBreed = mEtBreed.getEditableText().toString().trim();
-            //Pet pet = new Pet(mId, mName, mBreed);
-            //mViewModel.updatePet(pet);
+            mWeight = mEtWeight.getEditableText().toString().trim();
+            mOwner = mEtOwner.getEditableText().toString().trim();
+            mAddress = mEtAddress.getEditableText().toString().trim();
+            mContactNo = mEtContactNo.getEditableText().toString().trim();
+            Pet pet = new Pet(mId, mName, mBreed, mGender, mWeight, mOwner, mAddress, mContactNo);
+            mViewModel.updatePet(pet);
+            Snackbar.make(mEtName, "Updated", Snackbar.LENGTH_SHORT).show();
             mListener.onPetUpdated();
         } else {
             showEmptyNameMsg();

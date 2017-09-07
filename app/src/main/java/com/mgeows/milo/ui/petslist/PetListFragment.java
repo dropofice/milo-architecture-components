@@ -117,7 +117,7 @@ public class PetListFragment extends LifecycleFragment {
     }
 
     private void addDummy() {
-        Pet pet = new Pet("Pogi", "Aspin");
+        Pet pet = new Pet("Pogi", "Aspin", 1, "15", "Bob", "145 Caloocan City", "0917-1234567");
         mViewModel.insertPet(pet);
     }
 

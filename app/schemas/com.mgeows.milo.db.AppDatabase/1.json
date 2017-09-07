@@ -2,36 +2,56 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1bfce3207ec691303787c1ec50409e52",
+    "identityHash": "f6d7adad566517e52931ae73f5aa1358",
     "entities": [
       {
         "tableName": "pets",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`petId` TEXT, `petName` TEXT, `petBreed` TEXT, `petGender` INTEGER, PRIMARY KEY(`petId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT, `name` TEXT, `breed` TEXT, `gender` INTEGER, `weight` TEXT, `owner` TEXT, `address` TEXT, `contactNo` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
-            "fieldPath": "petId",
-            "columnName": "petId",
+            "fieldPath": "id",
+            "columnName": "id",
             "affinity": "TEXT"
           },
           {
-            "fieldPath": "petName",
-            "columnName": "petName",
+            "fieldPath": "name",
+            "columnName": "name",
             "affinity": "TEXT"
           },
           {
-            "fieldPath": "petBreed",
-            "columnName": "petBreed",
+            "fieldPath": "breed",
+            "columnName": "breed",
             "affinity": "TEXT"
           },
           {
-            "fieldPath": "petGender",
-            "columnName": "petGender",
+            "fieldPath": "gender",
+            "columnName": "gender",
             "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "weight",
+            "columnName": "weight",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "owner",
+            "columnName": "owner",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "address",
+            "columnName": "address",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "contactNo",
+            "columnName": "contactNo",
+            "affinity": "TEXT"
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "petId"
+            "id"
           ],
           "autoGenerate": false
         },
@@ -41,7 +61,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1bfce3207ec691303787c1ec50409e52\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"f6d7adad566517e52931ae73f5aa1358\")"
     ]
   }
 }

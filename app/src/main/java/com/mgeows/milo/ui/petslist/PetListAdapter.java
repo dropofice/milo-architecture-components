@@ -37,9 +37,9 @@ public class PetListAdapter extends RecyclerView.Adapter<PetListAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Pet pet = petList.get(position);
-        holder.itemView.setTag(pet.petId);
-        holder.petName.setText(pet.petName);
-        holder.petBreed.setText(pet.petBreed);
+        holder.itemView.setTag(pet.id);
+        holder.petName.setText(pet.name);
+        holder.petBreed.setText(pet.breed);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class PetListAdapter extends RecyclerView.Adapter<PetListAdapter.ViewHold
     private ArrayList<String> getIdsMapToPosition() {
         ArrayList<String> ids = new ArrayList<>();
         for (Pet pet : petList) {
-           ids.add(pet.petId);
+           ids.add(pet.id);
         }
         return ids;
     }
