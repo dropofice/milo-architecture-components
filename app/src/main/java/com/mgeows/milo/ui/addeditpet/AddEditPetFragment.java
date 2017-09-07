@@ -19,7 +19,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
@@ -53,12 +52,10 @@ public class AddEditPetFragment extends LifecycleFragment {
     EditText mEtBreed;
     @BindView(R.id.spn_gender)
     Spinner mSpinner;
-    @BindView(R.id.et_date_birth)
-    EditText mEtDateBirth;
+    @BindView(R.id.et_birth_date)
+    EditText mEtBirthDate;
     @BindView(R.id.et_weight)
     EditText mEtWeight;
-    @BindView(R.id.tv_weight_unit)
-    TextView mTvWeightUnit;
     @BindView(R.id.et_owner)
     EditText mEtOwner;
     @BindView(R.id.et_address)
@@ -150,7 +147,7 @@ public class AddEditPetFragment extends LifecycleFragment {
             mEtName.setText(pet.name);
             mEtBreed.setText(pet.breed);
             mSpinner.setSelection(pet.gender);
-            //mEtDateBirth.setText(pet.birthdate);
+            //mEtBirthDate.setText(pet.birthdate);
             mEtWeight.setText(pet.weight);
             mEtOwner.setText(pet.owner);
             mEtAddress.setText(pet.address);
@@ -235,7 +232,6 @@ public class AddEditPetFragment extends LifecycleFragment {
             mContactNo = mEtContactNo.getEditableText().toString().trim();
             Pet pet = new Pet(mName, mBreed, mGender, mWeight, mOwner, mAddress, mContactNo);
             mViewModel.insertPet(pet);
-            Snackbar.make(mEtName, "Saved", Snackbar.LENGTH_SHORT).show();
             mListener.onPetSaved();
         } else {
             showEmptyNameMsg();
@@ -252,7 +248,6 @@ public class AddEditPetFragment extends LifecycleFragment {
             mContactNo = mEtContactNo.getEditableText().toString().trim();
             Pet pet = new Pet(mId, mName, mBreed, mGender, mWeight, mOwner, mAddress, mContactNo);
             mViewModel.updatePet(pet);
-            Snackbar.make(mEtName, "Updated", Snackbar.LENGTH_SHORT).show();
             mListener.onPetUpdated();
         } else {
             showEmptyNameMsg();

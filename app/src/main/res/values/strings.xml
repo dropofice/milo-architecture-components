@@ -42,4 +42,15 @@
     <!-- Empty Name Message -->
     <string name="empty_name">Name required</string>
 
+    <!-- Content Descriptions-->
+    <string name="image_description">Image of the cute buddy</string>
+    <string name="name_label">Name:</string>
+    <string name="breed_label">Breed:</string>
+    <string name="gender_label">Gender:</string>
+    <string name="birth_date_label">Birth Date:</string>
+    <string name="weight_label">Weight:</string>
+    <string name="owner_label">Owner:</string>
+    <string name="address_label">Address:</string>
+    <string name="contact_no_label">Contact No:</string>
+
 </resources>

@@ -10,4 +10,5 @@
     <dimen name="root_padding">8dp</dimen>
     <dimen name="editor_guideline_end">274dp</dimen>
     <dimen name="item_guideline_start">166dp</dimen>
+    <dimen name="detail_guideline_start">137dp</dimen>
 </resources>

@@ -2,7 +2,6 @@ package com.mgeows.milo.ui.addeditpet;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -27,8 +26,6 @@ public class AddEditPetActivity extends AppCompatActivity implements AddEditPetF
     Toolbar mToolbar;
     @BindView(R.id.addedit_container)
     FrameLayout mContainer;
-    @BindView(R.id.addedit_root_view)
-    CoordinatorLayout mRootView;
 
     private String mId;
 

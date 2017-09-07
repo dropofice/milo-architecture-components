@@ -6,13 +6,13 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mgeows.milo.PetApplication;
@@ -33,10 +33,25 @@ public class PetDetailFragment extends LifecycleFragment {
 
     private static final String ID_KEY = "id.key.adapter";
 
-    @BindView(R.id.detail_name)
+    @BindView(R.id.detail_image)
+    ImageView mImage;
+    @BindView(R.id.tv_detail_name)
     TextView mName;
-    @BindView(R.id.detail_breed)
+    @BindView(R.id.tv_detail_breed)
     TextView mBreed;
+    @BindView(R.id.tv_detail_gender)
+    TextView mGender;
+    @BindView(R.id.tv_detail_birth_date)
+    TextView mBirthDate;
+    @BindView(R.id.tv_detail_weight)
+    TextView mWeight;
+    @BindView(R.id.tv_detail_owner)
+    TextView mOwner;
+    @BindView(R.id.tv_detail_address)
+    TextView mAddress;
+    @BindView(R.id.tv_detail_contact_no)
+    TextView mContactNo;
+
     Unbinder unbinder;
 
     private String mId;
@@ -90,12 +105,28 @@ public class PetDetailFragment extends LifecycleFragment {
         viewModel.getPet(id).observe(this, new Observer<Pet>() {
             @Override
             public void onChanged(@Nullable Pet pet) {
-                if (pet != null) {
-                    mName.setText(pet.name);
-                    mBreed.setText(pet.breed);
-                }
+                setUi(pet);
             }
         });
+    }
+
+    private void setUi(Pet pet) {
+        if (pet != null) {
+            mName.setText(pet.name);
+            mBreed.setText(pet.breed);
+            mGender.setText(setGender(pet.gender));
+            // mBirthDate.setText(pet.birthdate);
+            mWeight.setText(pet.weight);
+            mOwner.setText(pet.owner);
+            mAddress.setText(pet.address);
+            mContactNo.setText(pet.contactNo);
+        }
+    }
+
+    private String setGender(int gender) {
+        if (gender == 0) return getString(R.string.gender_male);
+        if (gender == 1) return getString(R.string.gender_female);
+        return "";
     }
 
     @Override
@@ -123,7 +154,6 @@ public class PetDetailFragment extends LifecycleFragment {
 
     private void deletePet(String id) {
         mViewModel.deletePetById(id);
-        Snackbar.make(mName, "Deleted", Snackbar.LENGTH_SHORT).show();
         mListener.finishPetDetailActivity();
 
     }
@@ -143,7 +173,6 @@ public class PetDetailFragment extends LifecycleFragment {
     public void onDetach() {
         mListener = null;
         super.onDetach();
-
     }
 
     @Override
@@ -154,7 +183,6 @@ public class PetDetailFragment extends LifecycleFragment {
 
     interface Listener {
         void fireAddEditActivity(String id);
-
         void finishPetDetailActivity();
     }
 }

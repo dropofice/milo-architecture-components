@@ -64,11 +64,11 @@ public class PetListAdapter extends RecyclerView.Adapter<PetListAdapter.ViewHold
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        @BindView(R.id.petImg)
+        @BindView(R.id.img__item_pet)
         ImageView petImg;
-        @BindView(R.id.petName)
+        @BindView(R.id.tv_item_name)
         TextView petName;
-        @BindView(R.id.petBreed)
+        @BindView(R.id.tv_item_breed)
         TextView petBreed;
 
         ViewHolder(View view) {
