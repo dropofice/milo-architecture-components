@@ -25,7 +25,20 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">16dp</item>
         <item name="android:layout_marginTop">32dp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+    </style>
+    
+    <style name="EditTextWords">
+        <item name="android:maxLength">100</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+    </style>
+
+    <style name="EditTextNumbers">
+        <item name="android:maxLength">20</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
     </style>
 
 
