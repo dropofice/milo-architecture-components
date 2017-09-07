@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "af08aa35e314aa90171821b83965324f",
+    "identityHash": "1bfce3207ec691303787c1ec50409e52",
     "entities": [
       {
         "tableName": "pets",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`petId` TEXT, `petName` TEXT, `petBreed` TEXT, PRIMARY KEY(`petId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`petId` TEXT, `petName` TEXT, `petBreed` TEXT, `petGender` INTEGER, PRIMARY KEY(`petId`))",
         "fields": [
           {
             "fieldPath": "petId",
@@ -22,6 +22,11 @@
             "fieldPath": "petBreed",
             "columnName": "petBreed",
             "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "petGender",
+            "columnName": "petGender",
+            "affinity": "INTEGER"
           }
         ],
         "primaryKey": {
@@ -36,7 +41,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"af08aa35e314aa90171821b83965324f\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1bfce3207ec691303787c1ec50409e52\")"
     ]
   }
 }

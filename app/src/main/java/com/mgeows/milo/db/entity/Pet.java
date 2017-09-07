@@ -13,12 +13,22 @@ public class Pet {
     public String petId;
     public String petName;
     public String petBreed;
+    public int petGender;
 
-    // Use this contructor for new pet
+    // Use this constructor for new pet
     public Pet(String petName, String petBreed) {
         this.petId = UUID.randomUUID().toString();
         this.petName = petName;
         this.petBreed = petBreed;
+    }
+
+    // Use this constructor for new pet
+    @Ignore
+    public Pet(String petName, String petBreed, int petGender) {
+        this.petId = UUID.randomUUID().toString();
+        this.petName = petName;
+        this.petBreed = petBreed;
+        this.petGender = petGender;
     }
 
     // Use this constructor for update pet

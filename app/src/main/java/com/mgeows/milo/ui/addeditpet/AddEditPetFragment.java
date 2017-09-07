@@ -145,7 +145,7 @@ public class AddEditPetFragment extends LifecycleFragment {
         if (pet != null) {
             mEtName.setText(pet.petName);
             mEtBreed.setText(pet.petBreed);
-            //mSpinner.setSelection(pet.petGender);
+            mSpinner.setSelection(pet.petGender);
         }
     }
 
@@ -220,7 +220,7 @@ public class AddEditPetFragment extends LifecycleFragment {
         mName = mEtName.getEditableText().toString().trim();
         if (!TextUtils.isEmpty(mName)) {
             mBreed = mEtBreed.getEditableText().toString().trim();
-            Pet pet = new Pet(mName, mBreed);
+            Pet pet = new Pet(mName, mBreed, mGender);
             mViewModel.insertPet(pet);
             mListener.onPetSaved();
         } else {
@@ -232,8 +232,8 @@ public class AddEditPetFragment extends LifecycleFragment {
         mName = mEtName.getEditableText().toString().trim();
         if (!TextUtils.isEmpty(mName)) {
             mBreed = mEtBreed.getEditableText().toString().trim();
-            Pet pet = new Pet(mId, mName, mBreed);
-            mViewModel.updatePet(pet);
+            //Pet pet = new Pet(mId, mName, mBreed);
+            //mViewModel.updatePet(pet);
             mListener.onPetUpdated();
         } else {
             showEmptyNameMsg();
