@@ -70,8 +70,6 @@ public class PetListAdapter extends RecyclerView.Adapter<PetListAdapter.ViewHold
         TextView petName;
         @BindView(R.id.petBreed)
         TextView petBreed;
-        @BindView(R.id.petImgAlert)
-        ImageView petImgAlert;
 
         ViewHolder(View view) {
             super(view);

@@ -8,5 +8,6 @@
     <dimen name="card_album_radius">0dp</dimen>
     <dimen name="nav_view_margin_top">56dp</dimen>
     <dimen name="root_padding">8dp</dimen>
-    <dimen name="guideline_end">274dp</dimen>
+    <dimen name="editor_guideline_end">274dp</dimen>
+    <dimen name="item_guideline_start">166dp</dimen>
 </resources>
