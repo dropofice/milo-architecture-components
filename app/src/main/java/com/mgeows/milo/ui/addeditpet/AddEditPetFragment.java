@@ -26,6 +26,8 @@ import com.mgeows.milo.db.entity.Pet;
 import com.mgeows.milo.vm.PetViewModel;
 import com.mgeows.milo.vm.PetViewModelFactory;
 
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -69,6 +71,7 @@ public class AddEditPetFragment extends LifecycleFragment {
     private String mName;
     private String mBreed;
     private int mGender;
+    private Date mBirthDate;
     private String mWeight;
     private String mOwner;
     private String mAddress;
@@ -147,7 +150,7 @@ public class AddEditPetFragment extends LifecycleFragment {
             mEtName.setText(pet.name);
             mEtBreed.setText(pet.breed);
             mSpinner.setSelection(pet.gender);
-            //mEtBirthDate.setText(pet.birthdate);
+            mEtBirthDate.setText(pet.birthDate.toString());
             mEtWeight.setText(pet.weight);
             mEtOwner.setText(pet.owner);
             mEtAddress.setText(pet.address);
@@ -226,11 +229,12 @@ public class AddEditPetFragment extends LifecycleFragment {
         mName = mEtName.getEditableText().toString().trim();
         if (!TextUtils.isEmpty(mName)) {
             mBreed = mEtBreed.getEditableText().toString().trim();
+            mBirthDate = null;
             mWeight = mEtWeight.getEditableText().toString().trim();
             mOwner = mEtOwner.getEditableText().toString().trim();
             mAddress = mEtAddress.getEditableText().toString().trim();
             mContactNo = mEtContactNo.getEditableText().toString().trim();
-            Pet pet = new Pet(mName, mBreed, mGender, mWeight, mOwner, mAddress, mContactNo);
+            Pet pet = new Pet(mName, mBreed, mGender, mBirthDate, mWeight, mOwner, mAddress, mContactNo);
             mViewModel.insertPet(pet);
             mListener.onPetSaved();
         } else {
@@ -242,11 +246,12 @@ public class AddEditPetFragment extends LifecycleFragment {
         mName = mEtName.getEditableText().toString().trim();
         if (!TextUtils.isEmpty(mName)) {
             mBreed = mEtBreed.getEditableText().toString().trim();
+            mBirthDate = null;
             mWeight = mEtWeight.getEditableText().toString().trim();
             mOwner = mEtOwner.getEditableText().toString().trim();
             mAddress = mEtAddress.getEditableText().toString().trim();
             mContactNo = mEtContactNo.getEditableText().toString().trim();
-            Pet pet = new Pet(mId, mName, mBreed, mGender, mWeight, mOwner, mAddress, mContactNo);
+            Pet pet = new Pet(mId, mName, mBreed, mGender, mBirthDate, mWeight, mOwner, mAddress, mContactNo);
             mViewModel.updatePet(pet);
             mListener.onPetUpdated();
         } else {

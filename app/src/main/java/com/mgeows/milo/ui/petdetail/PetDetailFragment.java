@@ -115,7 +115,7 @@ public class PetDetailFragment extends LifecycleFragment {
             mName.setText(pet.name);
             mBreed.setText(pet.breed);
             mGender.setText(setGender(pet.gender));
-            // mBirthDate.setText(pet.birthdate);
+            mBirthDate.setText(pet.birthDate.toString());
             mWeight.setText(pet.weight);
             mOwner.setText(pet.owner);
             mAddress.setText(pet.address);
@@ -126,7 +126,7 @@ public class PetDetailFragment extends LifecycleFragment {
     private String setGender(int gender) {
         if (gender == 0) return getString(R.string.gender_male);
         if (gender == 1) return getString(R.string.gender_female);
-        return "";
+        return "Unknown Gender";
     }
 
     @Override

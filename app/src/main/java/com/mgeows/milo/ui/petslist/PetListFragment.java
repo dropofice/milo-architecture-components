@@ -23,6 +23,8 @@ import com.mgeows.milo.vm.PetViewModel;
 import com.mgeows.milo.vm.PetViewModelFactory;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,11 +35,12 @@ import butterknife.Unbinder;
 public class PetListFragment extends LifecycleFragment {
 
     @BindView(R.id.rv_pets_list)
-    RecyclerView rvPetsList;
-    Unbinder unbinder;
-    private PetListAdapter adapter;
-    private Listener mListener;
+    RecyclerView mRvPetsList;
 
+    Unbinder unbinder;
+
+    private PetListAdapter mAdapter;
+    private Listener mListener;
     private PetViewModel mViewModel;
 
     public PetListFragment() {
@@ -65,10 +68,10 @@ public class PetListFragment extends LifecycleFragment {
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.pet_list_fragment, container, false);
         unbinder = ButterKnife.bind(this, rootView);
-        adapter = new PetListAdapter(null, itemClickListener);
-        rvPetsList.setAdapter(adapter);
-        rvPetsList.setHasFixedSize(true);
-        rvPetsList.setLayoutManager(new LinearLayoutManager(getContext()));
+        mAdapter = new PetListAdapter(null, itemClickListener);
+        mRvPetsList.setAdapter(mAdapter);
+        mRvPetsList.setHasFixedSize(true);
+        mRvPetsList.setLayoutManager(new LinearLayoutManager(getContext()));
         return rootView;
     }
 
@@ -117,7 +120,10 @@ public class PetListFragment extends LifecycleFragment {
     }
 
     private void addDummy() {
-        Pet pet = new Pet("Pogi", "Aspin", 1, "15", "Bob", "145 Caloocan City", "0917-1234567");
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2015, 5, 24);
+        Date date = calendar.getTime();
+        Pet pet = new Pet("Pogi", "Aspin", 1, date, "15", "Bob", "145 Caloocan City", "0917-1234567");
         mViewModel.insertPet(pet);
     }
 
@@ -144,7 +150,7 @@ public class PetListFragment extends LifecycleFragment {
             @Override
             public void onChanged(@Nullable List<Pet> pets) {
                 if (pets != null) {
-                    adapter.setData(pets);
+                    mAdapter.setData(pets);
                 }
             }
         });
