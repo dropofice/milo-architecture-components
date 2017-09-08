@@ -87,6 +87,28 @@ public class PetViewModel extends ViewModel implements PetComponent.Injectable {
                       });
     }
 
+    public void addAllPets(List<Pet> pets) {
+        mPetRepository.addAllPets(pets)
+                      .observeOn(AndroidSchedulers.mainThread())
+                      .subscribeOn(Schedulers.io())
+                      .subscribe(new CompletableObserver() {
+                          @Override
+                          public void onSubscribe(@NonNull Disposable d) {
+
+                          }
+
+                          @Override
+                          public void onComplete() {
+                              Timber.d("onComplete - successfully added Pets");
+                          }
+
+                          @Override
+                          public void onError(@NonNull Throwable e) {
+                              Timber.d("onError - addAll:", e);
+                          }
+                      });
+    }
+
     public void deletetPet(final Pet pet) {
         mPetRepository.deletePet(pet)
                   .observeOn(AndroidSchedulers.mainThread())

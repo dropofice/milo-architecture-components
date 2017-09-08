@@ -3,56 +3,62 @@ package com.mgeows.milo.data.local;
 
 import android.arch.lifecycle.LiveData;
 
-import com.mgeows.milo.db.dao.PetDao;
+import com.mgeows.milo.db.AppDatabase;
 import com.mgeows.milo.db.entity.Pet;
 
 import java.util.List;
 
 public class LocalPetDataSource implements PetDataSource{
 
-    private PetDao mPetDao;
+    private AppDatabase mDatabase;
 
-    public LocalPetDataSource(PetDao petDao) {
-        this.mPetDao = petDao;
+    public LocalPetDataSource(AppDatabase database) {
+        this.mDatabase = database;
     }
 
     @Override
     public void addPet(Pet pet) {
-        mPetDao.addPet(pet);
+        mDatabase.petDao().addPet(pet);
     }
 
     @Override
     public void updatePet(Pet pet) {
-        mPetDao.updatePet(pet);
+        mDatabase.petDao().updatePet(pet);
     }
 
     @Override
     public void addAllPets(List<Pet> pets) {
-        mPetDao.addAllPets(pets);
+        mDatabase.beginTransaction();
+        try {
+            mDatabase.petDao().addAllPets(pets);
+            mDatabase.setTransactionSuccessful();
+        } finally {
+            mDatabase.endTransaction();
+        }
     }
 
     @Override
     public LiveData<List<Pet>> getPets() {
-        return mPetDao.loadAllPets();
+        return mDatabase.petDao().loadAllPets();
     }
 
     @Override
     public LiveData<Pet> getPet(String id) {
-        return mPetDao.loadPetById(id);
+        return mDatabase.petDao().loadPetById(id);
     }
 
     @Override
     public void deletePet(Pet pet) {
-        mPetDao.deletePet(pet);
+        mDatabase.petDao().deletePet(pet);
     }
 
     @Override
     public void deletePetById(String id) {
-        mPetDao.deletePetById(id);
+        mDatabase.petDao().deletePetById(id);
     }
 
     @Override
     public void deleteAllPets() {
-        mPetDao.deleteAllPets();
+        mDatabase.petDao().deleteAllPets();
     }
 }

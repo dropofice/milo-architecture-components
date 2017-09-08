@@ -38,8 +38,8 @@ public class PetModule {
 
     @Provides
     @Singleton
-    PetDataSource providePetDataSource(PetDao petDao) {
-        return new LocalPetDataSource(petDao);
+    PetDataSource providePetDataSource(AppDatabase appDatabase) {
+        return new LocalPetDataSource(appDatabase);
     }
 
     @Provides

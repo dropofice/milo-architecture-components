@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
 import com.mgeows.milo.db.entity.Pet;
+import com.mgeows.milo.db.util.DatabaseInitializer;
 import com.mgeows.milo.vm.PetViewModel;
 import com.mgeows.milo.vm.PetViewModelFactory;
 
@@ -128,6 +129,8 @@ public class PetListFragment extends LifecycleFragment {
     }
 
     private void addDummies() {
+        List<Pet> pets = DatabaseInitializer.initData();
+        mViewModel.addAllPets(pets);
     }
 
     private void deleteDummies() {

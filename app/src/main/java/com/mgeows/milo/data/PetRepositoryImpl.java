@@ -40,8 +40,13 @@ public class PetRepositoryImpl implements PetRepository {
     }
 
     @Override
-    public Completable addAllPets(List<Pet> pets) {
-        return null;
+    public Completable addAllPets(final List<Pet> pets) {
+        return Completable.fromAction(new Action() {
+            @Override
+            public void run() throws Exception {
+                petDataSource.addAllPets(pets);
+            }
+        });
     }
 
     @Override
