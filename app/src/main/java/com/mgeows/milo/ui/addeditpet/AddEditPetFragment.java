@@ -1,5 +1,6 @@
 package com.mgeows.milo.ui.addeditpet;
 
+import android.app.DatePickerDialog;
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -17,7 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.mgeows.milo.PetApplication;
@@ -26,10 +29,14 @@ import com.mgeows.milo.db.entity.Pet;
 import com.mgeows.milo.vm.PetViewModel;
 import com.mgeows.milo.vm.PetViewModelFactory;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -40,7 +47,7 @@ import butterknife.Unbinder;
  * Use the {@link AddEditPetFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AddEditPetFragment extends LifecycleFragment {
+public class AddEditPetFragment extends LifecycleFragment implements DatePickerDialog.OnDateSetListener {
 
     // Key for the petId for editing
     private static final String ID_KEY = "id.addedit";
@@ -56,6 +63,8 @@ public class AddEditPetFragment extends LifecycleFragment {
     Spinner mSpinner;
     @BindView(R.id.et_birth_date)
     EditText mEtBirthDate;
+    @BindView(R.id.img_date_picker)
+    ImageView imgDatePicker;
     @BindView(R.id.et_weight)
     EditText mEtWeight;
     @BindView(R.id.et_owner)
@@ -150,12 +159,26 @@ public class AddEditPetFragment extends LifecycleFragment {
             mEtName.setText(pet.name);
             mEtBreed.setText(pet.breed);
             mSpinner.setSelection(pet.gender);
-            mEtBirthDate.setText(pet.birthDate.toString());
             mEtWeight.setText(pet.weight);
             mEtOwner.setText(pet.owner);
             mEtAddress.setText(pet.address);
             mEtContactNo.setText(pet.contactNo);
+            setEtBirthDateUi(pet, null);
         }
+    }
+
+    private void setEtBirthDateUi(Pet pet, Date selectedDate) {
+        Date nonFormattedDate = null;
+        if (pet != null) {
+            nonFormattedDate = pet.birthDate;
+        }
+        else {
+            nonFormattedDate = selectedDate;
+        }
+        SimpleDateFormat dateFormat =
+                new SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault());
+        String formattedDate = dateFormat.format(nonFormattedDate);
+        mEtBirthDate.setText(formattedDate);
     }
 
     private void setupGenderSpinner() {
@@ -227,40 +250,42 @@ public class AddEditPetFragment extends LifecycleFragment {
 
     private void savePet() {
         mName = mEtName.getEditableText().toString().trim();
-        if (!TextUtils.isEmpty(mName)) {
+        if (!TextUtils.isEmpty(mName) && mBirthDate != null) {
             mBreed = mEtBreed.getEditableText().toString().trim();
-            mBirthDate = null;
             mWeight = mEtWeight.getEditableText().toString().trim();
             mOwner = mEtOwner.getEditableText().toString().trim();
             mAddress = mEtAddress.getEditableText().toString().trim();
             mContactNo = mEtContactNo.getEditableText().toString().trim();
-            Pet pet = new Pet(mName, mBreed, mGender, mBirthDate, mWeight, mOwner, mAddress, mContactNo);
+            Pet pet = new Pet(mName, mBreed, mGender, mBirthDate, mWeight, mOwner, mAddress,
+                              mContactNo);
             mViewModel.addPet(pet);
             mListener.onPetSaved();
-        } else {
+        }
+        else {
             showEmptyNameMsg();
         }
     }
 
     private void updatePet() {
         mName = mEtName.getEditableText().toString().trim();
-        if (!TextUtils.isEmpty(mName)) {
+        if (!TextUtils.isEmpty(mName) && mBirthDate != null) {
             mBreed = mEtBreed.getEditableText().toString().trim();
-            mBirthDate = null;
             mWeight = mEtWeight.getEditableText().toString().trim();
             mOwner = mEtOwner.getEditableText().toString().trim();
             mAddress = mEtAddress.getEditableText().toString().trim();
             mContactNo = mEtContactNo.getEditableText().toString().trim();
-            Pet pet = new Pet(mId, mName, mBreed, mGender, mBirthDate, mWeight, mOwner, mAddress, mContactNo);
+            Pet pet = new Pet(mId, mName, mBreed, mGender, mBirthDate, mWeight, mOwner, mAddress,
+                              mContactNo);
             mViewModel.updatePet(pet);
             mListener.onPetUpdated();
-        } else {
+        }
+        else {
             showEmptyNameMsg();
         }
     }
 
     private void showEmptyNameMsg() {
-        Snackbar.make(mEtName, R.string.empty_name, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mEtName, R.string.empty_required_field, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -284,6 +309,27 @@ public class AddEditPetFragment extends LifecycleFragment {
     public void onDetach() {
         mListener = null;
         super.onDetach();
+    }
+
+    @OnClick(R.id.img_date_picker)
+    public void onViewClicked() {
+        // Use the current date as the default date in the picker
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog datePicker = new DatePickerDialog(getContext(), this, year, month, day);
+        datePicker.show();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        // Do something with the date chosen by the user
+        final Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, dayOfMonth);
+        mBirthDate = calendar.getTime();
+        setEtBirthDateUi(null, mBirthDate);
+
     }
 
     /**

@@ -40,10 +40,13 @@
     <string name="gender_female">Female</string>
 
     <!-- Empty Name Message -->
-    <string name="empty_name">Name required</string>
+    <string name="empty_required_field">Name and Birth Date required</string>
 
     <!-- Content Descriptions-->
     <string name="image_description">Image of the cute buddy</string>
+    <string name="img_date_picker_description">Pick birth date</string>
+
+    <!-- Pet Details Label -->
     <string name="name_label">Name:</string>
     <string name="breed_label">Breed:</string>
     <string name="gender_label">Gender:</string>
@@ -52,5 +55,7 @@
     <string name="owner_label">Owner:</string>
     <string name="address_label">Address:</string>
     <string name="contact_no_label">Contact No:</string>
+
+
 
 </resources>

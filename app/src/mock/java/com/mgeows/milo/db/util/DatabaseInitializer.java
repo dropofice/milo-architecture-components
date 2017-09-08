@@ -6,17 +6,31 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 
 public class DatabaseInitializer {
 
     public static List<Pet> initData() {
         List<Pet> pets = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             Calendar calendar = Calendar.getInstance();
-            calendar.set(2015 - i, 5 + i, 24 - i);
+            int year = new Random().nextInt(5) + 2012;
+            int month = new Random().nextInt(11) + 1;
+            int day = new Random().nextInt(30) + 1;
+            // int picker = new Random().nextInt(5) + 1;
+            calendar.set(year, month, day);
             Date date = calendar.getTime();
-            Pet pet = new Pet("Max", "Belgian", 0, date, "7", "Jude", "567 Texas, Usa", "+6319-4567890");
+
+            String name = "Argo";
+            String breed = "Alaskan Malamute";
+            int gender = 1;
+            String weight = "8";
+            String owner = "Alex";
+            String address = "909 Anchorage, Alaska";
+            String contactNo = "+63918-1234567";
+
+            Pet pet = new Pet(name, breed, gender, date, weight, owner, address, contactNo);
             pets.add(pet);
         }
         return pets;

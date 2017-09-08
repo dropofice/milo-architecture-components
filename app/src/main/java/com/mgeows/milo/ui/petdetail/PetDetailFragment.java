@@ -21,6 +21,9 @@ import com.mgeows.milo.db.entity.Pet;
 import com.mgeows.milo.vm.PetViewModel;
 import com.mgeows.milo.vm.PetViewModelFactory;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -115,7 +118,10 @@ public class PetDetailFragment extends LifecycleFragment {
             mName.setText(pet.name);
             mBreed.setText(pet.breed);
             mGender.setText(setGender(pet.gender));
-            mBirthDate.setText(pet.birthDate.toString());
+            SimpleDateFormat dateFormat =
+                    new SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault());
+            String date = dateFormat.format(pet.birthDate);
+            mBirthDate.setText(date);
             mWeight.setText(pet.weight);
             mOwner.setText(pet.owner);
             mAddress.setText(pet.address);

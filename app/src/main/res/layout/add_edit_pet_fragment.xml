@@ -121,8 +121,21 @@
                 style="@style/EditTextWords"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="date"
-                tools:hint="Birth Date" />
+                android:editable="false"
+                tools:hint="Birth Date"
+                tools:ignore="Deprecated"/>
+
+            <ImageView
+                android:id="@+id/img_date_picker"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:contentDescription="@string/img_date_picker_description"
+                android:src="@drawable/ic_birth_date" />
 
         </RelativeLayout>
 

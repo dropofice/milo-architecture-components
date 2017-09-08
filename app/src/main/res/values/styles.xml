@@ -26,7 +26,7 @@
         <item name="android:ellipsize">end</item>
         <item name="android:fontFamily">casual</item>
         <item name="android:maxLines">1</item>
-        <item name="android:maxWidth">150dp</item>
+        <item name="android:maxWidth">180dp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -46,7 +46,7 @@
         <item name="android:ellipsize">end</item>
         <item name="android:fontFamily">casual</item>
         <item name="android:maxLines">1</item>
-        <item name="android:maxWidth">150dp</item>
+        <item name="android:maxWidth">180dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAppearance">?android:textAppearanceLarge</item>
     </style>
@@ -62,13 +62,17 @@
 
     <style name="EditTextWords">
         <item name="android:maxLength">100</item>
+        <item name="android:maxLines">1</item>
         <item name="android:fontFamily">sans-serif</item>
+        <item name="android:imeOptions">flagNoExtractUi</item>
         <item name="android:textAppearance">?android:textAppearanceMedium</item>
     </style>
 
     <style name="EditTextNumbers">
         <item name="android:maxLength">20</item>
+        <item name="android:maxLines">1</item>
         <item name="android:fontFamily">sans-serif</item>
+        <item name="android:imeOptions">flagNoExtractUi</item>
         <item name="android:textAppearance">?android:textAppearanceMedium</item>
     </style>
 
