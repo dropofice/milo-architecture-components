@@ -235,7 +235,7 @@ public class AddEditPetFragment extends LifecycleFragment {
             mAddress = mEtAddress.getEditableText().toString().trim();
             mContactNo = mEtContactNo.getEditableText().toString().trim();
             Pet pet = new Pet(mName, mBreed, mGender, mBirthDate, mWeight, mOwner, mAddress, mContactNo);
-            mViewModel.insertPet(pet);
+            mViewModel.addPet(pet);
             mListener.onPetSaved();
         } else {
             showEmptyNameMsg();

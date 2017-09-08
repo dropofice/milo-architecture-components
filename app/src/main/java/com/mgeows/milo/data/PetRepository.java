@@ -24,4 +24,6 @@ public interface PetRepository {
     Completable deletePet(Pet pet);
 
     Completable deletePetById(String id);
+
+    Completable deleteAllPets();
 }

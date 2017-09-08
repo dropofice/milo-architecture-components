@@ -22,4 +22,6 @@ public interface PetDataSource {
     void deletePet(Pet pet);
 
     void deletePetById(String id);
+
+    void deleteAllPets();
 }

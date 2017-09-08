@@ -10,7 +10,7 @@ import java.util.List;
 
 public class LocalPetDataSource implements PetDataSource{
 
-    PetDao mPetDao;
+    private PetDao mPetDao;
 
     public LocalPetDataSource(PetDao petDao) {
         this.mPetDao = petDao;
@@ -49,5 +49,10 @@ public class LocalPetDataSource implements PetDataSource{
     @Override
     public void deletePetById(String id) {
         mPetDao.deletePetById(id);
+    }
+
+    @Override
+    public void deleteAllPets() {
+        mPetDao.deleteAllPets();
     }
 }

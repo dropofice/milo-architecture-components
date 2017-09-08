@@ -13,7 +13,7 @@ import io.reactivex.functions.Action;
 
 public class PetRepositoryImpl implements PetRepository {
 
-    PetDataSource petDataSource;
+    private PetDataSource petDataSource;
 
     public PetRepositoryImpl(PetDataSource petDataSource) {
         this.petDataSource = petDataSource;
@@ -72,6 +72,16 @@ public class PetRepositoryImpl implements PetRepository {
             @Override
             public void run() throws Exception {
                 petDataSource.deletePetById(id);
+            }
+        });
+    }
+
+    @Override
+    public Completable deleteAllPets() {
+        return Completable.fromAction(new Action() {
+            @Override
+            public void run() throws Exception {
+                petDataSource.deleteAllPets();
             }
         });
     }

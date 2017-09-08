@@ -43,7 +43,7 @@ public class PetViewModel extends ViewModel implements PetComponent.Injectable {
         return mLivePet;
     }
 
-    public void insertPet(final Pet pet) {
+    public void addPet(final Pet pet) {
         mPetRepository.addPet(pet)
                       .observeOn(AndroidSchedulers.mainThread())
                       .subscribeOn(Schedulers.io())
@@ -122,6 +122,28 @@ public class PetViewModel extends ViewModel implements PetComponent.Injectable {
                           @Override
                           public void onComplete() {
                               Timber.d("onComplete - successfully deleted Pet");
+                          }
+
+                          @Override
+                          public void onError(@NonNull Throwable e) {
+                              Timber.d("onError - delete:", e);
+                          }
+                      });
+    }
+
+    public void deleteAllPets() {
+        mPetRepository.deleteAllPets()
+                      .observeOn(AndroidSchedulers.mainThread())
+                      .subscribeOn(Schedulers.io())
+                      .subscribe(new CompletableObserver() {
+                          @Override
+                          public void onSubscribe(@NonNull Disposable d) {
+
+                          }
+
+                          @Override
+                          public void onComplete() {
+                              Timber.d("onComplete - successfully deleted All Pets");
                           }
 
                           @Override

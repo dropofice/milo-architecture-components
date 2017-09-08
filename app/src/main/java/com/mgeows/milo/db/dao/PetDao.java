@@ -37,4 +37,7 @@ public interface PetDao {
 
     @Query("DELETE FROM pets WHERE id = :id")
     void deletePetById(String id);
+
+    @Query("DELETE FROM pets")
+    void deleteAllPets();
 }

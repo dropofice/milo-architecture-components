@@ -112,11 +112,11 @@ public class PetListFragment extends LifecycleFragment {
             case R.id.action_add_dummies:
                 addDummies();
                 return true;
+            case R.id.action_delete_dummies:
+                deleteDummies();
+                return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void addDummies() {
     }
 
     private void addDummy() {
@@ -124,7 +124,14 @@ public class PetListFragment extends LifecycleFragment {
         calendar.set(2015, 5, 24);
         Date date = calendar.getTime();
         Pet pet = new Pet("Pogi", "Aspin", 1, date, "15", "Bob", "145 Caloocan City", "0917-1234567");
-        mViewModel.insertPet(pet);
+        mViewModel.addPet(pet);
+    }
+
+    private void addDummies() {
+    }
+
+    private void deleteDummies() {
+        mViewModel.deleteAllPets();
     }
 
     @Override
