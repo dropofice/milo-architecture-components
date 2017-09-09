@@ -88,7 +88,6 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxjava:2.1.0'
     compile 'com.jakewharton:butterknife:' + rootProject.butterknifeVersion;
     annotationProcessor 'com.jakewharton:butterknife-compiler:' + rootProject.butterknifeVersion;
-    compile 'com.jakewharton.threetenabp:threetenabp:' + rootProject.threetenabpVersion;
     compile 'com.jakewharton.timber:timber:' + rootProject.timberVersion
     compile 'com.google.dagger:dagger:' + rootProject.daggerVersion;
     annotationProcessor 'com.google.dagger:dagger-compiler:' + rootProject.daggerVersion;

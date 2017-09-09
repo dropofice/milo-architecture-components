@@ -1,6 +1,7 @@
 package com.mgeows.milo.ui.addeditpet;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -9,7 +10,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,12 +20,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
@@ -48,7 +54,8 @@ import butterknife.Unbinder;
  * Use the {@link AddEditPetFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AddEditPetFragment extends LifecycleFragment implements DatePickerDialog.OnDateSetListener {
+public class AddEditPetFragment extends LifecycleFragment implements
+                                                          DatePickerDialog.OnDateSetListener {
 
     // Key for the petId for editing
     private static final String ID_KEY = "id.addedit";
@@ -76,6 +83,8 @@ public class AddEditPetFragment extends LifecycleFragment implements DatePickerD
     EditText mEtContactNo;
 
     Unbinder unbinder;
+    @BindView(R.id.edit_img_btn)
+    ImageButton mEditImgBtn;
 
     private String mId;
     private String mName;
@@ -314,7 +323,7 @@ public class AddEditPetFragment extends LifecycleFragment implements DatePickerD
     }
 
     @OnClick(R.id.img_date_picker)
-    public void onViewClicked() {
+    public void onDatePickerClick() {
         // Use the current date as the default date in the picker
         final Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -334,6 +343,24 @@ public class AddEditPetFragment extends LifecycleFragment implements DatePickerD
 
     }
 
+    @OnClick(R.id.et_birth_date)
+    public void onEtBirthDateClick(View view) {
+        onDatePickerClick();
+        hideSoftKeyboard(view);
+    }
+
+    private void hideSoftKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    @OnClick(R.id.edit_img_btn)
+    public void onImgBtnClick() {
+        DialogFragment fragment = new ImageChooserFragment();
+        fragment.show(getFragmentManager(), "image_chooser");
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -347,5 +374,41 @@ public class AddEditPetFragment extends LifecycleFragment implements DatePickerD
     interface Listener {
         void onPetSaved();
         void onPetUpdated();
+    }
+
+    public static class ImageChooserFragment extends DialogFragment {
+        @BindView(R.id.action_take_photo)
+        TextView mTakePhoto;
+        @BindView(R.id.action_choose_image)
+        TextView mChooseImage;
+        Unbinder unbinder;
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            View imageChooser = getActivity()
+                    .getLayoutInflater().inflate(R.layout.image_source_chooser_dialog, null);
+            unbinder = ButterKnife.bind(this, imageChooser);
+            builder.setView(imageChooser)
+                   .setTitle("Add cute picture");
+
+
+            return builder.create();
+        }
+
+        @Override
+        public void onDestroyView() {
+            super.onDestroyView();
+            unbinder.unbind();
+        }
+
+        @OnClick(R.id.action_take_photo)
+        public void onTakePhotoClick() {
+        }
+
+        @OnClick(R.id.action_choose_image)
+        public void onChooseImageClick() {
+        }
     }
 }

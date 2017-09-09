@@ -32,7 +32,6 @@ ext {
     archRoomVersion = '1.0.0-alpha5'
 
     butterknifeVersion = '8.6.0'
-    threetenabpVersion = '1.0.5'
     timberVersion = '4.5.1'
     daggerVersion = '2.11'
     glideVersion = '4.0.0-RC1'

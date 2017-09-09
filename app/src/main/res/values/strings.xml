@@ -55,7 +55,11 @@
     <string name="owner_label">Owner:</string>
     <string name="address_label">Address:</string>
     <string name="contact_no_label">Contact No:</string>
-
+    <string name="edit_img_description">Image of pet at editor</string>
+    <string name="take_photo">Take photo</string>
+    <string name="choose_image">Choose image</string>
+    <string name="img_take_photo_description">Take photo</string>
+    <string name="img_choose_image_description">Choose image</string>
 
 
 </resources>

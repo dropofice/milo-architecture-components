@@ -37,6 +37,7 @@
         </activity>
         <activity
             android:name=".ui.addeditpet.AddEditPetActivity"
+            android:windowSoftInputMode="stateHidden"
             android:parentActivityName=".ui.petslist.PetListActivity"
             android:theme="@style/AppTheme">
             <meta-data

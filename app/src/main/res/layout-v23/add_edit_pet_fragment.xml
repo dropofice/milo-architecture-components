@@ -90,7 +90,6 @@
             android:layout_marginRight="16dp"
             android:hint="@string/name_hint"
             android:inputType="textCapWords"
-            android:selectAllOnFocus="false"
             app:layout_constraintBaseline_toBaselineOf="@+id/edit_name_label"
             app:layout_constraintLeft_toLeftOf="@+id/editor_guideline"
             app:layout_constraintRight_toRightOf="parent" />

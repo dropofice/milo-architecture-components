@@ -2,7 +2,6 @@ package com.mgeows.milo;
 
 import android.app.Application;
 
-import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.mgeows.milo.di.DaggerPetComponent;
 import com.mgeows.milo.di.PetComponent;
 import com.mgeows.milo.di.PetModule;
@@ -17,7 +16,6 @@ public class PetApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        AndroidThreeTen.init(this);
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
