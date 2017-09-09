@@ -5,10 +5,10 @@
     <item
         android:id="@+id/action_add"
         android:title="@string/add_pet"
-        android:icon="@drawable/ic_add_pet"
+        android:icon="@drawable/ic_add_circle"
         app:showAsAction="ifRoom"/>
 
-    <!-- For testingn-->
+    <!-- For testing -->
     <item
         android:id="@+id/action_add_dummy"
         android:title="add dummy pet"

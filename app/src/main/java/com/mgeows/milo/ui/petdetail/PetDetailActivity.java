@@ -2,11 +2,11 @@ package com.mgeows.milo.ui.petdetail;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.mgeows.milo.R;
 import com.mgeows.milo.ui.addeditpet.AddEditPetActivity;
@@ -72,7 +72,7 @@ public class PetDetailActivity extends AppCompatActivity implements PetDetailFra
 
     @Override
     public void finishPetDetailActivity() {
-        Snackbar.make(mToolbar, "Deleted", Snackbar.LENGTH_SHORT).show();
+        Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show();
         finish();
     }
 }

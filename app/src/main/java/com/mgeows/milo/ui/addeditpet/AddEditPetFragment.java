@@ -6,6 +6,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -149,27 +150,28 @@ public class AddEditPetFragment extends LifecycleFragment implements DatePickerD
         mViewModel.getPet(mId).observe(this, new Observer<Pet>() {
             @Override
             public void onChanged(@Nullable Pet pet) {
-                setUi(pet);
+                if (pet != null) {
+                    mBirthDate = pet.birthDate;
+                    setUi(pet);
+                }
             }
         });
     }
 
-    private void setUi(@Nullable Pet pet) {
-        if (pet != null) {
-            mEtName.setText(pet.name);
-            mEtBreed.setText(pet.breed);
-            mSpinner.setSelection(pet.gender);
-            mEtWeight.setText(pet.weight);
-            mEtOwner.setText(pet.owner);
-            mEtAddress.setText(pet.address);
-            mEtContactNo.setText(pet.contactNo);
-            setEtBirthDateUi(pet, null);
-        }
+    private void setUi(@NonNull Pet pet) {
+        mEtName.setText(pet.name);
+        mEtBreed.setText(pet.breed);
+        mSpinner.setSelection(pet.gender);
+        mEtWeight.setText(pet.weight);
+        mEtOwner.setText(pet.owner);
+        mEtAddress.setText(pet.address);
+        mEtContactNo.setText(pet.contactNo);
+        setEtBirthDateUi(pet, null);
     }
 
     private void setEtBirthDateUi(Pet pet, Date selectedDate) {
         Date nonFormattedDate = null;
-        if (pet != null) {
+        if (pet.birthDate != null) {
             nonFormattedDate = pet.birthDate;
         }
         else {

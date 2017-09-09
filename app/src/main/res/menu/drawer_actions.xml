@@ -17,8 +17,21 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/action_login"
+            android:title="@string/nav_login_title"
+            android:icon="@drawable/ic_login" />
+
+        <item
+            android:id="@+id/action_find_pet"
+            android:title="@string/nav_find_pet_title"
+            android:icon="@drawable/ic_find_pet" />
+
+    </group>
+
     <item
         android:id="@+id/empty_action"
-        android:title="@string/nav_options_title"
+        android:title="@string/nav_settings_title"
         android:icon="@drawable/ic_options" />
 </menu>

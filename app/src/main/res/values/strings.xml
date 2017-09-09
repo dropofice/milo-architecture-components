@@ -2,7 +2,9 @@
     <string name="app_name">Milo\'s Pet Monitor</string>
 
     <!-- Navigation Menu Titles -->
-    <string name="nav_options_title">Options</string>
+    <string name="nav_login_title">Login to Firebase</string>
+    <string name="nav_find_pet_title">Find pet image</string>
+    <string name="nav_settings_title">Settings</string>
 
     <!-- Menu Titles -->
     <string name="add_pet">Add Pet</string>
@@ -17,10 +19,6 @@
     <string name="addedit_activity_title_add">Add a Pet</string>
     <string name="addedit_activity_title_edit">Edit Pet</string>
     <string name="settings_activity_title">Settings</string>
-
-    <!-- Navigation Drawer Content Description -->
-    <string name="navigation_drawer_open">navigation drawer open</string>
-    <string name="navigation_drawer_close">navigation drawer close</string>
 
     <!-- AddEditActivity Labels, Hint, Unit -->
     <string name="label_name">Name:</string>
@@ -40,11 +38,13 @@
     <string name="gender_female">Female</string>
 
     <!-- Empty Name Message -->
-    <string name="empty_required_field">Name and Birth Date required</string>
+    <string name="empty_required_field">Name required</string>
 
     <!-- Content Descriptions-->
     <string name="image_description">Image of the cute buddy</string>
     <string name="img_date_picker_description">Pick birth date</string>
+    <string name="navigation_drawer_open">navigation drawer open</string>
+    <string name="navigation_drawer_close">navigation drawer close</string>
 
     <!-- Pet Details Label -->
     <string name="name_label">Name:</string>
