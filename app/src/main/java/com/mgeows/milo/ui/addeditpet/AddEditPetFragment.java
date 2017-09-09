@@ -171,7 +171,7 @@ public class AddEditPetFragment extends LifecycleFragment implements DatePickerD
 
     private void setEtBirthDateUi(Pet pet, Date selectedDate) {
         Date nonFormattedDate = null;
-        if (pet.birthDate != null) {
+        if (pet != null) {
             nonFormattedDate = pet.birthDate;
         }
         else {

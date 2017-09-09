@@ -9,7 +9,9 @@
     android:layout_height="140dp"
     android:layout_gravity="center"
     android:layout_margin="5dp"
-    card_view:cardCornerRadius="3dp"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    card_view:cardCornerRadius="5dp"
     card_view:cardUseCompatPadding="true">
 
     <android.support.constraint.ConstraintLayout
