@@ -1,18 +1,18 @@
 package com.mgeows.milo.ui.addeditpet;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,8 +28,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
+import com.mgeows.milo.BuildConfig;
 import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
 import com.mgeows.milo.db.entity.Pet;
@@ -46,6 +46,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -55,14 +57,19 @@ import butterknife.Unbinder;
  * create an instance of this fragment.
  */
 public class AddEditPetFragment extends LifecycleFragment implements
-                                                          DatePickerDialog.OnDateSetListener {
+                                                          DatePickerDialog.OnDateSetListener,
+                                                          ImageChooserFragment.Listener {
 
     // Key for the petId for editing
     private static final String ID_KEY = "id.addedit";
+    private static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".fileprovider";
     // Spinner selection
     private static final int GENDER_MALE = 0;
     private static final int GENDER_FEMALE = 1;
+    static final int REQUEST_TAKE_PHOTO = 1024;
 
+    @BindView(R.id.edit_img_btn)
+    ImageButton mEditImgBtn;
     @BindView(R.id.et_name)
     EditText mEtName;
     @BindView(R.id.et_breed)
@@ -83,8 +90,6 @@ public class AddEditPetFragment extends LifecycleFragment implements
     EditText mEtContactNo;
 
     Unbinder unbinder;
-    @BindView(R.id.edit_img_btn)
-    ImageButton mEditImgBtn;
 
     private String mId;
     private String mName;
@@ -97,6 +102,8 @@ public class AddEditPetFragment extends LifecycleFragment implements
     private String mContactNo;
     private PetViewModel mViewModel;
     private Listener mListener;
+
+    private ImageChooserFragment imageChooserFragment;
 
     public AddEditPetFragment() {
     }
@@ -197,7 +204,7 @@ public class AddEditPetFragment extends LifecycleFragment implements
         // the spinner will use the default layout
         ArrayAdapter spinnerAdapter =
                 ArrayAdapter.createFromResource(getContext(), R.array.array_gender_options,
-                                                android.R.layout.simple_spinner_item);
+                                                android.R.layout.simple_spinner_dropdown_item);
         // Specify dropdown layout style - simple list view with 1 item per line
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         // Apply the adapter to the spinner
@@ -242,7 +249,7 @@ public class AddEditPetFragment extends LifecycleFragment implements
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // super.onCreateOptionsMenu(menu, inflater);
+        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.pet_addedit_menu, menu);
     }
 
@@ -357,8 +364,33 @@ public class AddEditPetFragment extends LifecycleFragment implements
 
     @OnClick(R.id.edit_img_btn)
     public void onImgBtnClick() {
-        DialogFragment fragment = new ImageChooserFragment();
-        fragment.show(getFragmentManager(), "image_chooser");
+        imageChooserFragment = new ImageChooserFragment();
+        imageChooserFragment.setListener(this);
+        imageChooserFragment.show(getFragmentManager(), "image_chooser");
+    }
+
+    @Override
+    public void onTakePhoto() {
+        imageChooserFragment.dismiss();
+        startCameraIntent();
+    }
+
+    private void startCameraIntent() {
+        Intent photoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (photoIntent.resolveActivity(getContext().getPackageManager()) != null) {
+            startActivityForResult(photoIntent, REQUEST_TAKE_PHOTO);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            mEditImgBtn.setImageBitmap(imageBitmap);
+        }
+
     }
 
     /**
@@ -376,39 +408,4 @@ public class AddEditPetFragment extends LifecycleFragment implements
         void onPetUpdated();
     }
 
-    public static class ImageChooserFragment extends DialogFragment {
-        @BindView(R.id.action_take_photo)
-        TextView mTakePhoto;
-        @BindView(R.id.action_choose_image)
-        TextView mChooseImage;
-        Unbinder unbinder;
-
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            View imageChooser = getActivity()
-                    .getLayoutInflater().inflate(R.layout.image_source_chooser_dialog, null);
-            unbinder = ButterKnife.bind(this, imageChooser);
-            builder.setView(imageChooser)
-                   .setTitle("Add cute picture");
-
-
-            return builder.create();
-        }
-
-        @Override
-        public void onDestroyView() {
-            super.onDestroyView();
-            unbinder.unbind();
-        }
-
-        @OnClick(R.id.action_take_photo)
-        public void onTakePhotoClick() {
-        }
-
-        @OnClick(R.id.action_choose_image)
-        public void onChooseImageClick() {
-        }
-    }
 }
