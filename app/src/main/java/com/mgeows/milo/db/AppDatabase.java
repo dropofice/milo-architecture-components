@@ -8,7 +8,7 @@ import com.mgeows.milo.db.converter.DateConverter;
 import com.mgeows.milo.db.dao.PetDao;
 import com.mgeows.milo.db.entity.Pet;
 
-@Database(version = 2, entities = Pet.class)
+@Database(version = 3, entities = Pet.class)
 @TypeConverters(DateConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
 

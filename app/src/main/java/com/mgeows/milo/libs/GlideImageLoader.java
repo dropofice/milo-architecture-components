@@ -5,8 +5,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestListener;
 
-import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
-
 
 public class GlideImageLoader implements ImageLoader {
 
@@ -21,12 +19,14 @@ public class GlideImageLoader implements ImageLoader {
     public void load(ImageView view, String path) {
         if (onFinishedLoadingListener != null) {
             glideRequestManager
+                    .asBitmap()
                     .load(path)
                     .listener(onFinishedLoadingListener)
                     .into(view);
         } else {
             glideRequestManager
-                    .load(URL)
+                    .asBitmap()
+                    .load(path)
                     .into(view);
         }
     }

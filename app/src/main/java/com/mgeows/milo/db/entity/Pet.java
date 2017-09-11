@@ -20,6 +20,7 @@ public class Pet {
     public String owner;
     public String address;
     public String contactNo;
+    public String imagePath;
 
     public Pet() {
     }
@@ -27,14 +28,14 @@ public class Pet {
     // Use this constructor for new pet
     @Ignore
     public Pet(String name, String breed, int gender, Date date, String weight, String owner, String address,
-               String contactNo) {
-        this(UUID.randomUUID().toString(), name, breed, gender, date, weight, owner, address, contactNo);
+               String contactNo, String imagePath) {
+        this(UUID.randomUUID().toString(), name, breed, gender, date, weight, owner, address, contactNo, imagePath);
     }
 
     // Use this constructor for update pet
     @Ignore
     public Pet(String id, String name, String breed, int gender, Date date, String weight, String owner,
-               String address, String contactNo) {
+               String address, String contactNo, String imagePath) {
         this.id = id;
         this.name = name;
         this.breed = breed;
@@ -44,5 +45,6 @@ public class Pet {
         this.owner = owner;
         this.address = address;
         this. contactNo = contactNo;
+        this.imagePath = imagePath;
     }
 }

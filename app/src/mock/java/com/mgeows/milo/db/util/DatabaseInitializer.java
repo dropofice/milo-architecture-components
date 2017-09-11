@@ -30,7 +30,7 @@ public class DatabaseInitializer {
             String address = "909 Anchorage, Alaska";
             String contactNo = "+63918-1234567";
 
-            Pet pet = new Pet(name, breed, gender, date, weight, owner, address, contactNo);
+            Pet pet = new Pet(name, breed, gender, date, weight, owner, address, contactNo, null);
             pets.add(pet);
         }
         return pets;

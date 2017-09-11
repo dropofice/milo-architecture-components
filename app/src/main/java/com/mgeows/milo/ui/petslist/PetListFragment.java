@@ -20,6 +20,7 @@ import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
 import com.mgeows.milo.db.entity.Pet;
 import com.mgeows.milo.db.util.DatabaseInitializer;
+import com.mgeows.milo.di.UiComponent;
 import com.mgeows.milo.vm.PetViewModel;
 import com.mgeows.milo.vm.PetViewModelFactory;
 
@@ -39,10 +40,10 @@ public class PetListFragment extends LifecycleFragment implements PetItemClickLi
     RecyclerView mRvPetsList;
     Unbinder unbinder;
 
-
-    PetListAdapter mAdapter;
+    private PetListAdapter mAdapter;
     private Listener mListener;
     private PetViewModel mViewModel;
+    private UiComponent component;
 
     public PetListFragment() {
     }
@@ -60,7 +61,13 @@ public class PetListFragment extends LifecycleFragment implements PetItemClickLi
 
     private void setupInjection() {
         PetApplication application = (PetApplication) getActivity().getApplication();
-        mAdapter = application.getUiComponent(this, this).getListAdapter();
+        component = application.getUiComponent(this, this);
+        mAdapter = getListAdapter();
+    }
+
+    // For testing
+    public PetListAdapter getListAdapter() {
+        return component.getListAdapter();
     }
 
     @Nullable
@@ -123,7 +130,7 @@ public class PetListFragment extends LifecycleFragment implements PetItemClickLi
         Calendar calendar = Calendar.getInstance();
         calendar.set(2015, 5, 24);
         Date date = calendar.getTime();
-        Pet pet = new Pet("Pogi", "Aspin", 1, date, "15", "Bob", "145 Caloocan City", "0917-1234567");
+        Pet pet = new Pet("Pogi", "Aspin", 1, date, "15", "Bob", "145 Caloocan City", "0917-1234567", null);
         mViewModel.addPet(pet);
     }
 

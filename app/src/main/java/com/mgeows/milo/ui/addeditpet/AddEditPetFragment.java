@@ -200,6 +200,7 @@ public class AddEditPetFragment extends LifecycleFragment implements
     }
 
     private void setUi(@NonNull Pet pet) {
+        Glide.with(this).asBitmap().load(pet.imagePath).into(mIvPhoto);
         mEtName.setText(pet.name);
         mEtBreed.setText(pet.breed);
         mSpinner.setSelection(pet.gender);
@@ -300,7 +301,7 @@ public class AddEditPetFragment extends LifecycleFragment implements
             mAddress = mEtAddress.getEditableText().toString().trim();
             mContactNo = mEtContactNo.getEditableText().toString().trim();
             Pet pet = new Pet(mName, mBreed, mGender, mBirthDate, mWeight, mOwner, mAddress,
-                              mContactNo);
+                              mContactNo, mImagePath);
             mViewModel.addPet(pet);
             mListener.onPetSaved();
         }
@@ -318,7 +319,7 @@ public class AddEditPetFragment extends LifecycleFragment implements
             mAddress = mEtAddress.getEditableText().toString().trim();
             mContactNo = mEtContactNo.getEditableText().toString().trim();
             Pet pet = new Pet(mId, mName, mBreed, mGender, mBirthDate, mWeight, mOwner, mAddress,
-                              mContactNo);
+                              mContactNo, mImagePath);
             mViewModel.updatePet(pet);
             mListener.onPetUpdated();
         }
