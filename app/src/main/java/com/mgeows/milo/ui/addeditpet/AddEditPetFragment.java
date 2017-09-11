@@ -4,15 +4,21 @@ import android.app.DatePickerDialog;
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,10 +31,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.bumptech.glide.Glide;
 import com.mgeows.milo.BuildConfig;
 import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
@@ -36,9 +42,12 @@ import com.mgeows.milo.db.entity.Pet;
 import com.mgeows.milo.vm.PetViewModel;
 import com.mgeows.milo.vm.PetViewModelFactory;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -59,7 +68,6 @@ import static android.app.Activity.RESULT_OK;
 public class AddEditPetFragment extends LifecycleFragment implements
                                                           DatePickerDialog.OnDateSetListener,
                                                           ImageChooserFragment.Listener {
-
     // Key for the petId for editing
     private static final String ID_KEY = "id.addedit";
     private static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".fileprovider";
@@ -68,8 +76,8 @@ public class AddEditPetFragment extends LifecycleFragment implements
     private static final int GENDER_FEMALE = 1;
     static final int REQUEST_TAKE_PHOTO = 1024;
 
-    @BindView(R.id.edit_img_btn)
-    ImageButton mEditImgBtn;
+    @BindView(R.id.edit_iv_photo)
+    ImageView mIvPhoto;
     @BindView(R.id.et_name)
     EditText mEtName;
     @BindView(R.id.et_breed)
@@ -92,6 +100,7 @@ public class AddEditPetFragment extends LifecycleFragment implements
     Unbinder unbinder;
 
     private String mId;
+    private String mImagePath;
     private String mName;
     private String mBreed;
     private int mGender;
@@ -102,6 +111,11 @@ public class AddEditPetFragment extends LifecycleFragment implements
     private String mContactNo;
     private PetViewModel mViewModel;
     private Listener mListener;
+
+    // use this to keep a reference to the file you create so
+    // that it can be access from onActivityResult()
+    private File mImageFile;
+
 
     private ImageChooserFragment imageChooserFragment;
 
@@ -362,8 +376,8 @@ public class AddEditPetFragment extends LifecycleFragment implements
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    @OnClick(R.id.edit_img_btn)
-    public void onImgBtnClick() {
+    @OnClick(R.id.edit_iv_photo)
+    public void onImgVuClick() {
         imageChooserFragment = new ImageChooserFragment();
         imageChooserFragment.setListener(this);
         imageChooserFragment.show(getFragmentManager(), "image_chooser");
@@ -375,22 +389,64 @@ public class AddEditPetFragment extends LifecycleFragment implements
         startCameraIntent();
     }
 
-    private void startCameraIntent() {
-        Intent photoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (photoIntent.resolveActivity(getContext().getPackageManager()) != null) {
-            startActivityForResult(photoIntent, REQUEST_TAKE_PHOTO);
-        }
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            mEditImgBtn.setImageBitmap(imageBitmap);
+            mImagePath = mImageFile.getAbsolutePath();
+            Glide.with(this).asBitmap().load(mImagePath).into(mIvPhoto);
         }
+    }
 
+    private void startCameraIntent() {
+        Intent photoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (photoIntent.resolveActivity(getContext().getPackageManager()) != null) {
+
+            try {
+                mImageFile = createImageFile();
+            } catch (IOException e) {
+                // file wasn't created
+            }
+            if (mImageFile != null) {
+                Uri imageUri = FileProvider.getUriForFile(getContext(), AUTHORITY, mImageFile);
+                photoIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                // This is important. Without it, you may get Security Exceptions.
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    photoIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                }
+                else
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        ClipData clip = ClipData.newUri(getContext().getContentResolver(), "A photo", imageUri);
+                        photoIntent.setClipData(clip);
+                        photoIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    }
+                    else {
+                        List<ResolveInfo> resInfoList =
+                                getContext().getPackageManager().queryIntentActivities(photoIntent,
+                                                                          PackageManager.MATCH_DEFAULT_ONLY);
+                        for (ResolveInfo resolveInfo : resInfoList) {
+                            String packageName = resolveInfo.activityInfo.packageName;
+                            getContext().grantUriPermission(packageName, imageUri,
+                                               Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                        }
+                    }
+            }
+            startActivityForResult(photoIntent, REQUEST_TAKE_PHOTO);
+        }
+        else {
+            // device doesn't have camera
+            Snackbar.make(mEtName, "No camera", Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    @NonNull
+    private File createImageFile() throws IOException {
+        String imageFileName =
+                "pet_image" + System.currentTimeMillis() + "_"; // give it a unique filename
+        File storageDir = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        // use this if you want android to automatically save it into the device's image gallery:
+        // File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(imageFileName, ".jpg", storageDir);
     }
 
     /**
