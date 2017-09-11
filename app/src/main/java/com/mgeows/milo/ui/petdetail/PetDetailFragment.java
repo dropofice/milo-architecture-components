@@ -18,11 +18,14 @@ import android.widget.TextView;
 import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
 import com.mgeows.milo.db.entity.Pet;
+import com.mgeows.milo.libs.ImageLoader;
 import com.mgeows.milo.vm.PetViewModel;
 import com.mgeows.milo.vm.PetViewModelFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,6 +60,8 @@ public class PetDetailFragment extends LifecycleFragment {
 
     Unbinder unbinder;
 
+    @Inject
+    ImageLoader imageLoader;
     private String mId;
     private Listener mListener;
     private PetViewModel mViewModel;
@@ -78,7 +83,13 @@ public class PetDetailFragment extends LifecycleFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupInjection();
         setHasOptionsMenu(true);
+    }
+
+    private void setupInjection() {
+        PetApplication application = (PetApplication) getActivity().getApplication();
+        application.getUiComponent(this, null).inject(this);
     }
 
     @Nullable

@@ -39,6 +39,7 @@ import com.mgeows.milo.BuildConfig;
 import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
 import com.mgeows.milo.db.entity.Pet;
+import com.mgeows.milo.libs.ImageLoader;
 import com.mgeows.milo.vm.PetViewModel;
 import com.mgeows.milo.vm.PetViewModelFactory;
 
@@ -49,6 +50,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -99,6 +102,8 @@ public class AddEditPetFragment extends LifecycleFragment implements
 
     Unbinder unbinder;
 
+    @Inject
+    ImageLoader imageLoader;
     private String mId;
     private String mImagePath;
     private String mName;
@@ -141,7 +146,13 @@ public class AddEditPetFragment extends LifecycleFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupInjection();
         setHasOptionsMenu(true);
+    }
+
+    private void setupInjection() {
+        PetApplication application = (PetApplication) getActivity().getApplication();
+        application.getUiComponent(this, null).inject(this);
     }
 
     @Override

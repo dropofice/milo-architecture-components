@@ -33,14 +33,14 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-public class PetListFragment extends LifecycleFragment {
+public class PetListFragment extends LifecycleFragment implements PetItemClickListener {
 
     @BindView(R.id.rv_pets_list)
     RecyclerView mRvPetsList;
-
     Unbinder unbinder;
 
-    private PetListAdapter mAdapter;
+
+    PetListAdapter mAdapter;
     private Listener mListener;
     private PetViewModel mViewModel;
 
@@ -54,13 +54,13 @@ public class PetListFragment extends LifecycleFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // setupInjection();
+        setupInjection();
         setHasOptionsMenu(true);
     }
 
     private void setupInjection() {
-//        PetApplication application = (PetApplication) getActivity().getApplication();
-//        application.getPetComponent().inject(this);
+        PetApplication application = (PetApplication) getActivity().getApplication();
+        mAdapter = application.getUiComponent(this, this).getListAdapter();
     }
 
     @Nullable
@@ -69,7 +69,6 @@ public class PetListFragment extends LifecycleFragment {
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.pet_list_fragment, container, false);
         unbinder = ButterKnife.bind(this, rootView);
-        mAdapter = new PetListAdapter(null, itemClickListener);
         mRvPetsList.setAdapter(mAdapter);
         mRvPetsList.setHasFixedSize(true);
         mRvPetsList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -160,20 +159,18 @@ public class PetListFragment extends LifecycleFragment {
             @Override
             public void onChanged(@Nullable List<Pet> pets) {
                 if (pets != null) {
-                    mAdapter.setData(pets);
+                     mAdapter.setData(pets);
                 }
             }
         });
     }
 
-    private final  PetItemClickListener itemClickListener = new PetItemClickListener() {
-        @Override
-        public void onItemClick(int position, ArrayList<String> ids) {
-            if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
-               mListener.firePetDetailActivity(position, ids);
-            }
+    @Override
+    public void onItemClick(int position, ArrayList<String> ids) {
+        if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+            mListener.firePetDetailActivity(position, ids);
         }
-    };
+    }
 
     interface Listener {
         void fireAddEditPetActivity();

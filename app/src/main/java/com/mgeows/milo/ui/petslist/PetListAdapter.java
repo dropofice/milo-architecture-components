@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.mgeows.milo.R;
 import com.mgeows.milo.db.entity.Pet;
+import com.mgeows.milo.libs.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +21,12 @@ import butterknife.ButterKnife;
 public class PetListAdapter extends RecyclerView.Adapter<PetListAdapter.ViewHolder> {
 
     private List<Pet> petList = new ArrayList<>();
+    private ImageLoader imageLoader;
     private PetItemClickListener petItemClickListener;
 
-    public PetListAdapter(List<Pet> petList, PetItemClickListener listener) {
+    public PetListAdapter(List<Pet> petList, ImageLoader imageLoader, PetItemClickListener listener) {
         this.petList = petList;
+        this.imageLoader = imageLoader;
         this.petItemClickListener = listener;
     }
 
