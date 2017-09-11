@@ -89,7 +89,7 @@ public class PetDetailFragment extends LifecycleFragment {
 
     private void setupInjection() {
         PetApplication application = (PetApplication) getActivity().getApplication();
-        application.getUiComponent(this, null).inject(this);
+        imageLoader = application.getUiComponent(this, null).getImageLoader();
     }
 
     @Nullable
@@ -126,6 +126,7 @@ public class PetDetailFragment extends LifecycleFragment {
 
     private void setUi(Pet pet) {
         if (pet != null) {
+            imageLoader.load(mImage, pet.imagePath);
             mName.setText(pet.name);
             mBreed.setText(pet.breed);
             mGender.setText(setGender(pet.gender));

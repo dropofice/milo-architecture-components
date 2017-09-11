@@ -51,8 +51,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -102,8 +100,7 @@ public class AddEditPetFragment extends LifecycleFragment implements
 
     Unbinder unbinder;
 
-    @Inject
-    ImageLoader imageLoader;
+    private ImageLoader imageLoader;
     private String mId;
     private String mImagePath;
     private String mName;
@@ -152,7 +149,7 @@ public class AddEditPetFragment extends LifecycleFragment implements
 
     private void setupInjection() {
         PetApplication application = (PetApplication) getActivity().getApplication();
-        application.getUiComponent(this, null).inject(this);
+        imageLoader= application.getUiComponent(this, null).getImageLoader();
     }
 
     @Override
@@ -200,7 +197,7 @@ public class AddEditPetFragment extends LifecycleFragment implements
     }
 
     private void setUi(@NonNull Pet pet) {
-        Glide.with(this).asBitmap().load(pet.imagePath).into(mIvPhoto);
+        imageLoader.load(mIvPhoto, pet.imagePath);
         mEtName.setText(pet.name);
         mEtBreed.setText(pet.breed);
         mSpinner.setSelection(pet.gender);

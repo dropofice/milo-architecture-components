@@ -14,6 +14,8 @@ import com.mgeows.milo.libs.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -24,6 +26,7 @@ public class PetListAdapter extends RecyclerView.Adapter<PetListAdapter.ViewHold
     private ImageLoader imageLoader;
     private PetItemClickListener petItemClickListener;
 
+    @Inject
     public PetListAdapter(List<Pet> petList, ImageLoader imageLoader, PetItemClickListener listener) {
         this.petList = petList;
         this.imageLoader = imageLoader;
@@ -41,6 +44,7 @@ public class PetListAdapter extends RecyclerView.Adapter<PetListAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         Pet pet = petList.get(position);
         holder.itemView.setTag(pet.id);
+        imageLoader.load(holder.petImg, pet.imagePath);
         holder.petName.setText(pet.name);
         holder.petBreed.setText(pet.breed);
     }
@@ -67,7 +71,7 @@ public class PetListAdapter extends RecyclerView.Adapter<PetListAdapter.ViewHold
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        @BindView(R.id.img__item_pet)
+        @BindView(R.id.img_item_pet)
         ImageView petImg;
         @BindView(R.id.tv_item_name)
         TextView petName;
