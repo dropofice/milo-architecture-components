@@ -131,7 +131,7 @@ public class PetDetailFragment extends LifecycleFragment {
                     new SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault());
             String date = dateFormat.format(pet.birthDate);
             mBirthDate.setText(date);
-            mWeight.setText(pet.weight);
+            mWeight.setText(String.format("%s%s", pet.weight, "kg"));
             mOwner.setText(pet.owner);
             mAddress.setText(pet.address);
             mContactNo.setText(pet.contactNo);

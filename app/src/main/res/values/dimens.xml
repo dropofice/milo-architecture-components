@@ -11,4 +11,6 @@
     <dimen name="editor_guideline_end">274dp</dimen>
     <dimen name="item_guideline_start">166dp</dimen>
     <dimen name="detail_guideline_start">137dp</dimen>
+    <dimen name="item_text_max_width">145dp</dimen>
+    <dimen name="details_text_max_width">180dp</dimen>
 </resources>

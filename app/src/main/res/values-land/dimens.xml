@@ -2,4 +2,6 @@
 <resources>
     <dimen name="nav_view_margin_top">48dp</dimen>
     <dimen name="editor_guideline_end">484dp</dimen>
+    <dimen name="item_text_max_width">250dp</dimen>
+    <dimen name="details_text_max_width">250dp</dimen>
 </resources>

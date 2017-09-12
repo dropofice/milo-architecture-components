@@ -15,9 +15,6 @@
         <TextView
             android:id="@+id/name_label"
             style="@style/DetailsLabel"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:text="@string/name_label"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -25,78 +22,55 @@
         <TextView
             android:id="@+id/breed_label"
             style="@style/DetailsLabel"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:text="@string/breed_label"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/name_label" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_detail_name" />
 
         <TextView
             android:id="@+id/gender_label"
             style="@style/DetailsLabel"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:text="@string/gender_label"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/breed_label" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_detail_breed" />
 
         <TextView
             android:id="@+id/birth_date_label"
             style="@style/DetailsLabel"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:text="@string/birth_date_label"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/gender_label" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_detail_gender" />
 
         <TextView
             android:id="@+id/weight_label"
             style="@style/DetailsLabel"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:text="@string/weight_label"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/birth_date_label" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_detail_birth_date" />
 
         <TextView
             android:id="@+id/owner_label"
             style="@style/DetailsLabel"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:text="@string/owner_label"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/weight_label" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_detail_weight" />
 
         <TextView
             android:id="@+id/address_label"
             style="@style/DetailsLabel"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:text="@string/address_label"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/owner_label" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_detail_owner" />
 
         <TextView
             android:id="@+id/contact_no_label"
             style="@style/DetailsLabel"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:text="@string/contact_no_label"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/address_label" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_detail_address" />
 
         <TextView
             android:id="@+id/tv_detail_name"
             style="@style/Details"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
             app:layout_constraintBaseline_toBaselineOf="@+id/name_label"
             app:layout_constraintLeft_toLeftOf="@+id/detail_guideline"
             tools:text="Name" />
@@ -104,8 +78,6 @@
         <TextView
             android:id="@+id/tv_detail_breed"
             style="@style/Details"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
             app:layout_constraintBaseline_toBaselineOf="@+id/breed_label"
             app:layout_constraintLeft_toLeftOf="@+id/detail_guideline"
             tools:text="Breed" />
@@ -113,8 +85,6 @@
         <TextView
             android:id="@+id/tv_detail_gender"
             style="@style/Details"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
             app:layout_constraintBaseline_toBaselineOf="@+id/gender_label"
             app:layout_constraintLeft_toLeftOf="@+id/detail_guideline"
             tools:text="Gender" />
@@ -122,8 +92,6 @@
         <TextView
             android:id="@+id/tv_detail_birth_date"
             style="@style/Details"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
             app:layout_constraintBaseline_toBaselineOf="@+id/birth_date_label"
             app:layout_constraintLeft_toLeftOf="@+id/detail_guideline"
             tools:text="Birth Date" />
@@ -131,8 +99,6 @@
         <TextView
             android:id="@+id/tv_detail_weight"
             style="@style/Details"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
             app:layout_constraintBaseline_toBaselineOf="@+id/weight_label"
             app:layout_constraintLeft_toLeftOf="@+id/detail_guideline"
             tools:text="Weight" />
@@ -140,8 +106,6 @@
         <TextView
             android:id="@+id/tv_detail_owner"
             style="@style/Details"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
             app:layout_constraintBaseline_toBaselineOf="@+id/owner_label"
             app:layout_constraintLeft_toLeftOf="@+id/detail_guideline"
             tools:text="Owner" />
@@ -149,17 +113,13 @@
         <TextView
             android:id="@+id/tv_detail_address"
             style="@style/Details"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
             app:layout_constraintBaseline_toBaselineOf="@+id/address_label"
             app:layout_constraintLeft_toLeftOf="@+id/detail_guideline"
-            tools:text="Address" />
+            tools:text="Long Address Long Address" />
 
         <TextView
             android:id="@+id/tv_detail_contact_no"
             style="@style/Details"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
             app:layout_constraintBaseline_toBaselineOf="@+id/contact_no_label"
             app:layout_constraintLeft_toLeftOf="@+id/detail_guideline"
             tools:text="Gender" />

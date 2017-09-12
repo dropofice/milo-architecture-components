@@ -3,8 +3,6 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Base.AppTheme" />
 
-    <style name="AppTheme.OverlapSystemBar" parent="Base.AppTheme" />
-
     <style name="Base.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -14,7 +12,9 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Toolbar" parent="ThemeOverlay.AppCompat.ActionBar">
+    <style name="Theme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar" />
+
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 
@@ -23,16 +23,18 @@
     <style name="ListItem">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
         <item name="android:ellipsize">end</item>
         <item name="android:fontFamily">casual</item>
         <item name="android:maxLines">1</item>
-        <item name="android:maxWidth">180dp</item>
+        <item name="android:maxWidth">@dimen/item_text_max_width</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="DetailsLabel">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:fontFamily">casual</item>
         <item name="android:maxLines">1</item>
@@ -43,10 +45,11 @@
     <style name="Details">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">8dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:fontFamily">casual</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:maxWidth">180dp</item>
+        <item name="android:maxLines">4</item>
+        <item name="android:maxWidth">@dimen/details_text_max_width</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAppearance">?android:textAppearanceLarge</item>
     </style>
@@ -76,5 +79,8 @@
         <item name="android:textAppearance">?android:textAppearanceMedium</item>
     </style>
 
+    <style name="PetImageLandscape">
+        <item name="android:layout_weight">1</item>
+    </style>
 
 </resources>

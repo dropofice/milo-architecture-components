@@ -4,6 +4,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.mgeows.milo.R;
 
 
 public class GlideImageLoader implements ImageLoader {
@@ -17,16 +19,20 @@ public class GlideImageLoader implements ImageLoader {
 
     @Override
     public void load(ImageView view, String path) {
+        RequestOptions options = new RequestOptions();
+        options.placeholder(R.drawable.ic_take_photo);
         if (onFinishedLoadingListener != null) {
             glideRequestManager
                     .asBitmap()
                     .load(path)
+                    .apply(options)
                     .listener(onFinishedLoadingListener)
                     .into(view);
         } else {
             glideRequestManager
                     .asBitmap()
                     .load(path)
+                    .apply(options)
                     .into(view);
         }
     }
