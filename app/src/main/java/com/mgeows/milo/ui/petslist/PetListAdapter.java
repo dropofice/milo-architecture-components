@@ -14,8 +14,6 @@ import com.mgeows.milo.libs.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -26,7 +24,6 @@ public class PetListAdapter extends RecyclerView.Adapter<PetListAdapter.ViewHold
     private ImageLoader imageLoader;
     private PetItemClickListener petItemClickListener;
 
-    @Inject
     public PetListAdapter(List<Pet> petList, ImageLoader imageLoader, PetItemClickListener listener) {
         this.petList = petList;
         this.imageLoader = imageLoader;

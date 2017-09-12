@@ -34,7 +34,7 @@ ext {
     butterknifeVersion = '8.6.0'
     timberVersion = '4.5.1'
     daggerVersion = '2.11'
-    glideVersion = '4.0.0-RC1'
+    glideVersion = '4.1.1'
 
     junitVersion = '4.12'
     espressoVersion = '2.2.2'

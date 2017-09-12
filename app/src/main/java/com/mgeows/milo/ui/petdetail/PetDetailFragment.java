@@ -25,8 +25,6 @@ import com.mgeows.milo.vm.PetViewModelFactory;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -60,7 +58,6 @@ public class PetDetailFragment extends LifecycleFragment {
 
     Unbinder unbinder;
 
-    @Inject
     ImageLoader imageLoader;
     private String mId;
     private Listener mListener;
