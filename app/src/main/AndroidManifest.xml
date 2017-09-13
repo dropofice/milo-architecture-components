@@ -23,7 +23,7 @@
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/settings_activity_title"
             android:parentActivityName=".ui.petslist.PetListActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/Pet.PreferenceTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.mgeows.milo.ui.petslist.PetListActivity" />

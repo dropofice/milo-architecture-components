@@ -62,4 +62,11 @@
     <string name="img_choose_image_description">Choose image</string>
 
 
+    <!-- Settings -->
+    <string name="units_key">units.key</string>
+    <string name="units_label">Weight Units</string>
+    <string name="unit_label_kg">Kilogram</string>
+    <string name="unit_label_lb">Pound</string>
+    <string name="unit_kg">kg</string>
+    <string name="unit_lb">lb</string>
 </resources>

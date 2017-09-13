@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
 import com.mgeows.milo.db.entity.Pet;
@@ -143,8 +142,7 @@ public class PetDetailFragment extends LifecycleFragment {
     private void setPetDetailImage(Pet pet) {
         int orientation = getContext().getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            // imageLoader.load(mImage, pet.imagePath);
-            Glide.with(this).asBitmap().load(pet.imagePath).into(mImage);
+            imageLoader.load(mImage, pet.imagePath);
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             imageLoader.loadCircleCrop(mImage, pet.imagePath);
         }
