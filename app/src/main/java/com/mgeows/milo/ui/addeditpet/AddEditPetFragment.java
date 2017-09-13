@@ -34,7 +34,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
-import com.bumptech.glide.Glide;
 import com.mgeows.milo.BuildConfig;
 import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
@@ -75,7 +74,8 @@ public class AddEditPetFragment extends LifecycleFragment implements
     // Spinner selection
     private static final int GENDER_MALE = 0;
     private static final int GENDER_FEMALE = 1;
-    static final int REQUEST_TAKE_PHOTO = 1024;
+    private static final int REQUEST_TAKE_PHOTO = 1024;
+    private static final int REQUEST_CHOOSE_IMAGE = 1027;
 
     @BindView(R.id.edit_iv_photo)
     ImageView mIvPhoto;
@@ -166,7 +166,6 @@ public class AddEditPetFragment extends LifecycleFragment implements
         mViewModel = getViewModel();
         checkArguments();
         setupGenderSpinner();
-        setupFieldsListener();
     }
 
     private PetViewModel getViewModel() {
@@ -251,10 +250,6 @@ public class AddEditPetFragment extends LifecycleFragment implements
                 mGender = GENDER_MALE;
             }
         });
-
-    }
-
-    private void setupFieldsListener() {
 
     }
 
@@ -376,8 +371,8 @@ public class AddEditPetFragment extends LifecycleFragment implements
 
     @OnClick(R.id.et_birth_date)
     public void onEtBirthDateClick(View view) {
-        onDatePickerClick();
         hideSoftKeyboard(view);
+        onDatePickerClick();
     }
 
     private void hideSoftKeyboard(View view) {
@@ -400,11 +395,25 @@ public class AddEditPetFragment extends LifecycleFragment implements
     }
 
     @Override
+    public void onChooseImage() {
+        imageChooserFragment.dismiss();
+        startImageChooserIntent();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-            mImagePath = mImageFile.getAbsolutePath();
-            Glide.with(this).asBitmap().load(mImagePath).into(mIvPhoto);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_TAKE_PHOTO) {
+                mImagePath = mImageFile.getAbsolutePath();
+                imageLoader.loadCircleCrop(mIvPhoto, mImagePath);
+            }
+
+            if (requestCode == REQUEST_CHOOSE_IMAGE && data != null) {
+                Uri selectedImageUri = data.getData();
+                mImagePath = selectedImageUri.toString();
+                imageLoader.loadCircleCrop(mIvPhoto, mImagePath);
+            }
         }
     }
 
@@ -457,6 +466,12 @@ public class AddEditPetFragment extends LifecycleFragment implements
         // use this if you want android to automatically save it into the device's image gallery:
         // File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(imageFileName, ".jpg", storageDir);
+    }
+
+    private void startImageChooserIntent() {
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_CHOOSE_IMAGE);
     }
 
     /**

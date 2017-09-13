@@ -19,8 +19,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:contentDescription="@string/edit_img_description"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_find_pet"
+            android:scaleType="center"
+            tools:src="@drawable/ic_take_photo"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

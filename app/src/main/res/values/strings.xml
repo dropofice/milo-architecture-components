@@ -38,7 +38,7 @@
     <string name="gender_female">Female</string>
 
     <!-- Empty Name Message -->
-    <string name="empty_required_field">Name required</string>
+    <string name="empty_required_field">Name, Birth Date required</string>
 
     <!-- Content Descriptions-->
     <string name="image_description">Image of the cute buddy</string>
