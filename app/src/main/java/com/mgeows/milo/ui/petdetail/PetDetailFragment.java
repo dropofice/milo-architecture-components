@@ -4,6 +4,7 @@ import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -123,7 +124,7 @@ public class PetDetailFragment extends LifecycleFragment {
 
     private void setUi(Pet pet) {
         if (pet != null) {
-            imageLoader.load(mImage, pet.imagePath);
+            setPetDetailImage(pet);
             mName.setText(pet.name);
             mBreed.setText(pet.breed);
             mGender.setText(setGender(pet.gender));
@@ -135,6 +136,16 @@ public class PetDetailFragment extends LifecycleFragment {
             mOwner.setText(pet.owner);
             mAddress.setText(pet.address);
             mContactNo.setText(pet.contactNo);
+        }
+    }
+
+    private void setPetDetailImage(Pet pet) {
+        int orientation = getContext().getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+           imageLoader.loadCircleCrop(mImage, pet.imagePath);
+        }
+        else {
+            imageLoader.load(mImage, pet.imagePath);
         }
     }
 

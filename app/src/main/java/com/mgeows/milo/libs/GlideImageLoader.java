@@ -38,6 +38,18 @@ public class GlideImageLoader implements ImageLoader {
     }
 
     @Override
+    public void loadCircleCrop(ImageView view, String path) {
+        RequestOptions options = new RequestOptions();
+        options.placeholder(R.drawable.ic_take_photo)
+               .circleCrop();
+        glideRequestManager
+                .asBitmap()
+                .load(path)
+                .apply(options)
+                .into(view);
+    }
+
+    @Override
     public void setOnFinishedImageLoadingListener(Object listener) {
         if (listener instanceof  RequestListener) {
             this.onFinishedLoadingListener = (RequestListener) listener;

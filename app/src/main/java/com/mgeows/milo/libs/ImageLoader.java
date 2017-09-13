@@ -4,6 +4,7 @@ package com.mgeows.milo.libs;
 import android.widget.ImageView;
 
 public interface ImageLoader {
-    void load(ImageView imageView, String path);
+    void load(ImageView view, String path);
+    void loadCircleCrop(ImageView view, String path);
     void setOnFinishedImageLoadingListener(Object listener);
 }

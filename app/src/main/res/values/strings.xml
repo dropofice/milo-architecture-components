@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Milo\'s Pet Monitor</string>
+    <string name="app_name">Milo\'s App</string>
 
     <!-- Navigation Menu Titles -->
     <string name="nav_login_title">Login to Firebase</string>
-    <string name="nav_find_pet_title">Find pet image</string>
+    <string name="nav_find_pet_title">Find breed image</string>
     <string name="nav_settings_title">Settings</string>
 
     <!-- Menu Titles -->

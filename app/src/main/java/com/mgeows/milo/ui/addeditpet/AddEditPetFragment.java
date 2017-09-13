@@ -198,7 +198,7 @@ public class AddEditPetFragment extends LifecycleFragment implements
 
     private void setUi(@NonNull Pet pet) {
         mImagePath = pet.imagePath;
-        imageLoader.load(mIvPhoto, mImagePath);
+        imageLoader.loadCircleCrop(mIvPhoto, mImagePath);
         mEtName.setText(pet.name);
         mEtBreed.setText(pet.breed);
         mSpinner.setSelection(pet.gender);
