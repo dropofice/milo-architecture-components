@@ -4,6 +4,7 @@ import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
 import com.mgeows.milo.db.entity.Pet;
+import com.mgeows.milo.di.UiComponent;
 import com.mgeows.milo.libs.ImageLoader;
 import com.mgeows.milo.vm.PetViewModel;
 import com.mgeows.milo.vm.PetViewModelFactory;
@@ -59,8 +61,10 @@ public class PetDetailFragment extends LifecycleFragment {
 
     Unbinder unbinder;
 
-    ImageLoader imageLoader;
+    private ImageLoader imageLoader;
+    private SharedPreferences sharedPreference;
     private String mId;
+    private String mUnit;
     private Listener mListener;
     private PetViewModel mViewModel;
 
@@ -87,7 +91,9 @@ public class PetDetailFragment extends LifecycleFragment {
 
     private void setupInjection() {
         PetApplication application = (PetApplication) getActivity().getApplication();
-        imageLoader = application.getUiComponent(this, null).getImageLoader();
+        UiComponent uiComponent = application.getUiComponent(this, null);
+        imageLoader = uiComponent.getImageLoader();
+        sharedPreference = uiComponent.getSharedPreferences();
     }
 
     @Nullable
@@ -102,9 +108,15 @@ public class PetDetailFragment extends LifecycleFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setupUnit();
         mId = getArguments().getString(ID_KEY);
         mViewModel = getViewModel();
         subscribeUi(mViewModel, mId);
+    }
+
+    private void setupUnit() {
+        mUnit = sharedPreference.getString(
+                getString(R.string.units_key), getString(R.string.unit_kg));
     }
 
     private PetViewModel getViewModel() {
@@ -132,7 +144,7 @@ public class PetDetailFragment extends LifecycleFragment {
                     new SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault());
             String date = dateFormat.format(pet.birthDate);
             mBirthDate.setText(date);
-            mWeight.setText(String.format("%s%s", pet.weight, "kg"));
+            mWeight.setText(String.format("%s%s", pet.weight, mUnit));
             mOwner.setText(pet.owner);
             mAddress.setText(pet.address);
             mContactNo.setText(pet.contactNo);

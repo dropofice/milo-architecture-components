@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
@@ -33,11 +34,13 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.mgeows.milo.BuildConfig;
 import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
 import com.mgeows.milo.db.entity.Pet;
+import com.mgeows.milo.di.UiComponent;
 import com.mgeows.milo.libs.ImageLoader;
 import com.mgeows.milo.vm.PetViewModel;
 import com.mgeows.milo.vm.PetViewModelFactory;
@@ -97,10 +100,10 @@ public class AddEditPetFragment extends LifecycleFragment implements
     EditText mEtAddress;
     @BindView(R.id.et_contact_no)
     EditText mEtContactNo;
-
+    @BindView(R.id.edit_weight_unit)
+    TextView mTvWeightUnit;
     Unbinder unbinder;
 
-    private ImageLoader imageLoader;
     private String mId;
     private String mImagePath;
     private String mName;
@@ -111,13 +114,16 @@ public class AddEditPetFragment extends LifecycleFragment implements
     private String mOwner;
     private String mAddress;
     private String mContactNo;
+    private String mUnit;
     private PetViewModel mViewModel;
     private Listener mListener;
+
+    private ImageLoader imageLoader;
+    private SharedPreferences sharedPreference;
 
     // use this to keep a reference to the file you create so
     // that it can be access from onActivityResult()
     private File mImageFile;
-
 
     private ImageChooserFragment imageChooserFragment;
 
@@ -149,7 +155,9 @@ public class AddEditPetFragment extends LifecycleFragment implements
 
     private void setupInjection() {
         PetApplication application = (PetApplication) getActivity().getApplication();
-        imageLoader= application.getUiComponent(this, null).getImageLoader();
+        UiComponent uiComponent = application.getUiComponent(this, null);
+        imageLoader = uiComponent.getImageLoader();
+        sharedPreference = uiComponent.getSharedPreferences();
     }
 
     @Override
@@ -163,9 +171,16 @@ public class AddEditPetFragment extends LifecycleFragment implements
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setupUnit();
         mViewModel = getViewModel();
         checkArguments();
         setupGenderSpinner();
+    }
+
+    private void setupUnit() {
+        mUnit = sharedPreference.getString(
+                getString(R.string.units_key), getString(R.string.unit_kg));
+        mTvWeightUnit.setText(mUnit);
     }
 
     private PetViewModel getViewModel() {
@@ -202,6 +217,7 @@ public class AddEditPetFragment extends LifecycleFragment implements
         mEtBreed.setText(pet.breed);
         mSpinner.setSelection(pet.gender);
         mEtWeight.setText(pet.weight);
+        mTvWeightUnit.setText(mUnit);
         mEtOwner.setText(pet.owner);
         mEtAddress.setText(pet.address);
         mEtContactNo.setText(pet.contactNo);
@@ -433,22 +449,25 @@ public class AddEditPetFragment extends LifecycleFragment implements
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     photoIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 }
-                else
+                else {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        ClipData clip = ClipData.newUri(getContext().getContentResolver(), "A photo", imageUri);
+                        ClipData clip =
+                                ClipData.newUri(getContext().getContentResolver(), "A photo",
+                                                imageUri);
                         photoIntent.setClipData(clip);
                         photoIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                     }
                     else {
                         List<ResolveInfo> resInfoList =
                                 getContext().getPackageManager().queryIntentActivities(photoIntent,
-                                                                          PackageManager.MATCH_DEFAULT_ONLY);
+                                                                                       PackageManager.MATCH_DEFAULT_ONLY);
                         for (ResolveInfo resolveInfo : resInfoList) {
                             String packageName = resolveInfo.activityInfo.packageName;
                             getContext().grantUriPermission(packageName, imageUri,
-                                               Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                                                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                         }
                     }
+                }
             }
             startActivityForResult(photoIntent, REQUEST_TAKE_PHOTO);
         }
@@ -470,7 +489,7 @@ public class AddEditPetFragment extends LifecycleFragment implements
 
     private void startImageChooserIntent() {
         Intent intent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                   MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, REQUEST_CHOOSE_IMAGE);
     }
 
@@ -486,6 +505,7 @@ public class AddEditPetFragment extends LifecycleFragment implements
      */
     interface Listener {
         void onPetSaved();
+
         void onPetUpdated();
     }
 

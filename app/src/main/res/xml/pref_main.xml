@@ -6,6 +6,7 @@
         android:entries="@array/units_options"
         android:entryValues="@array/units_values"
         android:key="@string/units_key"
-        android:title="@string/units_label" />
+        android:title="@string/units_label"
+        android:negativeButtonText="@null"/>
 
 </PreferenceScreen>

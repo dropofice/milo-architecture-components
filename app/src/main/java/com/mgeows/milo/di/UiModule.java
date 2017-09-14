@@ -1,5 +1,8 @@
 package com.mgeows.milo.di;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -63,5 +66,16 @@ public class UiModule {
     @Singleton
     List<Pet> provideEmptyList() {
         return new ArrayList<>();
+    }
+
+    @Provides
+    @Singleton
+    SharedPreferences provideSharedPreferences(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+    @Provides
+    Context provideContext(Fragment fragment) {
+        return fragment.getContext();
     }
 }
