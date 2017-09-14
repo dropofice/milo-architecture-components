@@ -203,11 +203,17 @@ public class AddEditPetFragment extends LifecycleFragment implements
             @Override
             public void onChanged(@Nullable Pet pet) {
                 if (pet != null) {
-                    mBirthDate = pet.birthDate;
+                    setBirthDate(pet);
                     setUi(pet);
                 }
             }
         });
+    }
+
+    private void setBirthDate(Pet pet) {
+        if (pet.birthDate != null) {
+            mBirthDate = pet.birthDate;
+        }
     }
 
     private void setUi(@NonNull Pet pet) {
@@ -221,21 +227,29 @@ public class AddEditPetFragment extends LifecycleFragment implements
         mEtOwner.setText(pet.owner);
         mEtAddress.setText(pet.address);
         mEtContactNo.setText(pet.contactNo);
-        setEtBirthDateUi(pet, null);
+        setEtBirthDateUi(pet);
     }
 
-    private void setEtBirthDateUi(Pet pet, Date selectedDate) {
+    private void setEtBirthDateUi(Pet pet) {
         Date nonFormattedDate = null;
-        if (pet != null) {
+        if (pet.birthDate != null) {
             nonFormattedDate = pet.birthDate;
+            SimpleDateFormat dateFormat =
+                    new SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault());
+            String formattedDate = dateFormat.format(nonFormattedDate);
+            mEtBirthDate.setText(formattedDate);
         }
-        else {
+    }
+
+    private void setEtBirthDateUi(Date selectedDate) {
+        Date nonFormattedDate = null;
+        if (selectedDate != null) {
             nonFormattedDate = selectedDate;
+            SimpleDateFormat dateFormat =
+                    new SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault());
+            String formattedDate = dateFormat.format(nonFormattedDate);
+            mEtBirthDate.setText(formattedDate);
         }
-        SimpleDateFormat dateFormat =
-                new SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault());
-        String formattedDate = dateFormat.format(nonFormattedDate);
-        mEtBirthDate.setText(formattedDate);
     }
 
     private void setupGenderSpinner() {
@@ -303,7 +317,7 @@ public class AddEditPetFragment extends LifecycleFragment implements
 
     private void savePet() {
         mName = mEtName.getEditableText().toString().trim();
-        if (!TextUtils.isEmpty(mName) && mBirthDate != null) {
+        if (!TextUtils.isEmpty(mName)) {
             mBreed = mEtBreed.getEditableText().toString().trim();
             mWeight = mEtWeight.getEditableText().toString().trim();
             mOwner = mEtOwner.getEditableText().toString().trim();
@@ -321,7 +335,7 @@ public class AddEditPetFragment extends LifecycleFragment implements
 
     private void updatePet() {
         mName = mEtName.getEditableText().toString().trim();
-        if (!TextUtils.isEmpty(mName) && mBirthDate != null) {
+        if (!TextUtils.isEmpty(mName)) {
             mBreed = mEtBreed.getEditableText().toString().trim();
             mWeight = mEtWeight.getEditableText().toString().trim();
             mOwner = mEtOwner.getEditableText().toString().trim();
@@ -381,7 +395,7 @@ public class AddEditPetFragment extends LifecycleFragment implements
         final Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, dayOfMonth);
         mBirthDate = calendar.getTime();
-        setEtBirthDateUi(null, mBirthDate);
+        setEtBirthDateUi(mBirthDate);
 
     }
 
@@ -490,7 +504,9 @@ public class AddEditPetFragment extends LifecycleFragment implements
     private void startImageChooserIntent() {
         Intent intent = new Intent(Intent.ACTION_PICK,
                                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, REQUEST_CHOOSE_IMAGE);
+        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+            startActivityForResult(intent, REQUEST_CHOOSE_IMAGE);
+        }
     }
 
     /**
@@ -505,7 +521,6 @@ public class AddEditPetFragment extends LifecycleFragment implements
      */
     interface Listener {
         void onPetSaved();
-
         void onPetUpdated();
     }
 

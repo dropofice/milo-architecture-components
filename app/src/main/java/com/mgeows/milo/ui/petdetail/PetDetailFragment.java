@@ -17,6 +17,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.mgeows.milo.PetApplication;
 import com.mgeows.milo.R;
 import com.mgeows.milo.db.entity.Pet;
@@ -31,6 +35,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import timber.log.Timber;
 
 /**
  * Created by JC on 08/29/2017.
@@ -86,6 +91,7 @@ public class PetDetailFragment extends LifecycleFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupInjection();
+        setupImageLoader();
         setHasOptionsMenu(true);
     }
 
@@ -94,6 +100,26 @@ public class PetDetailFragment extends LifecycleFragment {
         UiComponent uiComponent = application.getUiComponent(this, null);
         imageLoader = uiComponent.getImageLoader();
         sharedPreference = uiComponent.getSharedPreferences();
+    }
+
+    private void setupImageLoader() {
+        RequestListener glideRequestListener = new RequestListener() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target,
+                                        boolean isFirstResource) {
+                if (null != e) {
+                    Timber.e("IMAGE LOAD ERROR " + e);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Object resource, Object model, Target target,
+                                           DataSource dataSource, boolean isFirstResource) {
+                return false;
+            }
+        };
+        imageLoader.setOnFinishedImageLoadingListener(glideRequestListener);
     }
 
     @Nullable
@@ -140,14 +166,20 @@ public class PetDetailFragment extends LifecycleFragment {
             mName.setText(pet.name);
             mBreed.setText(pet.breed);
             mGender.setText(setGender(pet.gender));
+            setBirthDateDetails(pet);
+            mWeight.setText(String.format("%s%s%s", pet.weight, " ", mUnit));
+            mOwner.setText(pet.owner);
+            mAddress.setText(pet.address);
+            mContactNo.setText(pet.contactNo);
+        }
+    }
+
+    private void setBirthDateDetails(Pet pet) {
+        if (pet.birthDate != null) {
             SimpleDateFormat dateFormat =
                     new SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault());
             String date = dateFormat.format(pet.birthDate);
             mBirthDate.setText(date);
-            mWeight.setText(String.format("%s%s", pet.weight, mUnit));
-            mOwner.setText(pet.owner);
-            mAddress.setText(pet.address);
-            mContactNo.setText(pet.contactNo);
         }
     }
 

@@ -20,7 +20,8 @@ public class GlideImageLoader implements ImageLoader {
     @Override
     public void load(ImageView view, String path) {
         RequestOptions options = new RequestOptions();
-        options.placeholder(R.drawable.ic_take_photo);
+        options.placeholder(R.drawable.ic_add_photo)
+               .error(R.drawable.ic_error);
         if (onFinishedLoadingListener != null) {
             glideRequestManager
                     .asBitmap()
@@ -40,7 +41,8 @@ public class GlideImageLoader implements ImageLoader {
     @Override
     public void loadCircleCrop(ImageView view, String path) {
         RequestOptions options = new RequestOptions();
-        options.placeholder(R.drawable.ic_take_photo)
+        options.placeholder(R.drawable.ic_add_photo)
+               .error(R.drawable.ic_error)
                .circleCrop();
         glideRequestManager
                 .asBitmap()
