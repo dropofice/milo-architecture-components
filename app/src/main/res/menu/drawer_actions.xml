@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <!--<group android:checkableBehavior="single">-->
         <!--<item-->
             <!--android:id="@+id/action_login"-->
             <!--android:icon="@drawable/ic_login"-->
             <!--android:title="@string/nav_login_title" />-->
 
-        <item
-            android:id="@+id/action_find_pet"
-            android:icon="@drawable/ic_find_pet"
-            android:title="@string/nav_find_pet_title" />
+        <!--<item-->
+            <!--android:id="@+id/action_find_pet"-->
+            <!--android:icon="@drawable/ic_find_pet"-->
+            <!--android:title="@string/nav_find_pet_title" />-->
 
-    </group>
+    <!--</group>-->
 
     <group>
         <item

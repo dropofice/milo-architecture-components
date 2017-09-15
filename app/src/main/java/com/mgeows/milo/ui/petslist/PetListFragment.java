@@ -25,8 +25,6 @@ import com.mgeows.milo.vm.PetViewModel;
 import com.mgeows.milo.vm.PetViewModelFactory;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -127,15 +125,12 @@ public class PetListFragment extends LifecycleFragment implements PetItemClickLi
     }
 
     private void addDummy() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2015, 5, 24);
-        Date date = calendar.getTime();
-        Pet pet = new Pet("Pogi", "Aspin", 1, date, "15", "Bob", "145 Caloocan City", "0917-1234567", null);
+        Pet pet = DatabaseInitializer.getRandomPet();
         mViewModel.addPet(pet);
     }
 
     private void addDummies() {
-        List<Pet> pets = DatabaseInitializer.initData();
+        List<Pet> pets = DatabaseInitializer.getRandomPets();
         mViewModel.addAllPets(pets);
     }
 
@@ -166,7 +161,7 @@ public class PetListFragment extends LifecycleFragment implements PetItemClickLi
             @Override
             public void onChanged(@Nullable List<Pet> pets) {
                 if (pets != null) {
-                     mAdapter.setData(pets);
+                    mAdapter.setData(pets);
                 }
             }
         });
@@ -181,6 +176,7 @@ public class PetListFragment extends LifecycleFragment implements PetItemClickLi
 
     interface Listener {
         void fireAddEditPetActivity();
+
         void firePetDetailActivity(int position, ArrayList<String> ids);
     }
 
