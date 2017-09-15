@@ -426,8 +426,8 @@ public class AddEditPetFragment extends LifecycleFragment implements
 
     @Override
     public void onChooseImage() {
-        imageChooserFragment.dismiss();
-        startImageChooserIntent();
+//        imageChooserFragment.dismiss();
+//        startImageChooserIntent();
     }
 
     @Override
@@ -439,11 +439,11 @@ public class AddEditPetFragment extends LifecycleFragment implements
                 imageLoader.loadCircleCrop(mIvPhoto, mImagePath);
             }
 
-            if (requestCode == REQUEST_CHOOSE_IMAGE && data != null) {
-                Uri selectedImageUri = data.getData();
-                mImagePath = selectedImageUri.toString();
-                imageLoader.loadCircleCrop(mIvPhoto, mImagePath);
-            }
+//            if (requestCode == REQUEST_CHOOSE_IMAGE && data != null) {
+//                Uri selectedImageUri = data.getData();
+//                mImagePath = selectedImageUri.toString();
+//                imageLoader.loadCircleCrop(mIvPhoto, mImagePath);
+//            }
         }
     }
 
@@ -501,13 +501,13 @@ public class AddEditPetFragment extends LifecycleFragment implements
         return File.createTempFile(imageFileName, ".jpg", storageDir);
     }
 
-    private void startImageChooserIntent() {
-        Intent intent = new Intent(Intent.ACTION_PICK,
-                                   MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
-            startActivityForResult(intent, REQUEST_CHOOSE_IMAGE);
-        }
-    }
+//    private void startImageChooserIntent() {
+//        Intent intent = new Intent(Intent.ACTION_PICK,
+//                                   MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+//            startActivityForResult(intent, REQUEST_CHOOSE_IMAGE);
+//        }
+//    }
 
     /**
      * This interface must be implemented by activities that contain this

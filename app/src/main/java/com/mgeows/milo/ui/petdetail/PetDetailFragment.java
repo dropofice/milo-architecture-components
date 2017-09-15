@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -167,7 +168,7 @@ public class PetDetailFragment extends LifecycleFragment {
             mBreed.setText(pet.breed);
             mGender.setText(setGender(pet.gender));
             setBirthDateDetails(pet);
-            mWeight.setText(String.format("%s%s%s", pet.weight, " ", mUnit));
+            setWeight(pet);
             mOwner.setText(pet.owner);
             mAddress.setText(pet.address);
             mContactNo.setText(pet.contactNo);
@@ -180,6 +181,15 @@ public class PetDetailFragment extends LifecycleFragment {
                     new SimpleDateFormat("MMM-dd-yyyy", Locale.getDefault());
             String date = dateFormat.format(pet.birthDate);
             mBirthDate.setText(date);
+        }
+    }
+
+    private void setWeight(Pet pet) {
+        if (!TextUtils.isEmpty(pet.weight)) {
+            mWeight.setText(String.format("%s%s%s", pet.weight, " ", mUnit));
+        }
+        else {
+            mWeight.setText(pet.weight);
         }
     }
 

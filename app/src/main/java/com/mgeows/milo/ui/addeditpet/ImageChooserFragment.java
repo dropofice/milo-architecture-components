@@ -20,8 +20,8 @@ public class ImageChooserFragment extends DialogFragment {
 
     @BindView(R.id.action_take_photo)
     TextView mTakePhoto;
-    @BindView(R.id.action_choose_image)
-    TextView mChooseImage;
+//    @BindView(R.id.action_choose_image)
+//    TextView mChooseImage;
 
     Unbinder unbinder;
 
@@ -59,10 +59,10 @@ public class ImageChooserFragment extends DialogFragment {
         mListener.onTakePhoto();
     }
 
-    @OnClick(R.id.action_choose_image)
-    public void onChooseImageClick() {
-        mListener.onChooseImage();
-    }
+//    @OnClick(R.id.action_choose_image)
+//    public void onChooseImageClick() {
+//        mListener.onChooseImage();
+//    }
 
     public void setListener(Listener listener) {
         mListener = listener;
